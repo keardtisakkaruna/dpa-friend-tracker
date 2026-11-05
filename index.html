@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="คิวเพื่อน ค.ศ.2-3" />
+  <meta name="theme-color" content="#FCE7F3" />
+  <title>🌸 สมุดจำคิวเพื่อนครูทำ ค.ศ.2 & ค.ศ.3 | ครูเกียรติศักดิ์</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Mitr:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #FFF9FB;
+      --card-white: #FFFFFF;
+      --text-dark: #2D232E;
+      --text-muted: #6E5D70;
+
+      --pink-main: #EC4899;
+      --pink-soft: #FCE7F3;
+      --pink-border: #F9A8D4;
+
+      --sky-main: #0284C7;
+      --sky-soft: #E0F2FE;
+      --sky-border: #7DD3FC;
+
+      --orange-main: #EA580C;
+      --orange-soft: #FFEDD5;
+      --orange-border: #FDBA74;
+
+      --amber-main: #D97706;
+      --amber-soft: #FEF3C7;
+      --amber-border: #FCD34D;
+
+      --mint-main: #059669;
+      --mint-soft: #D1FAE5;
+      --mint-border: #6EE7B7;
+
+      --violet-main: #7C3AED;
+      --violet-soft: #EDE9FE;
+      --violet-border: #C4B5FD;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Mali', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-cream);
+      background-image:
+        radial-gradient(circle at 12% 8%, rgba(252, 231, 243, 0.7) 0%, transparent 28%),
+        radial-gradient(circle at 88% 15%, rgba(224, 242, 254, 0.7) 0%, transparent 28%),
+        radial-gradient(circle at 50% 90%, rgba(209, 250, 229, 0.55) 0%, transparent 32%);
+      color: var(--text-dark);
+      line-height: 1.6;
+      padding: 14px;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Mitr', 'Mali', sans-serif;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-bottom: 40px;
+    }
+
+    /* Cute Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #FCE7F3 0%, #FEF3C7 52%, #D1FAE5 100%);
+      border: 3px solid var(--pink-border);
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: 0 8px 0 rgba(244, 114, 182, 0.18), 0 12px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    .hero-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mascot-box {
+      width: 60px;
+      height: 60px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #EC4899, #F43F5E);
+      border: 3px solid #FFFFFF;
+      color: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(236, 72, 153, 0.35);
+      flex-shrink: 0;
+    }
+
+    .mascot-emoji {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .mascot-rank {
+      font-family: 'Mitr', sans-serif;
+      font-size: 11px;
+      background: rgba(255,255,255,0.25);
+      padding: 1px 6px;
+      border-radius: 99px;
+      margin-top: 2px;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1.5px solid var(--pink-border);
+      color: #BE185D;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 99px;
+      margin-bottom: 4px;
+    }
+
+    .hero-title {
+      font-size: 20px;
+      color: var(--text-dark);
+      line-height: 1.3;
+    }
+
+    .hero-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .hero-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Cute 3D Bouncy Buttons */
+    .btn {
+      font-family: 'Mitr', sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: 2px solid #FFFFFF;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.14);
+    }
+
+    .btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.14);
+    }
+
+    .btn-pink {
+      background: linear-gradient(135deg, #EC4899, #F43F5E);
+      color: #FFFFFF;
+      box-shadow: 0 4px 0 #BE185D;
+    }
+
+    .btn-violet {
+      background: var(--violet-soft);
+      color: #5B21B6;
+      border-color: var(--violet-border);
+      box-shadow: 0 4px 0 #C4B5FD;
+    }
+
+    .btn-amber {
+      background: var(--amber-soft);
+      color: #92400E;
+      border-color: var(--amber-border);
+      box-shadow: 0 4px 0 #FCD34D;
+    }
+
+    .btn-mint {
+      background: var(--mint-soft);
+      color: #065F46;
+      border-color: var(--mint-border);
+      box-shadow: 0 4px 0 #6EE7B7;
+    }
+
+    .btn-soft {
+      background: #F3E8FF;
+      color: #6B21A8;
+      border-color: #D8B4FE;
+      box-shadow: 0 3px 0 #D8B4FE;
+    }
+
+    .btn-sm {
+      font-size: 12.5px;
+      padding: 6px 13px;
+    }
+
+    /* Summary Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    @media (min-width: 640px) {
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.92);
+      border: 2.5px solid var(--pink-border);
+      border-radius: 20px;
+      padding: 11px 14px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.12s ease;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-box:active {
+      transform: translateY(2px);
+    }
+
+    .stat-box.active {
+      outline: 3px solid #EC4899;
+      background: #FFFFFF;
+    }
+
+    .stat-top {
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat-val {
+      font-family: 'Mitr', sans-serif;
+      font-size: 22px;
+      color: var(--text-dark);
+      margin-top: 2px;
+    }
+
+    /* Coaching Radar Alert */
+    .radar-banner {
+      background: #FFFBEB;
+      border: 3px solid var(--amber-border);
+      border-radius: 26px;
+      padding: 16px;
+      box-shadow: 0 6px 0 rgba(251, 191, 36, 0.22);
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .radar-banner.show {
+      display: flex;
+    }
+
+    .radar-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .radar-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .radar-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .radar-card {
+      background: #FFFFFF;
+      border: 2px solid var(--amber-border);
+      border-radius: 18px;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      background: #FFFFFF;
+      border: 2.5px solid #C4B5FD;
+      border-radius: 24px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 5px 0 rgba(196, 181, 253, 0.25);
+    }
+
+    @media (min-width: 640px) {
+      .filter-bar {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+
+    .search-input, .select-box, .form-input {
+      font-family: 'Mali', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-radius: 16px;
+      border: 2px solid var(--pink-border);
+      background: #FFFDF9;
+      color: var(--text-dark);
+      width: 100%;
+    }
+
+    .search-input:focus, .select-box:focus, .form-input:focus {
+      outline: none;
+      border-color: var(--pink-main);
+      background: #FFFFFF;
+    }
+
+    .filter-selects {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Friends Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    @media (min-width: 680px) {
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .friend-card {
+      background: #FFFFFF;
+      border: 3px solid var(--sky-border);
+      border-radius: 26px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 7px 0 rgba(125, 211, 252, 0.28), 0 10px 20px rgba(0,0,0,0.03);
+    }
+
+    .friend-card.rank-ks3 {
+      border-color: var(--orange-border);
+      box-shadow: 0 7px 0 rgba(253, 186, 116, 0.32), 0 10px 20px rgba(0,0,0,0.03);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 11px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .pill-ks2 {
+      background: var(--sky-soft);
+      color: #0369A1;
+      border: 1.5px solid var(--sky-border);
+    }
+
+    .pill-ks3 {
+      background: var(--orange-soft);
+      color: #C2410C;
+      border: 1.5px solid var(--orange-border);
+    }
+
+    .pill-status {
+      background: var(--pink-soft);
+      color: #BE185D;
+      border: 1.5px solid var(--pink-border);
+    }
+
+    .countdown-bar {
+      padding: 9px 13px;
+      border-radius: 16px;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      border: 2px solid var(--sky-border);
+      background: var(--sky-soft);
+      color: #0369A1;
+    }
+
+    .countdown-bar.urgent {
+      background: var(--pink-soft);
+      border-color: var(--pink-border);
+      color: #BE185D;
+    }
+
+    .countdown-bar.soon {
+      background: var(--amber-soft);
+      border-color: var(--amber-border);
+      color: #92400E;
+    }
+
+    .countdown-bar.ready {
+      background: var(--mint-soft);
+      border-color: var(--mint-border);
+      color: #065F46;
+    }
+
+    .topic-panel {
+      background: #FFFBEB;
+      border: 2px dashed var(--amber-border);
+      border-radius: 18px;
+      padding: 11px 13px;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .progress-wrap {
+      width: 100%;
+      height: 10px;
+      background: #FCE7F3;
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 5px 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #F472B6, #FBBF24, #34D399);
+      border-radius: 99px;
+      transition: width 0.25s ease;
+    }
+
+    .chk-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+
+    .chk-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border-radius: 12px;
+      border: 1.5px solid #E5E7EB;
+      background: #FAFAFA;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .chk-item.done {
+      border-color: var(--mint-border);
+      background: var(--mint-soft);
+      color: #065F46;
+      font-weight: 700;
+    }
+
+    .chk-item input {
+      accent-color: #EC4899;
+      width: 15px;
+      height: 15px;
+    }
+
+    .note-box {
+      background: #FDF2F8;
+      border-left: 4px solid #EC4899;
+      padding: 8px 11px;
+      border-radius: 12px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 2px dashed #F3E8FF;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(45, 35, 46, 0.55);
+      backdrop-filter: blur(3px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #FFFFFF;
+      border: 3px solid var(--pink-border);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 540px;
+      max-height: 92vh;
+      overflow-y: auto;
+      padding: 18px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 520px) {
+      .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .col-full {
+        grid-column: 1 / -1;
+      }
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--text-dark);
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .tag-btn {
+      font-family: 'Mali', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 99px;
+      border: 1.5px solid var(--pink-border);
+      background: var(--pink-soft);
+      color: #BE185D;
+      cursor: pointer;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      left: 18px;
+      max-width: 360px;
+      margin: 0 auto;
+      background: #EC4899;
+      color: #FFFFFF;
+      border: 2px solid #FFFFFF;
+      padding: 11px 16px;
+      border-radius: 99px;
+      font-family: 'Mitr', sans-serif;
+      font-size: 13.5px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4);
+      z-index: 200;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Cute Header Banner -->
+    <header class="hero-banner">
+      <div class="hero-top">
+        <div class="hero-brand">
+          <div class="mascot-box">
+            <span class="mascot-emoji">🧑🏻‍🏫</span>
+            <span class="mascot-rank">ค.ศ.3</span>
+          </div>
+          <div>
+            <span class="hero-tag">🌸 สมุดช่วยจำของครูตัวน้อย 9,999 กิจกรรม ✨</span>
+            <h1 class="hero-title">สมุดจำคิวเพื่อนรักทำ ค.ศ.2 &amp; ค.ศ.3 🌈</h1>
+            <p class="hero-sub">ครูเกียรติศักดิ์ กรุณา &bull; จำวันครบกำหนด ทักถามหัวข้อ &amp; ช่วยดูงานให้เพื่อน ✌🏻🟢</p>
+          </div>
+        </div>
+
+        <div class="hero-btns">
+          <a href="https://docs.google.com/spreadsheets/d/1JW35O0ZLsJ0lxno5jOxTR3A34vGCv4ljdsfo_CylVys/edit" target="_blank" rel="noopener" class="btn btn-mint btn-sm">
+            📗 เปิดตาราง Google Sheets
+          </a>
+          <button type="button" class="btn btn-pink" onclick="openFriendModal()">
+            ➕ เพิ่มชื่อเพื่อนครู
+          </button>
+        </div>
+      </div>
+
+      <!-- Summary Boxes -->
+      <div class="stats-grid">
+        <button type="button" class="stat-box active" id="st-all" onclick="setQuickFilter('all')">
+          <div class="stat-top" style="color:#BE185D;"><span>เพื่อนทั้งหมด</span><span>🧸</span></div>
+          <div class="stat-val" id="num-all">0 คน</div>
+        </button>
+
+        <button type="button" class="stat-box" id="st-consult" style="border-color:var(--amber-border);" onclick="setQuickFilter('consult')">
+          <div class="stat-top" style="color:#B45309;"><span>ใกล้ครบ! ต้องทักถาม</span><span>🔔</span></div>
+          <div class="stat-val" id="num-consult" style="color:#D97706;">0 คน</div>
+        </button>
+
+        <button type="button" class="stat-box" id="st-ks2" style="border-color:var(--sky-border);" onclick="setQuickFilter('ค.ศ.2')">
+          <div class="stat-top" style="color:#0369A1;"><span>แก๊งทำ ค.ศ.2</span><span>📘</span></div>
+          <div class="stat-val" id="num-ks2" style="color:#0284C7;">0 คน</div>
+        </button>
+
+        <button type="button" class="stat-box" id="st-ks3" style="border-color:var(--orange-border);" onclick="setQuickFilter('ค.ศ.3')">
+          <div class="stat-top" style="color:#C2410C;"><span>แก๊งทำ ค.ศ.3</span><span>👑</span></div>
+          <div class="stat-val" id="num-ks3" style="color:#EA580C;">0 คน</div>
+        </button>
+      </div>
+    </header>
+
+    <!-- Coaching Radar -->
+    <section id="radar-box" class="radar-banner">
+      <div class="radar-head">
+        <span style="font-size:26px;">📣</span>
+        <div>
+          <h2 style="font-size:16px;color:#92400E;">ปิ๊งป่อง! เพื่อนครูใกล้ครบกำหนดยื่นแล้ว — ทักไปถามแผนกันเถอะ! 💌</h2>
+          <p style="font-size:12.5px;color:#78350F;font-weight:600;">
+            กดปุ่ม <strong>"💬 ทักถาม"</strong> เพื่อก๊อปปี้ข้อความน่ารัก ๆ ไปถามเพื่อนใน Line/FB ว่าอยากทำเรื่องอะไร สอนชั้นไหน ใช้นวัตกรรมอะไรได้เลย!
+          </p>
+        </div>
+      </div>
+      <div id="radar-items" class="radar-grid"></div>
+    </section>
+
+    <!-- Search & Filter -->
+    <section class="filter-bar">
+      <input
+        type="search"
+        id="search-input"
+        class="search-input"
+        oninput="renderApp()"
+        placeholder="🔍 ค้นหาชื่อเพื่อน, โรงเรียน, วิชา, เรื่องที่จะทำ, นวัตกรรม..."
+      />
+      <div class="filter-selects">
+        <select id="filter-rank" class="select-box" onchange="renderApp()">
+          <option value="all">🌈 ทุกระดับ</option>
+          <option value="ค.ศ.2">📘 ค.ศ.2</option>
+          <option value="ค.ศ.3">👑 ค.ศ.3</option>
+        </select>
+        <select id="filter-status" class="select-box" onchange="renderApp()">
+          <option value="all">✨ ทุกสถานะ</option>
+          <option value="consult">🔔 ต้องทักถามหัวข้อ</option>
+          <option value="รอถึงกำหนด">⏳ รอถึงกำหนด</option>
+          <option value="ถึงเวลาทักถามข้อมูล">💬 ถึงเวลาทักถาม</option>
+          <option value="กำลังวางแผน/ให้คำปรึกษา">🧭 กำลังให้คำปรึกษา</option>
+          <option value="กำลังทำเอกสาร/อัดคลิป">🎥 กำลังทำเอกสาร/คลิป</option>
+          <option value="ยื่น DPA แล้ว">🚀 ยื่น DPA แล้ว</option>
+          <option value="ผ่านแล้ว 🎉">🟢 ผ่านแล้ว 🎉</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Friends Cards List -->
+    <section id="friends-list" class="cards-grid"></section>
+  </div>
+
+  <!-- Add / Edit Modal -->
+  <div id="friend-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed #FBCFE8;padding-bottom:10px;">
+        <h3 id="modal-title" style="font-size:17px;color:#BE185D;">🌸 เพิ่มข้อมูลเพื่อนครู</h3>
+        <button type="button" class="btn btn-soft btn-sm" onclick="closeFriendModal()">✕ ปิด</button>
+      </div>
+
+      <form id="friend-form" onsubmit="saveFriendForm(event)" style="display:flex;flex-direction:column;gap:12px;">
+        <input type="hidden" id="f-id" />
+
+        <div style="font-size:13px;font-weight:700;color:#BE185D;">🎀 1. ข้อมูลเพื่อน &amp; วันครบกำหนดยื่นขอ</div>
+        <div class="form-grid">
+          <div>
+            <label class="form-label">ชื่อเพื่อน / ชื่อเล่น *</label>
+            <input type="text" id="f-name" required class="form-input" placeholder="เช่น ครูเมย์ (ธนพร)" />
+          </div>
+          <div>
+            <label class="form-label">โรงเรียน / สังกัด</label>
+            <input type="text" id="f-school" class="form-input" placeholder="เช่น รร.วัดคลองห้า" />
+          </div>
+          <div>
+            <label class="form-label">ระดับที่จะทำ *</label>
+            <select id="f-rank" class="form-input">
+              <option value="ค.ศ.2">📘 ค.ศ.2 (ครูชำนาญการ)</option>
+              <option value="ค.ศ.3">👑 ค.ศ.3 (ครูชำนาญการพิเศษ)</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">วันที่ครบกำหนดยื่นได้ *</label>
+            <input type="date" id="f-date" required class="form-input" />
+          </div>
+          <div>
+            <label class="form-label">ช่องทางติดต่อ (Line / FB)</label>
+            <input type="text" id="f-contact" class="form-input" placeholder="เช่น Line: may_kru" />
+          </div>
+          <div>
+            <label class="form-label">สถานะปัจจุบัน</label>
+            <select id="f-status" class="form-input">
+              <option value="รอถึงกำหนด">⏳ รอถึงกำหนด</option>
+              <option value="ถึงเวลาทักถามข้อมูล">💬 ถึงเวลาทักถามข้อมูล</option>
+              <option value="กำลังวางแผน/ให้คำปรึกษา">🧭 กำลังวางแผน/ให้คำปรึกษา</option>
+              <option value="กำลังทำเอกสาร/อัดคลิป">🎥 กำลังทำเอกสาร/อัดคลิป</option>
+              <option value="ยื่น DPA แล้ว">🚀 ยื่น DPA แล้ว</option>
+              <option value="ผ่านแล้ว 🎉">🟢 ผ่านแล้ว 🎉</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="font-size:13px;font-weight:700;color:#D97706;">💡 2. ข้อมูลให้คำปรึกษา (ถามเพื่อนเมื่อใกล้ครบกำหนด)</div>
+        <div class="form-grid">
+          <div>
+            <label class="form-label">วิชา / กลุ่มสาระ</label>
+            <input type="text" id="f-subject" class="form-input" placeholder="เช่น ภาษาไทย, คณิตศาสตร์" />
+          </div>
+          <div>
+            <label class="form-label">ระดับชั้นที่สอน</label>
+            <input type="text" id="f-grade" class="form-input" placeholder="เช่น ป.4, ป.5, ม.1" />
+          </div>
+          <div class="col-full">
+            <label class="form-label">🎯 อยากทำเรื่องอะไร? (หน่วยการเรียนรู้ / เรื่องที่สอน)</label>
+            <input type="text" id="f-topic" class="form-input" placeholder="เช่น การอ่านจับใจความสำคัญ, การบวกลบเศษส่วน" />
+          </div>
+          <div class="col-full">
+            <label class="form-label">✨ ใช้นวัตกรรม หรือ วิธีการสอนแบบไหน?</label>
+            <input type="text" id="f-innovation" class="form-input" placeholder="เช่น Active Learning + บอร์ดเกม, GPAS 5 Steps, PBL, 5E" />
+            <div class="tag-list">
+              <button type="button" class="tag-btn" onclick="addTag('Active Learning')">🧠 + Active Learning</button>
+              <button type="button" class="tag-btn" onclick="addTag('GPAS 5 Steps')">🚀 + GPAS 5 Steps</button>
+              <button type="button" class="tag-btn" onclick="addTag('PBL')">🧩 + PBL</button>
+              <button type="button" class="tag-btn" onclick="addTag('บอร์ดเกม / Gamification')">🎲 + บอร์ดเกม</button>
+              <button type="button" class="tag-btn" onclick="addTag('สืบเสาะ 5E')">🔬 + สืบเสาะ 5E</button>
+              <button type="button" class="tag-btn" onclick="addTag('ชุดกิจกรรม/แบบฝึกทักษะ')">📒 + ชุดกิจกรรม</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size:13px;font-weight:700;color:#059669;">✅ 3. เช็กลิสต์เอกสาร DPA &amp; บันทึกช่วยจำ</div>
+        <div class="chk-grid">
+          <label class="chk-item"><input type="checkbox" id="c-plan" /> <span>📝 1. แผนการสอน</span></label>
+          <label class="chk-item"><input type="checkbox" id="c-video" /> <span>🎬 2. คลิป 60 นาที</span></label>
+          <label class="chk-item"><input type="checkbox" id="c-outcome" /> <span>🌟 3. ผลลัพธ์ผู้เรียน</span></label>
+          <label class="chk-item"><input type="checkbox" id="c-pa" /> <span>🟢 4. ระบบ DPA</span></label>
+        </div>
+
+        <div>
+          <label class="form-label">📝 บันทึกช่วยจำ / คำแนะนำที่คุยกับเพื่อน</label>
+          <textarea id="f-notes" rows="2" class="form-input" placeholder="จดสิ่งที่แนะนำเพื่อนไว้กันลืม..."></textarea>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:2px dashed #FBCFE8;">
+          <button type="button" id="btn-del" class="btn btn-amber btn-sm" style="display:none;background:#FEE2E2;color:#B91C1C;border-color:#FCA5A5;" onclick="deleteCurrentFriend()">
+            🗑️ ลบรายชื่อ
+          </button>
+          <div style="display:flex;gap:8px;margin-left:auto;">
+            <button type="button" class="btn btn-soft btn-sm" onclick="closeFriendModal()">ยกเลิก</button>
+            <button type="submit" class="btn btn-pink">💾 บันทึกเลย!</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Message Modal -->
+  <div id="msg-modal" class="modal-overlay">
+    <div class="modal-box" style="max-width:460px;border-color:var(--amber-border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed var(--amber-border);padding-bottom:8px;">
+        <h3 style="font-size:16px;color:#B45309;">💌 ข้อความทักถามเพื่อนครู (ส่งแชท Line / FB)</h3>
+        <button type="button" class="btn btn-amber btn-sm" onclick="closeMsgModal()">✕</button>
+      </div>
+      <div id="msg-box" style="background:#FFFBEB;border:2px solid var(--amber-border);border-radius:18px;padding:14px;font-size:13.5px;white-space:pre-wrap;line-height:1.65;"></div>
+      <div style="display:flex;justify-content:space-between;gap:8px;">
+        <button type="button" class="btn btn-soft btn-sm" onclick="editFromMsgModal()">✏️ บันทึกคำตอบเพื่อน</button>
+        <button type="button" class="btn btn-pink btn-sm" onclick="copyChatMsg()">📋 คัดลอกข้อความส่งแชท</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const STORAGE_KEY = 'kru_kiattisak_dpa_friends_v1';
+    const THAI_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    const CHECKLIST_OPTS = [
+      { key: 'แผนการสอน', label: '📝 แผนการสอน' },
+      { key: 'คลิปการสอน', label: '🎬 คลิป 60 นาที' },
+      { key: 'ผลลัพธ์ผู้เรียน', label: '🌟 ผลลัพธ์ผู้เรียน' },
+      { key: 'ระบบ PA/DPA', label: '🟢 ระบบ DPA' }
+    ];
+
+    const DEFAULT_FRIENDS = [
+      {
+        id: 'friend_1',
+        name: 'ครูเมย์ (ธนพร)',
+        school: 'รร.วัดคลองห้า (สพป.สระบุรี เขต 2)',
+        rank: 'ค.ศ.2',
+        targetDate: '2026-11-25',
+        contact: 'Line: may_kru',
+        status: 'ถึงเวลาทักถามข้อมูล',
+        subject: 'ภาษาไทย',
+        grade: '',
+        topic: '',
+        innovation: '',
+        checklist: ['แผนการสอน'],
+        notes: 'เคยคุยกันตอนงานเขตว่าครบกำหนดปลายเดือน พ.ย. 69 ต้องทักไปถามว่าจะทำเรื่องอะไร สอนชั้นไหน และใช้นวัตกรรมอะไร'
+      },
+      {
+        id: 'friend_2',
+        name: 'ครูบอย (อนุชา)',
+        school: 'รร.บ้านหนองยาว',
+        rank: 'ค.ศ.3',
+        targetDate: '2026-12-10',
+        contact: 'FB: Anucha Boy',
+        status: 'ถึงเวลาทักถามข้อมูล',
+        subject: 'คณิตศาสตร์',
+        grade: 'ป.5',
+        topic: '',
+        innovation: '',
+        checklist: ['แผนการสอน'],
+        notes: 'เลือกชั้น ป.5 ไว้แล้ว แต่ยังลังเลเรื่องเศษส่วนกับทศนิยม รอทักถามสรุปหัวข้อและวิธีสอน'
+      },
+      {
+        id: 'friend_3',
+        name: 'ครูส้ม (พัชรี)',
+        school: 'รร.ชุมชนวัดไทยงาม',
+        rank: 'ค.ศ.2',
+        targetDate: '2026-11-18',
+        contact: 'Line: som_patcharee',
+        status: 'กำลังทำเอกสาร/อัดคลิป',
+        subject: 'วิทยาศาสตร์และเทคโนโลยี',
+        grade: 'ป.4',
+        topic: 'หน้าที่ของส่วนต่างๆ ของพืชดอก',
+        innovation: 'สืบเสาะ 5E + ชุดกิจกรรมการเรียนรู้',
+        checklist: ['แผนการสอน', 'คลิปการสอน', 'ผลลัพธ์ผู้เรียน'],
+        notes: 'ปรึกษาเรื่องตัดต่อต้นคลิปและตรวจแผนการสอนเรียบร้อย เหลืออัปโหลดเข้าระบบ DPA'
+      },
+      {
+        id: 'friend_4',
+        name: 'ครูต้น (วีรภัทร)',
+        school: 'รร.อนุบาลสระบุรี',
+        rank: 'ค.ศ.3',
+        targetDate: '2027-03-15',
+        contact: 'FB: Weeraphat Ton',
+        status: 'รอถึงกำหนด',
+        subject: 'สังคมศึกษาฯ',
+        grade: 'ป.6',
+        topic: 'เศรษฐศาสตร์ในชีวิตประจำวัน',
+        innovation: 'Active Learning + บอร์ดเกม / Gamification',
+        checklist: ['แผนการสอน'],
+        notes: 'ครบกำหนดมีนาคมปีหน้า เริ่มวางโครงบอร์ดเกมและวิจัยในชั้นเรียนล่วงหน้าแล้ว'
+      }
+    ];
+
+    let friends = [];
+    let activeMsgFriendId = null;
+
+    function loadData() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        friends = raw ? JSON.parse(raw) : DEFAULT_FRIENDS;
+      } catch (e) {
+        friends = DEFAULT_FRIENDS;
+      }
+      renderApp();
+    }
+
+    function saveData(msg) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(friends));
+      renderApp();
+      if (msg) showToast(msg);
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.style.display = 'block';
+      setTimeout(() => { el.style.display = 'none'; }, 2600);
+    }
+
+    function formatThaiDate(dateStr) {
+      if (!dateStr) return '-';
+      const p = dateStr.split('-');
+      if (p.length !== 3) return dateStr;
+      return `${parseInt(p[2], 10)} ${THAI_MONTHS[parseInt(p[1], 10) - 1] || ''} ${parseInt(p[0], 10) + 543}`;
+    }
+
+    function getDaysUntil(dateStr) {
+      if (!dateStr) return 9999;
+      const now = new Date();
+      const todayUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+      const p = dateStr.split('-');
+      if (p.length !== 3) return 9999;
+      const targetUTC = Date.UTC(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+      return Math.round((targetUTC - todayUTC) / 86400000);
+    }
+
+    function needsConsult(f) {
+      if (f.status === 'ยื่น DPA แล้ว' || f.status === 'ผ่านแล้ว 🎉') return false;
+      const days = getDaysUntil(f.targetDate);
+      const missing = !f.topic?.trim() || !f.grade?.trim() || !f.innovation?.trim();
+      return (days <= 90 && missing) || f.status === 'ถึงเวลาทักถามข้อมูล';
+    }
+
+    function getCountdownBadge(f) {
+      if (f.status === 'ผ่านแล้ว 🎉') return { text: '🟢 อนุมัติผ่านแล้ว (ป้ายเขียว!)', cls: 'ready' };
+      if (f.status === 'ยื่น DPA แล้ว') return { text: '🚀 ยื่น DPA แล้ว รอลุ้นป้ายเขียว!', cls: 'ready' };
+      const d = getDaysUntil(f.targetDate);
+      if (d < 0) return { text: `🍓 ยื่นได้แล้วน้า! (ผ่านมา ${Math.abs(d)} วัน)`, cls: 'urgent' };
+      if (d === 0) return { text: '🎉 ครบกำหนดยื่นวันนี้วันแรก!', cls: 'urgent' };
+      if (d <= 30) return { text: `⏰ อีก ${d} วันจะยื่นได้แล้ว!`, cls: 'urgent' };
+      if (d <= 90) return { text: `🍋 อีก ${d} วันครบกำหนด`, cls: 'soon' };
+      return { text: `🌱 อีก ${d} วัน (${Math.round(d / 30)} เดือน)`, cls: '' };
+    }
+
+    function setQuickFilter(mode) {
+      ['st-all','st-consult','st-ks2','st-ks3'].forEach(id => document.getElementById(id).classList.remove('active'));
+      const rankEl = document.getElementById('filter-rank');
+      const statusEl = document.getElementById('filter-status');
+      if (mode === 'all') {
+        document.getElementById('st-all').classList.add('active');
+        rankEl.value = 'all'; statusEl.value = 'all';
+      } else if (mode === 'consult') {
+        document.getElementById('st-consult').classList.add('active');
+        rankEl.value = 'all'; statusEl.value = 'consult';
+      } else if (mode === 'ค.ศ.2') {
+        document.getElementById('st-ks2').classList.add('active');
+        rankEl.value = 'ค.ศ.2'; statusEl.value = 'all';
+      } else if (mode === 'ค.ศ.3') {
+        document.getElementById('st-ks3').classList.add('active');
+        rankEl.value = 'ค.ศ.3'; statusEl.value = 'all';
+      }
+      renderApp();
+    }
+
+    function renderApp() {
+      const consultList = friends.filter(needsConsult);
+      document.getElementById('num-all').textContent = `${friends.length} คน`;
+      document.getElementById('num-consult').textContent = `${consultList.length} คน`;
+      document.getElementById('num-ks2').textContent = `${friends.filter(f => f.rank === 'ค.ศ.2').length} คน`;
+      document.getElementById('num-ks3').textContent = `${friends.filter(f => f.rank === 'ค.ศ.3').length} คน`;
+
+      const radarBox = document.getElementById('radar-box');
+      const radarItems = document.getElementById('radar-items');
+      if (consultList.length > 0) {
+        radarBox.classList.add('show');
+        radarItems.innerHTML = consultList.map(f => {
+          const d = getDaysUntil(f.targetDate);
+          const dayTxt = d < 0 ? `ครบกำหนดแล้ว (${formatThaiDate(f.targetDate)})` : `อีก ${d} วัน (${formatThaiDate(f.targetDate)})`;
+          return `
+            <div class="radar-card">
+              <div>
+                <div style="font-weight:700;font-size:14px;">
+                  ${esc(f.name)}
+                  <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3' : '📘 ค.ศ.2'}</span>
+                </div>
+                <div style="font-size:12px;color:#78350F;font-weight:600;margin-top:2px;">📅 ${dayTxt}</div>
+              </div>
+              <div style="display:flex;gap:6px;flex-shrink:0;">
+                <button type="button" class="btn btn-pink btn-sm" onclick="openMsgModal('${f.id}')">💬 ทักถาม</button>
+                <button type="button" class="btn btn-amber btn-sm" onclick="openFriendModal('${f.id}')">✏️ กรอก</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        radarBox.classList.remove('show');
+      }
+
+      const q = document.getElementById('search-input').value.trim().toLowerCase();
+      const rf = document.getElementById('filter-rank').value;
+      const sf = document.getElementById('filter-status').value;
+
+      const filtered = friends
+        .filter(f => {
+          if (rf !== 'all' && f.rank !== rf) return false;
+          if (sf === 'consult' && !needsConsult(f)) return false;
+          if (sf !== 'all' && sf !== 'consult' && f.status !== sf) return false;
+          if (q) {
+            const hay = [f.name, f.school, f.subject, f.grade, f.topic, f.innovation, f.notes].join(' ').toLowerCase();
+            if (!hay.includes(q)) return false;
+          }
+          return true;
+        })
+        .sort((a, b) => getDaysUntil(a.targetDate) - getDaysUntil(b.targetDate));
+
+      const listEl = document.getElementById('friends-list');
+      if (filtered.length === 0) {
+        listEl.innerHTML = `
+          <div style="grid-column:1/-1;background:#FFF;border:3px dashed var(--pink-border);border-radius:26px;padding:32px;text-align:center;">
+            <div style="font-size:28px;">🌸</div>
+            <h3 style="margin:6px 0;">ยังไม่มีรายชื่อเพื่อนครูในหมวดนี้เลยครับ</h3>
+            <button type="button" class="btn btn-pink" onclick="openFriendModal()">➕ เพิ่มชื่อเพื่อนครู</button>
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = filtered.map(f => {
+        const cd = getCountdownBadge(f);
+        const chk = Array.isArray(f.checklist) ? f.checklist : [];
+        const pct = Math.round((chk.length / 4) * 100);
+
+        return `
+          <article class="friend-card ${f.rank === 'ค.ศ.3' ? 'rank-ks3' : ''}">
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+                <div>
+                  <h3 style="font-size:16.5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                    <span>${esc(f.name)}</span>
+                    <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">
+                      ${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3 ชำนาญการพิเศษ' : '📘 ค.ศ.2 ชำนาญการ'}
+                    </span>
+                  </h3>
+                  <div style="font-size:12px;color:var(--text-muted);font-weight:600;margin-top:2px;">
+                    ${f.school ? `🏫 ${esc(f.school)}` : ''} ${f.contact ? `&bull; 📱 ${esc(f.contact)}` : ''}
+                  </div>
+                </div>
+                <span class="pill pill-status">${esc(f.status || 'รอถึงกำหนด')}</span>
+              </div>
+
+              <div class="countdown-bar ${cd.cls}">
+                <span>📅 ยื่นได้: ${formatThaiDate(f.targetDate)}</span>
+                <span>${cd.text}</span>
+              </div>
+
+              <div class="topic-panel">
+                <div><strong style="color:#92400E;">📚 วิชา / ชั้น:</strong> <span>${esc(f.subject || 'ยังไม่ระบุวิชา')} ${f.grade ? `(ชั้น ${esc(f.grade)})` : ''}</span></div>
+                <div><strong style="color:#92400E;">🎯 เรื่องที่จะทำ:</strong> <span>${f.topic ? esc(f.topic) : '<strong style="color:#DB2777;">🌷 รอทักถามเพื่อนว่าจะทำเรื่องอะไร</strong>'}</span></div>
+                <div><strong style="color:#92400E;">💡 นวัตกรรม/วิธีสอน:</strong> <span>${f.innovation ? esc(f.innovation) : '<span style="color:var(--text-muted);">ยังไม่ได้เลือกนวัตกรรม</span>'}</span></div>
+              </div>
+
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:#059669;">
+                  <span>✨ ความพร้อมเอกสาร DPA (${chk.length}/4)</span>
+                  <span>${pct}%</span>
+                </div>
+                <div class="progress-wrap">
+                  <div class="progress-bar" style="width:${pct}%"></div>
+                </div>
+                <div class="chk-grid">
+                  ${CHECKLIST_OPTS.map(item => {
+                    const done = chk.includes(item.key);
+                    return `
+                      <label class="chk-item ${done ? 'done' : ''}">
+                        <input type="checkbox" ${done ? 'checked' : ''} onchange="toggleCheck('${f.id}', '${item.key}', this.checked)" />
+                        <span>${esc(item.label)}</span>
+                      </label>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+
+              ${f.notes ? `<div class="note-box"><strong>📝 บันทึกช่วยจำ:</strong> ${esc(f.notes)}</div>` : ''}
+            </div>
+
+            <div class="card-footer">
+              <button type="button" class="btn btn-amber btn-sm" onclick="openMsgModal('${f.id}')">💬 ทักถามเพื่อน</button>
+              <button type="button" class="btn btn-pink btn-sm" onclick="openFriendModal('${f.id}')">✏️ แก้ไข / บันทึกผลปรึกษา</button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function toggleCheck(id, key, checked) {
+      const f = friends.find(x => x.id === id);
+      if (!f) return;
+      const set = new Set(Array.isArray(f.checklist) ? f.checklist : []);
+      if (checked) set.add(key); else set.delete(key);
+      f.checklist = Array.from(set);
+      saveData(`✨ อัปเดตเช็กลิสต์ของ ${f.name} แล้วน้า!`);
+    }
+
+    function addTag(val) {
+      const el = document.getElementById('f-innovation');
+      if (!el.value.trim()) el.value = val;
+      else if (!el.value.includes(val)) el.value = `${el.value.trim()} + ${val}`;
+    }
+
+    function openFriendModal(id) {
+      const f = id ? friends.find(x => x.id === id) : null;
+      document.getElementById('modal-title').textContent = f ? `✏️ แก้ไขข้อมูล: ${f.name}` : '🌸 เพิ่มข้อมูลเพื่อนครู';
+      document.getElementById('f-id').value = f ? f.id : '';
+      document.getElementById('f-name').value = f ? f.name : '';
+      document.getElementById('f-school').value = f ? (f.school || '') : '';
+      document.getElementById('f-rank').value = f ? (f.rank || 'ค.ศ.2') : 'ค.ศ.2';
+      document.getElementById('f-date').value = f ? (f.targetDate || '') : new Date().toISOString().slice(0, 10);
+      document.getElementById('f-contact').value = f ? (f.contact || '') : '';
+      document.getElementById('f-status').value = f ? (f.status || 'รอถึงกำหนด') : 'รอถึงกำหนด';
+      document.getElementById('f-subject').value = f ? (f.subject || '') : '';
+      document.getElementById('f-grade').value = f ? (f.grade || '') : '';
+      document.getElementById('f-topic').value = f ? (f.topic || '') : '';
+      document.getElementById('f-innovation').value = f ? (f.innovation || '') : '';
+      document.getElementById('f-notes').value = f ? (f.notes || '') : '';
+
+      const chk = f && Array.isArray(f.checklist) ? f.checklist : [];
+      document.getElementById('c-plan').checked = chk.includes('แผนการสอน');
+      document.getElementById('c-video').checked = chk.includes('คลิปการสอน');
+      document.getElementById('c-outcome').checked = chk.includes('ผลลัพธ์ผู้เรียน');
+      document.getElementById('c-pa').checked = chk.includes('ระบบ PA/DPA');
+
+      document.getElementById('btn-del').style.display = f ? 'inline-flex' : 'none';
+      document.getElementById('friend-modal').classList.add('open');
+    }
+
+    function closeFriendModal() {
+      document.getElementById('friend-modal').classList.remove('open');
+    }
+
+    function saveFriendForm(e) {
+      e.preventDefault();
+      const id = document.getElementById('f-id').value || `friend_${Date.now()}`;
+      const checklist = [];
+      if (document.getElementById('c-plan').checked) checklist.push('แผนการสอน');
+      if (document.getElementById('c-video').checked) checklist.push('คลิปการสอน');
+      if (document.getElementById('c-outcome').checked) checklist.push('ผลลัพธ์ผู้เรียน');
+      if (document.getElementById('c-pa').checked) checklist.push('ระบบ PA/DPA');
+
+      const item = {
+        id,
+        name: document.getElementById('f-name').value.trim(),
+        school: document.getElementById('f-school').value.trim(),
+        rank: document.getElementById('f-rank').value,
+        targetDate: document.getElementById('f-date').value,
+        contact: document.getElementById('f-contact').value.trim(),
+        status: document.getElementById('f-status').value,
+        subject: document.getElementById('f-subject').value.trim(),
+        grade: document.getElementById('f-grade').value.trim(),
+        topic: document.getElementById('f-topic').value.trim(),
+        innovation: document.getElementById('f-innovation').value.trim(),
+        checklist,
+        notes: document.getElementById('f-notes').value.trim()
+      };
+
+      const idx = friends.findIndex(x => x.id === id);
+      if (idx >= 0) friends[idx] = item; else friends.push(item);
+      closeFriendModal();
+      saveData(`🌸 บันทึกข้อมูลของ ${item.name} เรียบร้อยแล้วจ้า!`);
+    }
+
+    function deleteCurrentFriend() {
+      const id = document.getElementById('f-id').value;
+      const f = friends.find(x => x.id === id);
+      if (!f) return;
+      friends = friends.filter(x => x.id !== id);
+      closeFriendModal();
+      saveData(`ลบรายชื่อ ${f.name} แล้ว`);
+    }
+
+    function openMsgModal(id) {
+      const f = friends.find(x => x.id === id);
+      if (!f) return;
+      activeMsgFriendId = id;
+      const d = getDaysUntil(f.targetDate);
+      const tDate = formatThaiDate(f.targetDate);
+      const rankTxt = f.rank === 'ค.ศ.3' ? 'ค.ศ.3 (ชำนาญการพิเศษ)' : 'ค.ศ.2 (ชำนาญการ)';
+      const timeTxt = d < 0
+        ? `เห็นว่าครบกำหนดยื่น ${rankTxt} ตั้งแต่วันที่ ${tDate} แล้วนะ!`
+        : `เห็นที่คุยกันไว้ว่าจะครบกำหนดยื่น ${rankTxt} วันที่ ${tDate} (อีก ${d} วัน) นี้แล้ว!`;
+
+      const questions = (!f.topic || !f.grade || !f.innovation)
+        ? `เลยแวะมาทักถามความคืบหน้าหน่อยครับ จะได้ช่วยกันวางแผนถูก:\n1️⃣ เล็งไว้หรือยังว่าจะทำเรื่องอะไร / หน่วยการเรียนรู้ไหน?\n2️⃣ เลือกอัดคลิปสอนนักเรียนระดับชั้นไหน?\n3️⃣ กะว่าจะใช้นวัตกรรม สื่อ หรือวิธีการสอนแบบไหนเป็นตัวชูโรง? (เช่น Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม ฯลฯ)`
+        : `จากที่คุยกันไว้ว่าจะทำเรื่อง "${f.topic}" ชั้น ${f.grade} โดยใช้ "${f.innovation}" ตอนนี้เตรียมแผนการสอน คลิปการสอน 60 นาที กับผลลัพธ์ผู้เรียนไปถึงไหนแล้ว ติดตรงไหนทักมาปรึกษาได้เลยนะครับ!`;
+
+      const fullMsg = `สวัสดีครับ ${f.name}! 😊🌸\n${timeTxt}\n\n${questions}\n\nว่างแล้วพิมพ์บอกไว้ได้เลยนะ เดี๋ยวจดไว้ในสมุดที่ปรึกษาให้ จะได้ช่วยกันลุ้นป้ายเขียว DPA ด้วยกันครับ! 🎉✌🏻🟢`;
+      document.getElementById('msg-box').textContent = fullMsg;
+      document.getElementById('msg-modal').classList.add('open');
+    }
+
+    function closeMsgModal() {
+      document.getElementById('msg-modal').classList.remove('open');
+    }
+
+    function editFromMsgModal() {
+      closeMsgModal();
+      if (activeMsgFriendId) openFriendModal(activeMsgFriendId);
+    }
+
+    function copyChatMsg() {
+      const txt = document.getElementById('msg-box').textContent;
+      navigator.clipboard.writeText(txt).then(() => showToast('📋 คัดลอกข้อความทักแชทเรียบร้อยแล้ว!')).catch(() => showToast('คัดลอกแล้ว!'));
+    }
+
+    function esc(s) {
+      if (!s) return '';
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
