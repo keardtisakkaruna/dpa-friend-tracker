@@ -6,44 +6,48 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="คิวเพื่อน ค.ศ.2-3" />
-  <meta name="theme-color" content="#FCE7F3" />
-  <title>🌸 สมุดจำคิวเพื่อนครูทำ ค.ศ.2 & ค.ศ.3 | ครูเกียรติศักดิ์</title>
+  <meta name="theme-color" content="#FFF5F8" />
+  <title>🌸 สมุดจำคิวเพื่อนครู ค.ศ.2 & ค.ศ.3 | ครูเกียรติศักดิ์</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Mitr:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-cream: #FFF9FB;
-      --card-white: #FFFFFF;
-      --text-dark: #2D232E;
-      --text-muted: #6E5D70;
+      --bg-page: #FFF7FA;
+      --bg-card: #FFFFFF;
+      --text-main: #3B2C35;
+      --text-sub: #7A6571;
 
-      --pink-main: #EC4899;
-      --pink-soft: #FCE7F3;
+      --pink-primary: #EC4899;
+      --pink-light: #FCE7F3;
       --pink-border: #F9A8D4;
 
-      --sky-main: #0284C7;
-      --sky-soft: #E0F2FE;
+      --sky-primary: #0284C7;
+      --sky-light: #E0F2FE;
       --sky-border: #7DD3FC;
 
-      --orange-main: #EA580C;
-      --orange-soft: #FFEDD5;
+      --orange-primary: #EA580C;
+      --orange-light: #FFEDD5;
       --orange-border: #FDBA74;
 
-      --amber-main: #D97706;
-      --amber-soft: #FEF3C7;
+      --amber-primary: #D97706;
+      --amber-light: #FEF3C7;
       --amber-border: #FCD34D;
 
-      --mint-main: #059669;
-      --mint-soft: #D1FAE5;
+      --mint-primary: #059669;
+      --mint-light: #D1FAE5;
       --mint-border: #6EE7B7;
 
-      --violet-main: #7C3AED;
-      --violet-soft: #EDE9FE;
-      --violet-border: #C4B5FD;
+      --lavender-light: #F3E8FF;
+      --lavender-border: #D8B4FE;
+      --lavender-text: #6B21A8;
     }
 
-    * {
+    /* บังคับใช้ฟอนต์ Itim (ไอติม) ทั้งเว็บไซต์ 100% ทุกตัวอักษรและทุกปุ่ม */
+    *, *::before, *::after,
+    body, h1, h2, h3, h4, p, span, div, a,
+    button, input, select, textarea, label {
+      font-family: 'Itim', -apple-system, BlinkMacSystemFont, sans-serif !important;
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -51,424 +55,454 @@
     }
 
     body {
-      font-family: 'Mali', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--bg-cream);
+      background-color: var(--bg-page);
       background-image:
-        radial-gradient(circle at 12% 8%, rgba(252, 231, 243, 0.7) 0%, transparent 28%),
-        radial-gradient(circle at 88% 15%, rgba(224, 242, 254, 0.7) 0%, transparent 28%),
-        radial-gradient(circle at 50% 90%, rgba(209, 250, 229, 0.55) 0%, transparent 32%);
-      color: var(--text-dark);
-      line-height: 1.6;
-      padding: 14px;
+        radial-gradient(#FBCFE8 1.2px, transparent 1.2px),
+        radial-gradient(#BAE6FD 1.2px, #FFF7FA 1.2px);
+      background-size: 32px 32px;
+      background-position: 0 0, 16px 16px;
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 10px 10px 80px 10px;
       min-height: 100vh;
     }
 
-    h1, h2, h3, h4, .font-heading {
-      font-family: 'Mitr', 'Mali', sans-serif;
-      font-weight: 600;
-    }
-
-    .container {
-      max-width: 960px;
+    .app-shell {
+      max-width: 680px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      padding-bottom: 40px;
+      gap: 10px;
     }
 
-    /* Cute Banner */
-    .hero-banner {
-      background: linear-gradient(135deg, #FCE7F3 0%, #FEF3C7 52%, #D1FAE5 100%);
-      border: 3px solid var(--pink-border);
-      border-radius: 28px;
-      padding: 18px;
-      box-shadow: 0 8px 0 rgba(244, 114, 182, 0.18), 0 12px 24px rgba(0, 0, 0, 0.05);
-    }
-
-    .hero-top {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .hero-brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .mascot-box {
-      width: 60px;
-      height: 60px;
+    /* 1. Compact Cute Top Header */
+    .top-bar {
+      background: linear-gradient(135deg, #FCE7F3 0%, #FEF3C7 55%, #D1FAE5 100%);
+      border: 2.5px solid var(--pink-border);
       border-radius: 22px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      box-shadow: 0 4px 0 rgba(244, 114, 182, 0.18);
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .avatar-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
       background: linear-gradient(135deg, #EC4899, #F43F5E);
-      border: 3px solid #FFFFFF;
+      border: 2px solid #FFFFFF;
       color: #FFFFFF;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 10px rgba(236, 72, 153, 0.35);
+      flex-shrink: 0;
+      box-shadow: 0 3px 6px rgba(236, 72, 153, 0.25);
+    }
+
+    .brand-title {
+      font-size: 17px;
+      color: var(--text-main);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-sub {
+      font-size: 12.5px;
+      color: #BE185D;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       flex-shrink: 0;
     }
 
-    .mascot-emoji {
-      font-size: 24px;
-      line-height: 1;
-    }
-
-    .mascot-rank {
-      font-family: 'Mitr', sans-serif;
-      font-size: 11px;
-      background: rgba(255,255,255,0.25);
-      padding: 1px 6px;
-      border-radius: 99px;
-      margin-top: 2px;
-    }
-
-    .hero-tag {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.85);
-      border: 1.5px solid var(--pink-border);
-      color: #BE185D;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 2px 10px;
-      border-radius: 99px;
-      margin-bottom: 4px;
-    }
-
-    .hero-title {
-      font-size: 20px;
-      color: var(--text-dark);
-      line-height: 1.3;
-    }
-
-    .hero-sub {
-      font-size: 13px;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .hero-btns {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    /* Cute 3D Bouncy Buttons */
+    /* Cute Bouncy Buttons */
     .btn {
-      font-family: 'Mitr', sans-serif;
-      font-size: 13.5px;
-      font-weight: 500;
-      padding: 9px 16px;
+      font-size: 14px;
+      padding: 7px 13px;
       border-radius: 999px;
       border: 2px solid #FFFFFF;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 5px;
       text-decoration: none;
-      transition: transform 0.12s ease, box-shadow 0.12s ease;
-      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.14);
+      white-space: nowrap;
+      transition: transform 0.1s ease;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.12);
     }
 
     .btn:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.14);
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
     }
 
     .btn-pink {
       background: linear-gradient(135deg, #EC4899, #F43F5E);
       color: #FFFFFF;
-      box-shadow: 0 4px 0 #BE185D;
-    }
-
-    .btn-violet {
-      background: var(--violet-soft);
-      color: #5B21B6;
-      border-color: var(--violet-border);
-      box-shadow: 0 4px 0 #C4B5FD;
-    }
-
-    .btn-amber {
-      background: var(--amber-soft);
-      color: #92400E;
-      border-color: var(--amber-border);
-      box-shadow: 0 4px 0 #FCD34D;
+      box-shadow: 0 3px 0 #BE185D;
     }
 
     .btn-mint {
-      background: var(--mint-soft);
+      background: var(--mint-light);
       color: #065F46;
       border-color: var(--mint-border);
-      box-shadow: 0 4px 0 #6EE7B7;
+      box-shadow: 0 3px 0 #6EE7B7;
     }
 
-    .btn-soft {
-      background: #F3E8FF;
-      color: #6B21A8;
-      border-color: #D8B4FE;
+    .btn-amber {
+      background: var(--amber-light);
+      color: #92400E;
+      border-color: var(--amber-border);
+      box-shadow: 0 3px 0 #FCD34D;
+    }
+
+    .btn-lavender {
+      background: var(--lavender-light);
+      color: var(--lavender-text);
+      border-color: var(--lavender-border);
       box-shadow: 0 3px 0 #D8B4FE;
     }
 
     .btn-sm {
-      font-size: 12.5px;
-      padding: 6px 13px;
+      font-size: 13px;
+      padding: 5px 11px;
     }
 
-    /* Summary Cards */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    @media (min-width: 640px) {
-      .stats-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-
-    .stat-box {
-      background: rgba(255, 255, 255, 0.92);
+    /* 2. GoodNotes-Style Folder Tabs Bar (Scrollable Horizontal Tabs) */
+    .tabs-wrapper {
+      background: #FFFFFF;
       border: 2.5px solid var(--pink-border);
-      border-radius: 20px;
-      padding: 11px 14px;
-      text-align: left;
-      cursor: pointer;
-      transition: transform 0.12s ease;
-      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.05);
+      border-radius: 22px;
+      padding: 8px;
+      box-shadow: 0 4px 0 rgba(249, 168, 212, 0.22);
+      position: sticky;
+      top: 6px;
+      z-index: 30;
     }
 
-    .stat-box:active {
-      transform: translateY(2px);
-    }
-
-    .stat-box.active {
-      outline: 3px solid #EC4899;
-      background: #FFFFFF;
-    }
-
-    .stat-top {
+    .tabs-label {
       font-size: 12px;
-      font-weight: 700;
+      color: var(--text-sub);
+      padding: 0 6px 4px 6px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .stat-val {
-      font-family: 'Mitr', sans-serif;
-      font-size: 22px;
-      color: var(--text-dark);
-      margin-top: 2px;
+    .tabs-scroll {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      overflow-x: auto;
+      padding-bottom: 3px;
+      scrollbar-width: none;
     }
 
-    /* Coaching Radar Alert */
-    .radar-banner {
-      background: #FFFBEB;
-      border: 3px solid var(--amber-border);
-      border-radius: 26px;
-      padding: 16px;
-      box-shadow: 0 6px 0 rgba(251, 191, 36, 0.22);
+    .tabs-scroll::-webkit-scrollbar {
       display: none;
-      flex-direction: column;
-      gap: 12px;
     }
 
-    .radar-banner.show {
-      display: flex;
-    }
-
-    .radar-head {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .radar-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-
-    @media (min-width: 640px) {
-      .radar-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .radar-card {
-      background: #FFFFFF;
-      border: 2px solid var(--amber-border);
-      border-radius: 18px;
-      padding: 12px;
-      display: flex;
-      justify-content: space-between;
+    .tab-chip {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 2px solid #FBCFE8;
+      background: #FFF5F8;
+      color: var(--text-main);
+      font-size: 14.5px;
+      cursor: pointer;
+      white-space: nowrap;
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
     }
 
-    /* Filter Bar */
-    .filter-bar {
+    .tab-chip.tab-ks2 {
+      border-color: var(--sky-border);
+      background: #F0F9FF;
+    }
+
+    .tab-chip.tab-ks3 {
+      border-color: var(--orange-border);
+      background: #FFF7ED;
+    }
+
+    .tab-chip.active {
+      background: linear-gradient(135deg, #EC4899, #F43F5E);
+      color: #FFFFFF;
+      border-color: #FFFFFF;
+      box-shadow: 0 3px 8px rgba(236, 72, 153, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .tab-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #F59E0B;
+      display: inline-block;
+    }
+
+    .tab-chip.active .tab-dot {
+      background: #FEF08A;
+    }
+
+    /* 3. Overview Tab Content */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+    }
+
+    .mini-stat {
       background: #FFFFFF;
-      border: 2.5px solid #C4B5FD;
-      border-radius: 24px;
-      padding: 12px;
+      border: 2px solid var(--pink-border);
+      border-radius: 18px;
+      padding: 8px 6px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 3px 0 rgba(0,0,0,0.04);
+    }
+
+    .mini-stat.active {
+      outline: 2.5px solid #EC4899;
+      background: #FFF0F6;
+    }
+
+    .mini-stat-label {
+      font-size: 12px;
+      color: var(--text-sub);
+      display: block;
+    }
+
+    .mini-stat-num {
+      font-size: 18px;
+      color: var(--text-main);
+    }
+
+    /* Urgent Radar Card in Overview */
+    .radar-card {
+      background: #FFFBEB;
+      border: 2.5px solid var(--amber-border);
+      border-radius: 22px;
+      padding: 12px 14px;
+      box-shadow: 0 4px 0 rgba(251, 191, 36, 0.2);
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      box-shadow: 0 5px 0 rgba(196, 181, 253, 0.25);
-    }
-
-    @media (min-width: 640px) {
-      .filter-bar {
-        flex-direction: row;
-        align-items: center;
-      }
-    }
-
-    .search-input, .select-box, .form-input {
-      font-family: 'Mali', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 10px 14px;
-      border-radius: 16px;
-      border: 2px solid var(--pink-border);
-      background: #FFFDF9;
-      color: var(--text-dark);
-      width: 100%;
-    }
-
-    .search-input:focus, .select-box:focus, .form-input:focus {
-      outline: none;
-      border-color: var(--pink-main);
-      background: #FFFFFF;
-    }
-
-    .filter-selects {
-      display: flex;
       gap: 8px;
     }
 
-    /* Friends Cards Grid */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-
-    @media (min-width: 680px) {
-      .cards-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .friend-card {
+    .radar-row {
       background: #FFFFFF;
-      border: 3px solid var(--sky-border);
-      border-radius: 26px;
-      padding: 16px;
+      border: 2px solid var(--amber-border);
+      border-radius: 16px;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Directory List in Overview */
+    .directory-card {
+      background: #FFFFFF;
+      border: 2.5px solid var(--lavender-border);
+      border-radius: 22px;
+      padding: 12px;
+      box-shadow: 0 4px 0 rgba(216, 180, 254, 0.25);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: 12px;
-      box-shadow: 0 7px 0 rgba(125, 211, 252, 0.28), 0 10px 20px rgba(0,0,0,0.03);
+      gap: 10px;
     }
 
-    .friend-card.rank-ks3 {
+    .search-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .input-cute {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 14px;
+      border: 2px solid var(--pink-border);
+      background: #FFFDF9;
+      font-size: 14.5px;
+      color: var(--text-main);
+    }
+
+    .input-cute:focus {
+      outline: none;
+      border-color: var(--pink-primary);
+      background: #FFFFFF;
+    }
+
+    .friend-row-item {
+      background: #FFFDF9;
+      border: 2px solid #F3E8FF;
+      border-radius: 16px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      cursor: pointer;
+      transition: transform 0.1s ease, border-color 0.1s ease;
+    }
+
+    .friend-row-item:hover, .friend-row-item:active {
+      border-color: var(--pink-border);
+      background: #FFF5F8;
+    }
+
+    /* 4. Single Friend Tab View (GoodNotes Personal Page) */
+    .person-page {
+      background: #FFFFFF;
+      border: 3px solid var(--pink-border);
+      border-radius: 26px;
+      padding: 16px;
+      box-shadow: 0 7px 0 rgba(249, 168, 212, 0.28);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .person-page.theme-ks2 {
+      border-color: var(--sky-border);
+      box-shadow: 0 7px 0 rgba(125, 211, 252, 0.28);
+    }
+
+    .person-page.theme-ks3 {
       border-color: var(--orange-border);
-      box-shadow: 0 7px 0 rgba(253, 186, 116, 0.32), 0 10px 20px rgba(0,0,0,0.03);
+      box-shadow: 0 7px 0 rgba(253, 186, 116, 0.28);
+    }
+
+    .person-nav-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding-bottom: 8px;
+      border-bottom: 2px dashed #FBCFE8;
     }
 
     .pill {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 3px 11px;
-      border-radius: 99px;
-      font-size: 12px;
-      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 13px;
     }
 
     .pill-ks2 {
-      background: var(--sky-soft);
+      background: var(--sky-light);
       color: #0369A1;
       border: 1.5px solid var(--sky-border);
     }
 
     .pill-ks3 {
-      background: var(--orange-soft);
+      background: var(--orange-light);
       color: #C2410C;
       border: 1.5px solid var(--orange-border);
     }
 
     .pill-status {
-      background: var(--pink-soft);
+      background: var(--pink-light);
       color: #BE185D;
       border: 1.5px solid var(--pink-border);
     }
 
-    .countdown-bar {
-      padding: 9px 13px;
-      border-radius: 16px;
-      font-size: 12.5px;
-      font-weight: 700;
+    .countdown-banner {
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 14.5px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       flex-wrap: wrap;
       gap: 6px;
       border: 2px solid var(--sky-border);
-      background: var(--sky-soft);
+      background: var(--sky-light);
       color: #0369A1;
     }
 
-    .countdown-bar.urgent {
-      background: var(--pink-soft);
+    .countdown-banner.urgent {
+      background: var(--pink-light);
       border-color: var(--pink-border);
       color: #BE185D;
     }
 
-    .countdown-bar.soon {
-      background: var(--amber-soft);
+    .countdown-banner.soon {
+      background: var(--amber-light);
       border-color: var(--amber-border);
       color: #92400E;
     }
 
-    .countdown-bar.ready {
-      background: var(--mint-soft);
+    .countdown-banner.ready {
+      background: var(--mint-light);
       border-color: var(--mint-border);
       color: #065F46;
     }
 
-    .topic-panel {
+    .notebook-box {
       background: #FFFBEB;
       border: 2px dashed var(--amber-border);
-      border-radius: 18px;
-      padding: 11px 13px;
-      font-size: 13px;
+      border-radius: 20px;
+      padding: 13px 14px;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 8px;
+      font-size: 15px;
     }
 
-    .progress-wrap {
+    .notebook-line {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed #FDE68A;
+    }
+
+    .notebook-line:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .notebook-key {
+      color: #92400E;
+      min-width: 118px;
+      flex-shrink: 0;
+    }
+
+    .progress-track {
       width: 100%;
-      height: 10px;
+      height: 11px;
       background: #FCE7F3;
       border-radius: 99px;
       overflow: hidden;
-      margin: 5px 0;
+      margin: 6px 0;
     }
 
-    .progress-bar {
+    .progress-fill {
       height: 100%;
       background: linear-gradient(90deg, #F472B6, #FBBF24, #34D399);
       border-radius: 99px;
@@ -478,58 +512,47 @@
     .chk-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
+      gap: 8px;
     }
 
-    .chk-item {
+    .chk-card {
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 9px;
-      border-radius: 12px;
-      border: 1.5px solid #E5E7EB;
+      gap: 7px;
+      padding: 8px 10px;
+      border-radius: 14px;
+      border: 2px solid #E5E7EB;
       background: #FAFAFA;
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 14px;
       cursor: pointer;
     }
 
-    .chk-item.done {
+    .chk-card.done {
       border-color: var(--mint-border);
-      background: var(--mint-soft);
+      background: var(--mint-light);
       color: #065F46;
-      font-weight: 700;
     }
 
-    .chk-item input {
+    .chk-card input {
       accent-color: #EC4899;
-      width: 15px;
-      height: 15px;
+      width: 16px;
+      height: 16px;
     }
 
-    .note-box {
-      background: #FDF2F8;
+    .memo-box {
+      background: #FFF0F6;
       border-left: 4px solid #EC4899;
-      padding: 8px 11px;
-      border-radius: 12px;
-      font-size: 12.5px;
-      color: var(--text-muted);
-    }
-
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      padding-top: 10px;
-      border-top: 2px dashed #F3E8FF;
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 14.5px;
+      color: var(--text-main);
     }
 
     /* Modals */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(45, 35, 46, 0.55);
+      background: rgba(59, 44, 53, 0.55);
       backdrop-filter: blur(3px);
       z-index: 100;
       display: none;
@@ -546,56 +569,47 @@
     .modal-box {
       background: #FFFFFF;
       border: 3px solid var(--pink-border);
-      border-radius: 28px;
+      border-radius: 26px;
       width: 100%;
-      max-width: 540px;
-      max-height: 92vh;
+      max-width: 500px;
+      max-height: 90vh;
       overflow-y: auto;
-      padding: 18px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
     }
 
     .form-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
     }
 
-    @media (min-width: 520px) {
+    .col-full {
+      grid-column: 1 / -1;
+    }
+
+    @media (max-width: 480px) {
       .form-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .col-full {
-        grid-column: 1 / -1;
+        grid-template-columns: 1fr;
       }
     }
 
     .form-label {
       display: block;
-      font-size: 12.5px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      color: var(--text-dark);
-    }
-
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
+      font-size: 13.5px;
+      color: #BE185D;
+      margin-bottom: 3px;
     }
 
     .tag-btn {
-      font-family: 'Mali', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 13px;
       padding: 4px 10px;
       border-radius: 99px;
       border: 1.5px solid var(--pink-border);
-      background: var(--pink-soft);
+      background: var(--pink-light);
       color: #BE185D;
       cursor: pointer;
     }
@@ -603,160 +617,101 @@
     .toast {
       position: fixed;
       bottom: 18px;
-      right: 18px;
       left: 18px;
-      max-width: 360px;
+      right: 18px;
+      max-width: 340px;
       margin: 0 auto;
       background: #EC4899;
       color: #FFFFFF;
       border: 2px solid #FFFFFF;
-      padding: 11px 16px;
+      padding: 10px 16px;
       border-radius: 99px;
-      font-family: 'Mitr', sans-serif;
-      font-size: 13.5px;
+      font-size: 14.5px;
       text-align: center;
-      box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4);
+      box-shadow: 0 6px 16px rgba(236, 72, 153, 0.4);
       z-index: 200;
       display: none;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Cute Header Banner -->
-    <header class="hero-banner">
-      <div class="hero-top">
-        <div class="hero-brand">
-          <div class="mascot-box">
-            <span class="mascot-emoji">🧑🏻‍🏫</span>
-            <span class="mascot-rank">ค.ศ.3</span>
-          </div>
-          <div>
-            <span class="hero-tag">🌸 สมุดช่วยจำของครูตัวน้อย 9,999 กิจกรรม ✨</span>
-            <h1 class="hero-title">สมุดจำคิวเพื่อนรักทำ ค.ศ.2 &amp; ค.ศ.3 🌈</h1>
-            <p class="hero-sub">ครูเกียรติศักดิ์ กรุณา &bull; จำวันครบกำหนด ทักถามหัวข้อ &amp; ช่วยดูงานให้เพื่อน ✌🏻🟢</p>
-          </div>
-        </div>
+  <div class="app-shell">
 
-        <div class="hero-btns">
-          <a href="https://docs.google.com/spreadsheets/d/1JW35O0ZLsJ0lxno5jOxTR3A34vGCv4ljdsfo_CylVys/edit" target="_blank" rel="noopener" class="btn btn-mint btn-sm">
-            📗 เปิดตาราง Google Sheets
-          </a>
-          <button type="button" class="btn btn-pink" onclick="openFriendModal()">
-            ➕ เพิ่มชื่อเพื่อนครู
-          </button>
+    <!-- 1. Compact Header -->
+    <header class="top-bar">
+      <div class="brand-left">
+        <div class="avatar-badge">
+          <span style="font-size:18px;line-height:1;">🧑🏻‍🏫</span>
+          <span style="font-size:10px;line-height:1;">ค.ศ.3</span>
+        </div>
+        <div style="min-width:0;">
+          <h1 class="brand-title">🌸 สมุดจำคิวเพื่อนทำ ค.ศ.2-3</h1>
+          <div class="brand-sub">ครูเกียรติศักดิ์ กรุณา (9,999 กิจกรรม) ✨</div>
         </div>
       </div>
 
-      <!-- Summary Boxes -->
-      <div class="stats-grid">
-        <button type="button" class="stat-box active" id="st-all" onclick="setQuickFilter('all')">
-          <div class="stat-top" style="color:#BE185D;"><span>เพื่อนทั้งหมด</span><span>🧸</span></div>
-          <div class="stat-val" id="num-all">0 คน</div>
-        </button>
-
-        <button type="button" class="stat-box" id="st-consult" style="border-color:var(--amber-border);" onclick="setQuickFilter('consult')">
-          <div class="stat-top" style="color:#B45309;"><span>ใกล้ครบ! ต้องทักถาม</span><span>🔔</span></div>
-          <div class="stat-val" id="num-consult" style="color:#D97706;">0 คน</div>
-        </button>
-
-        <button type="button" class="stat-box" id="st-ks2" style="border-color:var(--sky-border);" onclick="setQuickFilter('ค.ศ.2')">
-          <div class="stat-top" style="color:#0369A1;"><span>แก๊งทำ ค.ศ.2</span><span>📘</span></div>
-          <div class="stat-val" id="num-ks2" style="color:#0284C7;">0 คน</div>
-        </button>
-
-        <button type="button" class="stat-box" id="st-ks3" style="border-color:var(--orange-border);" onclick="setQuickFilter('ค.ศ.3')">
-          <div class="stat-top" style="color:#C2410C;"><span>แก๊งทำ ค.ศ.3</span><span>👑</span></div>
-          <div class="stat-val" id="num-ks3" style="color:#EA580C;">0 คน</div>
+      <div class="top-actions">
+        <a href="https://docs.google.com/spreadsheets/d/1JW35O0ZLsJ0lxno5jOxTR3A34vGCv4ljdsfo_CylVys/edit" target="_blank" rel="noopener" class="btn btn-mint btn-sm" title="เปิดตาราง Google Sheets">
+          📗 ชีต
+        </a>
+        <button type="button" class="btn btn-pink btn-sm" onclick="openFriendModal()">
+          ➕ เพิ่มเพื่อน
         </button>
       </div>
     </header>
 
-    <!-- Coaching Radar -->
-    <section id="radar-box" class="radar-banner">
-      <div class="radar-head">
-        <span style="font-size:26px;">📣</span>
-        <div>
-          <h2 style="font-size:16px;color:#92400E;">ปิ๊งป่อง! เพื่อนครูใกล้ครบกำหนดยื่นแล้ว — ทักไปถามแผนกันเถอะ! 💌</h2>
-          <p style="font-size:12.5px;color:#78350F;font-weight:600;">
-            กดปุ่ม <strong>"💬 ทักถาม"</strong> เพื่อก๊อปปี้ข้อความน่ารัก ๆ ไปถามเพื่อนใน Line/FB ว่าอยากทำเรื่องอะไร สอนชั้นไหน ใช้นวัตกรรมอะไรได้เลย!
-          </p>
-        </div>
+    <!-- 2. Sticky Notebook Folder Tabs (Overview + Each Friend's Individual Tab!) -->
+    <nav class="tabs-wrapper" aria-label="แถบสลับหน้า">
+      <div class="tabs-label">
+        <span>🗂️ แตะเลือกแท็บแดชบอร์ด หรือชื่อเพื่อนเพื่อดูรายคน (ไม่ต้องไถยาว!)</span>
+        <span id="tab-counter">4 คน</span>
       </div>
-      <div id="radar-items" class="radar-grid"></div>
-    </section>
+      <div id="tabs-bar" class="tabs-scroll"></div>
+    </nav>
 
-    <!-- Search & Filter -->
-    <section class="filter-bar">
-      <input
-        type="search"
-        id="search-input"
-        class="search-input"
-        oninput="renderApp()"
-        placeholder="🔍 ค้นหาชื่อเพื่อน, โรงเรียน, วิชา, เรื่องที่จะทำ, นวัตกรรม..."
-      />
-      <div class="filter-selects">
-        <select id="filter-rank" class="select-box" onchange="renderApp()">
-          <option value="all">🌈 ทุกระดับ</option>
-          <option value="ค.ศ.2">📘 ค.ศ.2</option>
-          <option value="ค.ศ.3">👑 ค.ศ.3</option>
-        </select>
-        <select id="filter-status" class="select-box" onchange="renderApp()">
-          <option value="all">✨ ทุกสถานะ</option>
-          <option value="consult">🔔 ต้องทักถามหัวข้อ</option>
-          <option value="รอถึงกำหนด">⏳ รอถึงกำหนด</option>
-          <option value="ถึงเวลาทักถามข้อมูล">💬 ถึงเวลาทักถาม</option>
-          <option value="กำลังวางแผน/ให้คำปรึกษา">🧭 กำลังให้คำปรึกษา</option>
-          <option value="กำลังทำเอกสาร/อัดคลิป">🎥 กำลังทำเอกสาร/คลิป</option>
-          <option value="ยื่น DPA แล้ว">🚀 ยื่น DPA แล้ว</option>
-          <option value="ผ่านแล้ว 🎉">🟢 ผ่านแล้ว 🎉</option>
-        </select>
-      </div>
-    </section>
+    <!-- 3. Dynamic Main Content Area (Either Overview OR Single Friend Page) -->
+    <main id="main-view"></main>
 
-    <!-- Friends Cards List -->
-    <section id="friends-list" class="cards-grid"></section>
   </div>
 
-  <!-- Add / Edit Modal -->
+  <!-- Add / Edit Friend Modal -->
   <div id="friend-modal" class="modal-overlay">
     <div class="modal-box">
-      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed #FBCFE8;padding-bottom:10px;">
-        <h3 id="modal-title" style="font-size:17px;color:#BE185D;">🌸 เพิ่มข้อมูลเพื่อนครู</h3>
-        <button type="button" class="btn btn-soft btn-sm" onclick="closeFriendModal()">✕ ปิด</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed #FBCFE8;padding-bottom:8px;">
+        <h3 id="modal-title" style="font-size:18px;color:#BE185D;">🌸 เพิ่มข้อมูลเพื่อนครู</h3>
+        <button type="button" class="btn btn-lavender btn-sm" onclick="closeFriendModal()">✕ ปิด</button>
       </div>
 
-      <form id="friend-form" onsubmit="saveFriendForm(event)" style="display:flex;flex-direction:column;gap:12px;">
+      <form id="friend-form" onsubmit="saveFriendForm(event)" style="display:flex;flex-direction:column;gap:10px;">
         <input type="hidden" id="f-id" />
 
-        <div style="font-size:13px;font-weight:700;color:#BE185D;">🎀 1. ข้อมูลเพื่อน &amp; วันครบกำหนดยื่นขอ</div>
         <div class="form-grid">
           <div>
-            <label class="form-label">ชื่อเพื่อน / ชื่อเล่น *</label>
-            <input type="text" id="f-name" required class="form-input" placeholder="เช่น ครูเมย์ (ธนพร)" />
+            <label class="form-label">🎀 ชื่อเพื่อน / ชื่อเล่น *</label>
+            <input type="text" id="f-name" required class="input-cute" placeholder="เช่น ครูเมย์ (ธนพร)" />
           </div>
           <div>
-            <label class="form-label">โรงเรียน / สังกัด</label>
-            <input type="text" id="f-school" class="form-input" placeholder="เช่น รร.วัดคลองห้า" />
+            <label class="form-label">🏫 โรงเรียน / สังกัด</label>
+            <input type="text" id="f-school" class="input-cute" placeholder="เช่น รร.วัดคลองห้า" />
           </div>
           <div>
-            <label class="form-label">ระดับที่จะทำ *</label>
-            <select id="f-rank" class="form-input">
+            <label class="form-label">🌈 ระดับที่จะทำ *</label>
+            <select id="f-rank" class="input-cute">
               <option value="ค.ศ.2">📘 ค.ศ.2 (ครูชำนาญการ)</option>
               <option value="ค.ศ.3">👑 ค.ศ.3 (ครูชำนาญการพิเศษ)</option>
             </select>
           </div>
           <div>
-            <label class="form-label">วันที่ครบกำหนดยื่นได้ *</label>
-            <input type="date" id="f-date" required class="form-input" />
+            <label class="form-label">📅 วันที่ครบกำหนดยื่นได้ *</label>
+            <input type="date" id="f-date" required class="input-cute" />
           </div>
           <div>
-            <label class="form-label">ช่องทางติดต่อ (Line / FB)</label>
-            <input type="text" id="f-contact" class="form-input" placeholder="เช่น Line: may_kru" />
+            <label class="form-label">📱 ช่องทางติดต่อ (Line / FB)</label>
+            <input type="text" id="f-contact" class="input-cute" placeholder="เช่น Line: may_kru" />
           </div>
           <div>
-            <label class="form-label">สถานะปัจจุบัน</label>
-            <select id="f-status" class="form-input">
+            <label class="form-label">✨ สถานะปัจจุบัน</label>
+            <select id="f-status" class="input-cute">
               <option value="รอถึงกำหนด">⏳ รอถึงกำหนด</option>
               <option value="ถึงเวลาทักถามข้อมูล">💬 ถึงเวลาทักถามข้อมูล</option>
               <option value="กำลังวางแผน/ให้คำปรึกษา">🧭 กำลังวางแผน/ให้คำปรึกษา</option>
@@ -765,26 +720,22 @@
               <option value="ผ่านแล้ว 🎉">🟢 ผ่านแล้ว 🎉</option>
             </select>
           </div>
-        </div>
-
-        <div style="font-size:13px;font-weight:700;color:#D97706;">💡 2. ข้อมูลให้คำปรึกษา (ถามเพื่อนเมื่อใกล้ครบกำหนด)</div>
-        <div class="form-grid">
           <div>
-            <label class="form-label">วิชา / กลุ่มสาระ</label>
-            <input type="text" id="f-subject" class="form-input" placeholder="เช่น ภาษาไทย, คณิตศาสตร์" />
+            <label class="form-label">📚 วิชา / กลุ่มสาระ</label>
+            <input type="text" id="f-subject" class="input-cute" placeholder="เช่น ภาษาไทย, คณิตศาสตร์" />
           </div>
           <div>
-            <label class="form-label">ระดับชั้นที่สอน</label>
-            <input type="text" id="f-grade" class="form-input" placeholder="เช่น ป.4, ป.5, ม.1" />
+            <label class="form-label">🎒 ระดับชั้นที่สอน</label>
+            <input type="text" id="f-grade" class="input-cute" placeholder="เช่น ป.4, ป.5, ม.1" />
           </div>
           <div class="col-full">
             <label class="form-label">🎯 อยากทำเรื่องอะไร? (หน่วยการเรียนรู้ / เรื่องที่สอน)</label>
-            <input type="text" id="f-topic" class="form-input" placeholder="เช่น การอ่านจับใจความสำคัญ, การบวกลบเศษส่วน" />
+            <input type="text" id="f-topic" class="input-cute" placeholder="เช่น การอ่านจับใจความสำคัญ, การบวกลบเศษส่วน" />
           </div>
           <div class="col-full">
-            <label class="form-label">✨ ใช้นวัตกรรม หรือ วิธีการสอนแบบไหน?</label>
-            <input type="text" id="f-innovation" class="form-input" placeholder="เช่น Active Learning + บอร์ดเกม, GPAS 5 Steps, PBL, 5E" />
-            <div class="tag-list">
+            <label class="form-label">💡 ใช้นวัตกรรม หรือ วิธีการสอนแบบไหน?</label>
+            <input type="text" id="f-innovation" class="input-cute" placeholder="เช่น Active Learning + บอร์ดเกม, GPAS 5 Steps, PBL, 5E" />
+            <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;">
               <button type="button" class="tag-btn" onclick="addTag('Active Learning')">🧠 + Active Learning</button>
               <button type="button" class="tag-btn" onclick="addTag('GPAS 5 Steps')">🚀 + GPAS 5 Steps</button>
               <button type="button" class="tag-btn" onclick="addTag('PBL')">🧩 + PBL</button>
@@ -795,17 +746,16 @@
           </div>
         </div>
 
-        <div style="font-size:13px;font-weight:700;color:#059669;">✅ 3. เช็กลิสต์เอกสาร DPA &amp; บันทึกช่วยจำ</div>
         <div class="chk-grid">
-          <label class="chk-item"><input type="checkbox" id="c-plan" /> <span>📝 1. แผนการสอน</span></label>
-          <label class="chk-item"><input type="checkbox" id="c-video" /> <span>🎬 2. คลิป 60 นาที</span></label>
-          <label class="chk-item"><input type="checkbox" id="c-outcome" /> <span>🌟 3. ผลลัพธ์ผู้เรียน</span></label>
-          <label class="chk-item"><input type="checkbox" id="c-pa" /> <span>🟢 4. ระบบ DPA</span></label>
+          <label class="chk-card"><input type="checkbox" id="c-plan" /> <span>📝 1. แผนการสอน</span></label>
+          <label class="chk-card"><input type="checkbox" id="c-video" /> <span>🎬 2. คลิป 60 นาที</span></label>
+          <label class="chk-card"><input type="checkbox" id="c-outcome" /> <span>🌟 3. ผลลัพธ์ผู้เรียน</span></label>
+          <label class="chk-card"><input type="checkbox" id="c-pa" /> <span>🟢 4. ระบบ DPA</span></label>
         </div>
 
         <div>
           <label class="form-label">📝 บันทึกช่วยจำ / คำแนะนำที่คุยกับเพื่อน</label>
-          <textarea id="f-notes" rows="2" class="form-input" placeholder="จดสิ่งที่แนะนำเพื่อนไว้กันลืม..."></textarea>
+          <textarea id="f-notes" rows="2" class="input-cute" placeholder="จดสิ่งที่แนะนำเพื่อนไว้กันลืม..."></textarea>
         </div>
 
         <div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:2px dashed #FBCFE8;">
@@ -813,7 +763,7 @@
             🗑️ ลบรายชื่อ
           </button>
           <div style="display:flex;gap:8px;margin-left:auto;">
-            <button type="button" class="btn btn-soft btn-sm" onclick="closeFriendModal()">ยกเลิก</button>
+            <button type="button" class="btn btn-lavender btn-sm" onclick="closeFriendModal()">ยกเลิก</button>
             <button type="submit" class="btn btn-pink">💾 บันทึกเลย!</button>
           </div>
         </div>
@@ -823,15 +773,15 @@
 
   <!-- Message Modal -->
   <div id="msg-modal" class="modal-overlay">
-    <div class="modal-box" style="max-width:460px;border-color:var(--amber-border);">
+    <div class="modal-box" style="max-width:440px;border-color:var(--amber-border);">
       <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed var(--amber-border);padding-bottom:8px;">
-        <h3 style="font-size:16px;color:#B45309;">💌 ข้อความทักถามเพื่อนครู (ส่งแชท Line / FB)</h3>
+        <h3 style="font-size:17px;color:#B45309;">💌 ข้อความทักถามเพื่อนครู (ส่ง Line / FB)</h3>
         <button type="button" class="btn btn-amber btn-sm" onclick="closeMsgModal()">✕</button>
       </div>
-      <div id="msg-box" style="background:#FFFBEB;border:2px solid var(--amber-border);border-radius:18px;padding:14px;font-size:13.5px;white-space:pre-wrap;line-height:1.65;"></div>
+      <div id="msg-box" style="background:#FFFBEB;border:2px solid var(--amber-border);border-radius:18px;padding:13px;font-size:15px;white-space:pre-wrap;line-height:1.6;"></div>
       <div style="display:flex;justify-content:space-between;gap:8px;">
-        <button type="button" class="btn btn-soft btn-sm" onclick="editFromMsgModal()">✏️ บันทึกคำตอบเพื่อน</button>
-        <button type="button" class="btn btn-pink btn-sm" onclick="copyChatMsg()">📋 คัดลอกข้อความส่งแชท</button>
+        <button type="button" class="btn btn-lavender btn-sm" onclick="editFromMsgModal()">✏️ กรอกคำตอบเพื่อน</button>
+        <button type="button" class="btn btn-pink btn-sm" onclick="copyChatMsg()">📋 คัดลอกข้อความ</button>
       </div>
     </div>
   </div>
@@ -842,10 +792,10 @@
     const STORAGE_KEY = 'kru_kiattisak_dpa_friends_v1';
     const THAI_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
     const CHECKLIST_OPTS = [
-      { key: 'แผนการสอน', label: '📝 แผนการสอน' },
-      { key: 'คลิปการสอน', label: '🎬 คลิป 60 นาที' },
-      { key: 'ผลลัพธ์ผู้เรียน', label: '🌟 ผลลัพธ์ผู้เรียน' },
-      { key: 'ระบบ PA/DPA', label: '🟢 ระบบ DPA' }
+      { key: 'แผนการสอน', label: '📝 1. แผนการสอน' },
+      { key: 'คลิปการสอน', label: '🎬 2. คลิป 60 นาที' },
+      { key: 'ผลลัพธ์ผู้เรียน', label: '🌟 3. ผลลัพธ์ผู้เรียน' },
+      { key: 'ระบบ PA/DPA', label: '🟢 4. ระบบ DPA' }
     ];
 
     const DEFAULT_FRIENDS = [
@@ -912,6 +862,9 @@
     ];
 
     let friends = [];
+    let activeTab = 'overview'; // 'overview' OR friend.id
+    let overviewFilter = 'all'; // 'all' | 'consult' | 'ค.ศ.2' | 'ค.ศ.3'
+    let searchQuery = '';
     let activeMsgFriendId = null;
 
     function loadData() {
@@ -934,7 +887,7 @@
       const el = document.getElementById('toast');
       el.textContent = msg;
       el.style.display = 'block';
-      setTimeout(() => { el.style.display = 'none'; }, 2600);
+      setTimeout(() => { el.style.display = 'none'; }, 2500);
     }
 
     function formatThaiDate(dateStr) {
@@ -967,159 +920,319 @@
       const d = getDaysUntil(f.targetDate);
       if (d < 0) return { text: `🍓 ยื่นได้แล้วน้า! (ผ่านมา ${Math.abs(d)} วัน)`, cls: 'urgent' };
       if (d === 0) return { text: '🎉 ครบกำหนดยื่นวันนี้วันแรก!', cls: 'urgent' };
-      if (d <= 30) return { text: `⏰ อีก ${d} วันจะยื่นได้แล้ว!`, cls: 'urgent' };
+      if (d <= 30) return { text: `⏰ อีก ${d} วันจะยื่นได้!`, cls: 'urgent' };
       if (d <= 90) return { text: `🍋 อีก ${d} วันครบกำหนด`, cls: 'soon' };
       return { text: `🌱 อีก ${d} วัน (${Math.round(d / 30)} เดือน)`, cls: '' };
     }
 
-    function setQuickFilter(mode) {
-      ['st-all','st-consult','st-ks2','st-ks3'].forEach(id => document.getElementById(id).classList.remove('active'));
-      const rankEl = document.getElementById('filter-rank');
-      const statusEl = document.getElementById('filter-status');
-      if (mode === 'all') {
-        document.getElementById('st-all').classList.add('active');
-        rankEl.value = 'all'; statusEl.value = 'all';
-      } else if (mode === 'consult') {
-        document.getElementById('st-consult').classList.add('active');
-        rankEl.value = 'all'; statusEl.value = 'consult';
-      } else if (mode === 'ค.ศ.2') {
-        document.getElementById('st-ks2').classList.add('active');
-        rankEl.value = 'ค.ศ.2'; statusEl.value = 'all';
-      } else if (mode === 'ค.ศ.3') {
-        document.getElementById('st-ks3').classList.add('active');
-        rankEl.value = 'ค.ศ.3'; statusEl.value = 'all';
-      }
+    function shortName(fullName) {
+      if (!fullName) return 'เพื่อนครู';
+      return fullName.split('(')[0].trim();
+    }
+
+    function selectTab(tabId) {
+      activeTab = tabId;
+      renderApp();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setOverviewFilter(mode) {
+      overviewFilter = mode;
       renderApp();
     }
 
-    function renderApp() {
-      const consultList = friends.filter(needsConsult);
-      document.getElementById('num-all').textContent = `${friends.length} คน`;
-      document.getElementById('num-consult').textContent = `${consultList.length} คน`;
-      document.getElementById('num-ks2').textContent = `${friends.filter(f => f.rank === 'ค.ศ.2').length} คน`;
-      document.getElementById('num-ks3').textContent = `${friends.filter(f => f.rank === 'ค.ศ.3').length} คน`;
+    function renderTabsBar() {
+      const bar = document.getElementById('tabs-bar');
+      document.getElementById('tab-counter').textContent = `ทั้งหมด ${friends.length} คน`;
 
-      const radarBox = document.getElementById('radar-box');
-      const radarItems = document.getElementById('radar-items');
-      if (consultList.length > 0) {
-        radarBox.classList.add('show');
-        radarItems.innerHTML = consultList.map(f => {
-          const d = getDaysUntil(f.targetDate);
-          const dayTxt = d < 0 ? `ครบกำหนดแล้ว (${formatThaiDate(f.targetDate)})` : `อีก ${d} วัน (${formatThaiDate(f.targetDate)})`;
-          return `
-            <div class="radar-card">
-              <div>
-                <div style="font-weight:700;font-size:14px;">
-                  ${esc(f.name)}
-                  <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3' : '📘 ค.ศ.2'}</span>
-                </div>
-                <div style="font-size:12px;color:#78350F;font-weight:600;margin-top:2px;">📅 ${dayTxt}</div>
-              </div>
-              <div style="display:flex;gap:6px;flex-shrink:0;">
-                <button type="button" class="btn btn-pink btn-sm" onclick="openMsgModal('${f.id}')">💬 ทักถาม</button>
-                <button type="button" class="btn btn-amber btn-sm" onclick="openFriendModal('${f.id}')">✏️ กรอก</button>
-              </div>
-            </div>
-          `;
-        }).join('');
-      } else {
-        radarBox.classList.remove('show');
-      }
+      const sorted = [...friends].sort((a, b) => getDaysUntil(a.targetDate) - getDaysUntil(b.targetDate));
 
-      const q = document.getElementById('search-input').value.trim().toLowerCase();
-      const rf = document.getElementById('filter-rank').value;
-      const sf = document.getElementById('filter-status').value;
+      let html = `
+        <button type="button" class="tab-chip ${activeTab === 'overview' ? 'active' : ''}" onclick="selectTab('overview')">
+          <span>📊 แดชบอร์ดรวม</span>
+        </button>
+      `;
+
+      html += sorted.map(f => {
+        const isActive = activeTab === f.id;
+        const urgent = needsConsult(f);
+        const rankIcon = f.rank === 'ค.ศ.3' ? '👑' : '📘';
+        const rankCls = f.rank === 'ค.ศ.3' ? 'tab-ks3' : 'tab-ks2';
+        return `
+          <button type="button" class="tab-chip ${rankCls} ${isActive ? 'active' : ''}" onclick="selectTab('${f.id}')">
+            <span>${rankIcon} ${esc(shortName(f.name))}</span>
+            ${urgent ? '<span class="tab-dot" title="ใกล้ครบกำหนด/รอทักถาม"></span>' : ''}
+          </button>
+        `;
+      }).join('');
+
+      html += `
+        <button type="button" class="tab-chip" style="border-style:dashed;" onclick="openFriendModal()">
+          <span>➕ เพิ่มคนใหม่</span>
+        </button>
+      `;
+
+      bar.innerHTML = html;
+    }
+
+    function renderOverview() {
+      const consultList = friends.filter(needsConsult).sort((a, b) => getDaysUntil(a.targetDate) - getDaysUntil(b.targetDate));
+      const ks2Count = friends.filter(f => f.rank === 'ค.ศ.2').length;
+      const ks3Count = friends.filter(f => f.rank === 'ค.ศ.3').length;
 
       const filtered = friends
         .filter(f => {
-          if (rf !== 'all' && f.rank !== rf) return false;
-          if (sf === 'consult' && !needsConsult(f)) return false;
-          if (sf !== 'all' && sf !== 'consult' && f.status !== sf) return false;
-          if (q) {
+          if (overviewFilter === 'consult' && !needsConsult(f)) return false;
+          if ((overviewFilter === 'ค.ศ.2' || overviewFilter === 'ค.ศ.3') && f.rank !== overviewFilter) return false;
+          if (searchQuery) {
             const hay = [f.name, f.school, f.subject, f.grade, f.topic, f.innovation, f.notes].join(' ').toLowerCase();
-            if (!hay.includes(q)) return false;
+            if (!hay.includes(searchQuery.toLowerCase())) return false;
           }
           return true;
         })
         .sort((a, b) => getDaysUntil(a.targetDate) - getDaysUntil(b.targetDate));
 
-      const listEl = document.getElementById('friends-list');
-      if (filtered.length === 0) {
-        listEl.innerHTML = `
-          <div style="grid-column:1/-1;background:#FFF;border:3px dashed var(--pink-border);border-radius:26px;padding:32px;text-align:center;">
-            <div style="font-size:28px;">🌸</div>
-            <h3 style="margin:6px 0;">ยังไม่มีรายชื่อเพื่อนครูในหมวดนี้เลยครับ</h3>
-            <button type="button" class="btn btn-pink" onclick="openFriendModal()">➕ เพิ่มชื่อเพื่อนครู</button>
-          </div>
-        `;
-        return;
-      }
-
-      listEl.innerHTML = filtered.map(f => {
-        const cd = getCountdownBadge(f);
-        const chk = Array.isArray(f.checklist) ? f.checklist : [];
-        const pct = Math.round((chk.length / 4) * 100);
-
-        return `
-          <article class="friend-card ${f.rank === 'ค.ศ.3' ? 'rank-ks3' : ''}">
-            <div style="display:flex;flex-direction:column;gap:10px;">
-              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
-                <div>
-                  <h3 style="font-size:16.5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                    <span>${esc(f.name)}</span>
-                    <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">
-                      ${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3 ชำนาญการพิเศษ' : '📘 ค.ศ.2 ชำนาญการ'}
-                    </span>
-                  </h3>
-                  <div style="font-size:12px;color:var(--text-muted);font-weight:600;margin-top:2px;">
-                    ${f.school ? `🏫 ${esc(f.school)}` : ''} ${f.contact ? `&bull; 📱 ${esc(f.contact)}` : ''}
+      let radarHtml = '';
+      if (consultList.length > 0) {
+        radarHtml = `
+          <section class="radar-card">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
+              <h2 style="font-size:16px;color:#92400E;">📣 คิวเพื่อนใกล้ครบกำหนด — ต้องทักถามแผนทำผลงาน (${consultList.length} คน)</h2>
+            </div>
+            ${consultList.map(f => {
+              const d = getDaysUntil(f.targetDate);
+              const dayTxt = d < 0 ? `ครบแล้ว (${formatThaiDate(f.targetDate)})` : `อีก ${d} วัน (${formatThaiDate(f.targetDate)})`;
+              return `
+                <div class="radar-row">
+                  <div onclick="selectTab('${f.id}')" style="cursor:pointer;flex:1;min-width:160px;">
+                    <div style="font-size:15.5px;color:var(--text-main);">
+                      <strong>${esc(f.name)}</strong>
+                      <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}" style="padding:1px 8px;font-size:12px;">${esc(f.rank)}</span>
+                    </div>
+                    <div style="font-size:13px;color:#B45309;">📅 ${dayTxt} &bull; 🌷 แตะเพื่อเปิดหน้าของเพื่อน</div>
+                  </div>
+                  <div style="display:flex;gap:6px;flex-shrink:0;">
+                    <button type="button" class="btn btn-pink btn-sm" onclick="openMsgModal('${f.id}')">💬 ทักถาม</button>
+                    <button type="button" class="btn btn-amber btn-sm" onclick="selectTab('${f.id}')">👉 ดูแท็บ</button>
                   </div>
                 </div>
-                <span class="pill pill-status">${esc(f.status || 'รอถึงกำหนด')}</span>
-              </div>
-
-              <div class="countdown-bar ${cd.cls}">
-                <span>📅 ยื่นได้: ${formatThaiDate(f.targetDate)}</span>
-                <span>${cd.text}</span>
-              </div>
-
-              <div class="topic-panel">
-                <div><strong style="color:#92400E;">📚 วิชา / ชั้น:</strong> <span>${esc(f.subject || 'ยังไม่ระบุวิชา')} ${f.grade ? `(ชั้น ${esc(f.grade)})` : ''}</span></div>
-                <div><strong style="color:#92400E;">🎯 เรื่องที่จะทำ:</strong> <span>${f.topic ? esc(f.topic) : '<strong style="color:#DB2777;">🌷 รอทักถามเพื่อนว่าจะทำเรื่องอะไร</strong>'}</span></div>
-                <div><strong style="color:#92400E;">💡 นวัตกรรม/วิธีสอน:</strong> <span>${f.innovation ? esc(f.innovation) : '<span style="color:var(--text-muted);">ยังไม่ได้เลือกนวัตกรรม</span>'}</span></div>
-              </div>
-
-              <div>
-                <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:#059669;">
-                  <span>✨ ความพร้อมเอกสาร DPA (${chk.length}/4)</span>
-                  <span>${pct}%</span>
-                </div>
-                <div class="progress-wrap">
-                  <div class="progress-bar" style="width:${pct}%"></div>
-                </div>
-                <div class="chk-grid">
-                  ${CHECKLIST_OPTS.map(item => {
-                    const done = chk.includes(item.key);
-                    return `
-                      <label class="chk-item ${done ? 'done' : ''}">
-                        <input type="checkbox" ${done ? 'checked' : ''} onchange="toggleCheck('${f.id}', '${item.key}', this.checked)" />
-                        <span>${esc(item.label)}</span>
-                      </label>
-                    `;
-                  }).join('')}
-                </div>
-              </div>
-
-              ${f.notes ? `<div class="note-box"><strong>📝 บันทึกช่วยจำ:</strong> ${esc(f.notes)}</div>` : ''}
-            </div>
-
-            <div class="card-footer">
-              <button type="button" class="btn btn-amber btn-sm" onclick="openMsgModal('${f.id}')">💬 ทักถามเพื่อน</button>
-              <button type="button" class="btn btn-pink btn-sm" onclick="openFriendModal('${f.id}')">✏️ แก้ไข / บันทึกผลปรึกษา</button>
-            </div>
-          </article>
+              `;
+            }).join('')}
+          </section>
         `;
-      }).join('');
+      }
+
+      return `
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <!-- 4 Compact Summary Boxes -->
+          <section class="stats-strip">
+            <div class="mini-stat ${overviewFilter === 'all' ? 'active' : ''}" onclick="setOverviewFilter('all')">
+              <span class="mini-stat-label">🧸 ทั้งหมด</span>
+              <div class="mini-stat-num">${friends.length} คน</div>
+            </div>
+            <div class="mini-stat ${overviewFilter === 'consult' ? 'active' : ''}" style="border-color:var(--amber-border);" onclick="setOverviewFilter('consult')">
+              <span class="mini-stat-label" style="color:#B45309;">🔔 ทักถาม</span>
+              <div class="mini-stat-num" style="color:#D97706;">${consultList.length} คน</div>
+            </div>
+            <div class="mini-stat ${overviewFilter === 'ค.ศ.2' ? 'active' : ''}" style="border-color:var(--sky-border);" onclick="setOverviewFilter('ค.ศ.2')">
+              <span class="mini-stat-label" style="color:#0369A1;">📘 ค.ศ.2</span>
+              <div class="mini-stat-num" style="color:#0284C7;">${ks2Count} คน</div>
+            </div>
+            <div class="mini-stat ${overviewFilter === 'ค.ศ.3' ? 'active' : ''}" style="border-color:var(--orange-border);" onclick="setOverviewFilter('ค.ศ.3')">
+              <span class="mini-stat-label" style="color:#C2410C;">👑 ค.ศ.3</span>
+              <div class="mini-stat-num" style="color:#EA580C;">${ks3Count} คน</div>
+            </div>
+          </section>
+
+          ${radarHtml}
+
+          <!-- Compact Friend Directory (Click any friend to jump to their tab!) -->
+          <section class="directory-card">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+              <h2 style="font-size:16px;color:var(--lavender-text);">📋 รายชื่อเพื่อนทั้งหมด (แตะชื่อเพื่อเปิดดูรายคน)</h2>
+            </div>
+
+            <div class="search-row">
+              <input
+                type="search"
+                class="input-cute"
+                placeholder="🔍 ค้นหาชื่อเพื่อน, โรงเรียน, วิชา, เรื่องที่จะทำ..."
+                value="${esc(searchQuery)}"
+                oninput="searchQuery = this.value; renderApp();"
+              />
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:7px;">
+              ${filtered.length === 0 ? `
+                <div style="text-align:center;padding:20px;color:var(--text-sub);">
+                  🌸 ไม่พบรายชื่อเพื่อนในหมวดนี้จ้า
+                </div>
+              ` : filtered.map(f => {
+                const cd = getCountdownBadge(f);
+                const chk = Array.isArray(f.checklist) ? f.checklist : [];
+                return `
+                  <div class="friend-row-item" onclick="selectTab('${f.id}')">
+                    <div style="min-width:0;flex:1;">
+                      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                        <span style="font-size:16px;"><strong>${esc(f.name)}</strong></span>
+                        <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}" style="padding:1px 8px;font-size:12px;">
+                          ${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3' : '📘 ค.ศ.2'}
+                        </span>
+                        <span style="font-size:12.5px;color:#BE185D;">&bull; 📅 ${formatThaiDate(f.targetDate)} (${cd.text})</span>
+                      </div>
+                      <div style="font-size:13.5px;color:var(--text-sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                        📚 ${esc(f.subject || 'ยังไม่ระบุวิชา')} ${f.grade ? `(${esc(f.grade)})` : ''} &bull;
+                        ${f.topic ? `🎯 ${esc(f.topic)}` : '<span style="color:#DB2777;">🌷 รอถามเรื่องที่จะทำ</span>'}
+                      </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+                      <span class="pill" style="background:#F3E8FF;color:#6B21A8;font-size:12px;">เอกสาร ${chk.length}/4</span>
+                      <span style="font-size:15px;color:#EC4899;">👉</span>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    function renderSingleFriendPage(friendId) {
+      const sorted = [...friends].sort((a, b) => getDaysUntil(a.targetDate) - getDaysUntil(b.targetDate));
+      const idx = sorted.findIndex(x => x.id === friendId);
+      const f = sorted[idx];
+      if (!f) {
+        activeTab = 'overview';
+        return renderOverview();
+      }
+
+      const prevFriend = idx > 0 ? sorted[idx - 1] : null;
+      const nextFriend = idx < sorted.length - 1 ? sorted[idx + 1] : null;
+
+      const cd = getCountdownBadge(f);
+      const chk = Array.isArray(f.checklist) ? f.checklist : [];
+      const pct = Math.round((chk.length / 4) * 100);
+      const themeCls = f.rank === 'ค.ศ.3' ? 'theme-ks3' : 'theme-ks2';
+
+      return `
+        <article class="person-page ${themeCls}">
+          <!-- Quick Prev / Next Friend Switcher -->
+          <div class="person-nav-strip">
+            <button type="button" class="btn btn-lavender btn-sm" onclick="selectTab('overview')">
+              ⬅ กลับหน้าแดชบอร์ด
+            </button>
+            <div style="display:flex;gap:5px;">
+              ${prevFriend ? `<button type="button" class="btn btn-amber btn-sm" onclick="selectTab('${prevFriend.id}')">◀ ${esc(shortName(prevFriend.name))}</button>` : ''}
+              ${nextFriend ? `<button type="button" class="btn btn-amber btn-sm" onclick="selectTab('${nextFriend.id}')">${esc(shortName(nextFriend.name))} ▶</button>` : ''}
+            </div>
+          </div>
+
+          <!-- Friend Identity Header -->
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap;">
+            <div>
+              <h2 style="font-size:21px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                <span>${esc(f.name)}</span>
+                <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">
+                  ${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3 ชำนาญการพิเศษ' : '📘 ค.ศ.2 ชำนาญการ'}
+                </span>
+              </h2>
+              <div style="font-size:14px;color:var(--text-sub);margin-top:3px;">
+                🏫 ${esc(f.school || 'ยังไม่ได้ระบุโรงเรียน')} ${f.contact ? `&bull; 📱 ${esc(f.contact)}` : ''}
+              </div>
+            </div>
+            <span class="pill pill-status">${esc(f.status || 'รอถึงกำหนด')}</span>
+          </div>
+
+          <!-- Countdown Strip -->
+          <div class="countdown-banner ${cd.cls}">
+            <span>📅 วันที่ครบกำหนดยื่นได้: <strong>${formatThaiDate(f.targetDate)}</strong></span>
+            <span>${cd.text}</span>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <button type="button" class="btn btn-amber" onclick="openMsgModal('${f.id}')">
+              💬 ทักถามเพื่อนในแชท
+            </button>
+            <button type="button" class="btn btn-pink" onclick="openFriendModal('${f.id}')">
+              ✏️ แก้ไข / กรอกคำตอบ
+            </button>
+          </div>
+
+          <!-- GoodNotes Style Consultation Sheet -->
+          <div class="notebook-box">
+            <div style="font-size:15.5px;color:#B45309;display:flex;justify-content:space-between;align-items:center;">
+              <span>📒 สมุดบันทึกแผนการทำผลงาน (สำหรับการให้คำปรึกษา)</span>
+            </div>
+            <div class="notebook-line">
+              <span class="notebook-key">📚 วิชา / กลุ่มสาระ:</span>
+              <span>${esc(f.subject || 'ยังไม่ระบุวิชา')}</span>
+            </div>
+            <div class="notebook-line">
+              <span class="notebook-key">🎒 ระดับชั้นที่สอน:</span>
+              <span>${f.grade ? `ชั้น ${esc(f.grade)}` : '<span style="color:#D97706;">ยังไม่ระบุชั้นเรียน</span>'}</span>
+            </div>
+            <div class="notebook-line">
+              <span class="notebook-key">🎯 เรื่องที่จะทำ:</span>
+              <span>
+                ${f.topic
+                  ? `<strong>${esc(f.topic)}</strong>`
+                  : `<span style="color:#DB2777;">🌷 ยังไม่ได้สรุปเรื่องที่จะทำ</span> <button type="button" class="tag-btn" onclick="openFriendModal('${f.id}')">+ กรอกเรื่อง</button>`}
+              </span>
+            </div>
+            <div class="notebook-line">
+              <span class="notebook-key">💡 นวัตกรรม/วิธีสอน:</span>
+              <span>
+                ${f.innovation
+                  ? `<strong>${esc(f.innovation)}</strong>`
+                  : `<span style="color:#D97706;">ยังไม่ได้เลือกนวัตกรรมหรือวิธีสอน</span> <button type="button" class="tag-btn" onclick="openFriendModal('${f.id}')">+ เลือกนวัตกรรม</button>`}
+              </span>
+            </div>
+          </div>
+
+          <!-- DPA 4-Step Checklist -->
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:14px;color:#059669;">
+              <span>✅ เช็กลิสต์เอกสาร DPA (${chk.length}/4 รายการ)</span>
+              <span>${pct}%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width:${pct}%"></div>
+            </div>
+            <div class="chk-grid">
+              ${CHECKLIST_OPTS.map(item => {
+                const done = chk.includes(item.key);
+                return `
+                  <label class="chk-card ${done ? 'done' : ''}">
+                    <input type="checkbox" ${done ? 'checked' : ''} onchange="toggleCheck('${f.id}', '${item.key}', this.checked)" />
+                    <span>${esc(item.label)}</span>
+                  </label>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- Coaching Notes -->
+          <div class="memo-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+              <strong style="color:#BE185D;">📝 บันทึกช่วยจำ / คำแนะนำที่ให้เพื่อน:</strong>
+              <button type="button" class="tag-btn" onclick="openFriendModal('${f.id}')">✏️ แก้ไขบันทึก</button>
+            </div>
+            <div>${f.notes ? esc(f.notes) : 'ยังไม่มีบันทึกเพิ่มเติม กดปุ่มแก้ไขเพื่อจดสิ่งที่คุยกับเพื่อนไว้ได้เลยจ้า'}</div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderApp() {
+      renderTabsBar();
+      const mainEl = document.getElementById('main-view');
+      if (activeTab === 'overview') {
+        mainEl.innerHTML = renderOverview();
+      } else {
+        mainEl.innerHTML = renderSingleFriendPage(activeTab);
+      }
     }
 
     function toggleCheck(id, key, checked) {
@@ -1128,7 +1241,7 @@
       const set = new Set(Array.isArray(f.checklist) ? f.checklist : []);
       if (checked) set.add(key); else set.delete(key);
       f.checklist = Array.from(set);
-      saveData(`✨ อัปเดตเช็กลิสต์ของ ${f.name} แล้วน้า!`);
+      saveData(`✨ อัปเดตเช็กลิสต์ของ ${shortName(f.name)} แล้วจ้า!`);
     }
 
     function addTag(val) {
@@ -1194,8 +1307,9 @@
 
       const idx = friends.findIndex(x => x.id === id);
       if (idx >= 0) friends[idx] = item; else friends.push(item);
+      activeTab = item.id; // Switch directly to this friend's tab!
       closeFriendModal();
-      saveData(`🌸 บันทึกข้อมูลของ ${item.name} เรียบร้อยแล้วจ้า!`);
+      saveData(`🌸 บันทึกและเปิดหน้าของ ${shortName(item.name)} แล้วจ้า!`);
     }
 
     function deleteCurrentFriend() {
@@ -1203,6 +1317,7 @@
       const f = friends.find(x => x.id === id);
       if (!f) return;
       friends = friends.filter(x => x.id !== id);
+      activeTab = 'overview';
       closeFriendModal();
       saveData(`ลบรายชื่อ ${f.name} แล้ว`);
     }
