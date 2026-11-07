@@ -137,9 +137,15 @@
 
     .top-actions {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
       width: 100%;
+    }
+
+    @media (min-width: 540px) {
+      .top-actions {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
     }
 
     /* ปุ่มกดสมดุล ไม่ทะลุกรอบ */
@@ -987,6 +993,9 @@
         <button type="button" class="btn btn-lavender btn-sm" id="btn-font-scale" onclick="cycleFontScale()" title="ปรับขนาดตัวอักษร">
           🔍 ขนาด: พอดี
         </button>
+        <a href="https://drive.google.com/drive/folders/17TllkHcFq79990hFWVuCbdbWj-4oUy5p" target="_blank" rel="noopener" class="btn btn-sky btn-sm">
+          📁 โฟลเดอร์ Drive
+        </a>
         <a href="https://docs.google.com/spreadsheets/d/1JW35O0ZLsJ0lxno5jOxTR3A34vGCv4ljdsfo_CylVys/edit" target="_blank" rel="noopener" class="btn btn-mint btn-sm">
           📗 เปิดชีต
         </a>
