@@ -46,7 +46,7 @@
     /* บังคับใช้ฟอนต์ Itim (ไอติม) ทั้งเว็บไซต์ 100% ทุกตัวอักษรและทุกปุ่ม */
     *, *::before, *::after,
     body, h1, h2, h3, h4, p, span, div, a,
-    button, input, select, textarea, label {
+    button, input, select, textarea, label, summary, details {
       font-family: 'Itim', -apple-system, BlinkMacSystemFont, sans-serif !important;
       box-sizing: border-box;
       margin: 0;
@@ -63,7 +63,7 @@
       background-position: 0 0, 16px 16px;
       color: var(--text-main);
       line-height: 1.5;
-      padding: 10px 10px 80px 10px;
+      padding: 10px 10px 85px 10px;
       min-height: 100vh;
     }
 
@@ -80,7 +80,7 @@
       background: linear-gradient(135deg, #FCE7F3 0%, #FEF3C7 55%, #D1FAE5 100%);
       border: 2.5px solid var(--pink-border);
       border-radius: 22px;
-      padding: 10px 14px;
+      padding: 10px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -91,7 +91,7 @@
     .brand-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
       min-width: 0;
     }
 
@@ -111,7 +111,7 @@
     }
 
     .brand-title {
-      font-size: 17px;
+      font-size: 16.5px;
       color: var(--text-main);
       line-height: 1.2;
       white-space: nowrap;
@@ -120,14 +120,14 @@
     }
 
     .brand-sub {
-      font-size: 12.5px;
+      font-size: 12px;
       color: #BE185D;
     }
 
     .top-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       flex-shrink: 0;
     }
 
@@ -173,6 +173,13 @@
       box-shadow: 0 3px 0 #FCD34D;
     }
 
+    .btn-sky {
+      background: var(--sky-light);
+      color: #0369A1;
+      border-color: var(--sky-border);
+      box-shadow: 0 3px 0 #7DD3FC;
+    }
+
     .btn-lavender {
       background: var(--lavender-light);
       color: var(--lavender-text);
@@ -182,10 +189,10 @@
 
     .btn-sm {
       font-size: 13px;
-      padding: 5px 11px;
+      padding: 5px 10px;
     }
 
-    /* 2. GoodNotes-Style Folder Tabs Bar (Scrollable Horizontal Tabs) */
+    /* 2. GoodNotes-Style Folder Tabs Bar */
     .tabs-wrapper {
       background: #FFFFFF;
       border: 2.5px solid var(--pink-border);
@@ -220,17 +227,17 @@
     }
 
     .tab-chip {
-      padding: 7px 14px;
+      padding: 6px 13px;
       border-radius: 999px;
       border: 2px solid #FBCFE8;
       background: #FFF5F8;
       color: var(--text-main);
-      font-size: 14.5px;
+      font-size: 14px;
       cursor: pointer;
       white-space: nowrap;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       transition: all 0.15s ease;
       flex-shrink: 0;
     }
@@ -276,7 +283,7 @@
       background: #FFFFFF;
       border: 2px solid var(--pink-border);
       border-radius: 18px;
-      padding: 8px 6px;
+      padding: 8px 5px;
       text-align: center;
       cursor: pointer;
       box-shadow: 0 3px 0 rgba(0,0,0,0.04);
@@ -298,7 +305,7 @@
       color: var(--text-main);
     }
 
-    /* Urgent Radar Card in Overview */
+    /* Urgent Radar Card */
     .radar-card {
       background: #FFFBEB;
       border: 2.5px solid var(--amber-border);
@@ -322,7 +329,7 @@
       flex-wrap: wrap;
     }
 
-    /* Directory List in Overview */
+    /* Directory Card */
     .directory-card {
       background: #FFFFFF;
       border: 2.5px solid var(--lavender-border);
@@ -332,11 +339,6 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-    }
-
-    .search-row {
-      display: flex;
-      gap: 6px;
     }
 
     .input-cute {
@@ -365,20 +367,19 @@
       justify-content: space-between;
       gap: 8px;
       cursor: pointer;
-      transition: transform 0.1s ease, border-color 0.1s ease;
     }
 
-    .friend-row-item:hover, .friend-row-item:active {
+    .friend-row-item:active {
       border-color: var(--pink-border);
       background: #FFF5F8;
     }
 
-    /* 4. Single Friend Tab View (GoodNotes Personal Page) */
+    /* 4. Single Friend Personal Page */
     .person-page {
       background: #FFFFFF;
       border: 3px solid var(--pink-border);
       border-radius: 26px;
-      padding: 16px;
+      padding: 15px;
       box-shadow: 0 7px 0 rgba(249, 168, 212, 0.28);
       display: flex;
       flex-direction: column;
@@ -432,9 +433,9 @@
     }
 
     .countdown-banner {
-      padding: 10px 14px;
+      padding: 10px 13px;
       border-radius: 18px;
-      font-size: 14.5px;
+      font-size: 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -463,22 +464,23 @@
       color: #065F46;
     }
 
+    /* GoodNotes Notebook Box */
     .notebook-box {
       background: #FFFBEB;
       border: 2px dashed var(--amber-border);
       border-radius: 20px;
-      padding: 13px 14px;
+      padding: 12px 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      font-size: 15px;
+      gap: 7px;
+      font-size: 14.5px;
     }
 
     .notebook-line {
       display: flex;
       align-items: baseline;
       gap: 6px;
-      padding-bottom: 6px;
+      padding-bottom: 5px;
       border-bottom: 1px dashed #FDE68A;
     }
 
@@ -489,8 +491,164 @@
 
     .notebook-key {
       color: #92400E;
-      min-width: 118px;
+      min-width: 115px;
       flex-shrink: 0;
+    }
+
+    /* Links & Attached Files Section */
+    .files-box {
+      background: #F0F9FF;
+      border: 2px solid var(--sky-border);
+      border-radius: 20px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .link-pills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    @media (max-width: 460px) {
+      .link-pills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .link-slot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--sky-border);
+      border-radius: 13px;
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+
+    .attached-file-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #FFFFFF;
+      border: 1.5px dashed var(--sky-primary);
+      border-radius: 13px;
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+
+    /* Collapsible DPA 6 Pitfalls Box */
+    details.pitfalls-box {
+      background: #FFF1F2;
+      border: 2px solid #FDA4AF;
+      border-radius: 20px;
+      padding: 10px 13px;
+    }
+
+    details.pitfalls-box summary {
+      font-size: 14.5px;
+      color: #BE123C;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    details.pitfalls-box summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .pitfalls-list {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pitfall-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: #FFFFFF;
+      border: 1.5px solid #FECDD3;
+      border-radius: 13px;
+      padding: 8px 10px;
+      font-size: 13.5px;
+      cursor: pointer;
+    }
+
+    .pitfall-item.checked {
+      background: var(--mint-light);
+      border-color: var(--mint-border);
+      color: #065F46;
+    }
+
+    .pitfall-item input {
+      accent-color: #059669;
+      margin-top: 3px;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* Zero-Typing 1-Tap Timeline & Voice Note Box */
+    .timeline-box {
+      background: #FAF5FF;
+      border: 2px solid var(--lavender-border);
+      border-radius: 20px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .stamp-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .stamp-btn {
+      font-size: 13px;
+      padding: 5px 10px;
+      border-radius: 99px;
+      border: 1.5px solid var(--lavender-border);
+      background: #FFFFFF;
+      color: var(--lavender-text);
+      cursor: pointer;
+      box-shadow: 0 2px 0 rgba(216, 180, 254, 0.4);
+      transition: transform 0.1s ease;
+    }
+
+    .stamp-btn:active {
+      transform: translateY(2px);
+      background: var(--lavender-light);
+    }
+
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 210px;
+      overflow-y: auto;
+    }
+
+    .timeline-entry {
+      background: #FFFFFF;
+      border-left: 4px solid #A855F7;
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 13.5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
     }
 
     .progress-track {
@@ -499,7 +657,7 @@
       background: #FCE7F3;
       border-radius: 99px;
       overflow: hidden;
-      margin: 6px 0;
+      margin: 5px 0;
     }
 
     .progress-fill {
@@ -512,7 +670,7 @@
     .chk-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
+      gap: 7px;
     }
 
     .chk-card {
@@ -523,7 +681,7 @@
       border-radius: 14px;
       border: 2px solid #E5E7EB;
       background: #FAFAFA;
-      font-size: 14px;
+      font-size: 13.5px;
       cursor: pointer;
     }
 
@@ -537,15 +695,6 @@
       accent-color: #EC4899;
       width: 16px;
       height: 16px;
-    }
-
-    .memo-box {
-      background: #FFF0F6;
-      border-left: 4px solid #EC4899;
-      border-radius: 14px;
-      padding: 10px 12px;
-      font-size: 14.5px;
-      color: var(--text-main);
     }
 
     /* Modals */
@@ -571,8 +720,8 @@
       border: 3px solid var(--pink-border);
       border-radius: 26px;
       width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
+      max-width: 520px;
+      max-height: 91vh;
       overflow-y: auto;
       padding: 16px;
       display: flex;
@@ -612,6 +761,29 @@
       background: var(--pink-light);
       color: #BE185D;
       cursor: pointer;
+    }
+
+    .msg-mode-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+
+    .msg-mode-btn {
+      padding: 7px 10px;
+      border-radius: 12px;
+      border: 2px solid var(--amber-border);
+      background: #FFFBEB;
+      color: #92400E;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .msg-mode-btn.active {
+      background: #F59E0B;
+      color: #FFFFFF;
+      border-color: #D97706;
     }
 
     .toast {
@@ -660,19 +832,22 @@
       </div>
     </header>
 
-    <!-- 2. Sticky Notebook Folder Tabs (Overview + Each Friend's Individual Tab!) -->
+    <!-- 2. Sticky Notebook Folder Tabs -->
     <nav class="tabs-wrapper" aria-label="แถบสลับหน้า">
       <div class="tabs-label">
-        <span>🗂️ แตะเลือกแท็บแดชบอร์ด หรือชื่อเพื่อนเพื่อดูรายคน (ไม่ต้องไถยาว!)</span>
-        <span id="tab-counter">4 คน</span>
+        <span>🗂️ แตะสลับแท็บแดชบอร์ด หรือชื่อเพื่อนเพื่อดูรายคน:</span>
+        <span id="tab-counter">0 คน</span>
       </div>
       <div id="tabs-bar" class="tabs-scroll"></div>
     </nav>
 
-    <!-- 3. Dynamic Main Content Area (Either Overview OR Single Friend Page) -->
+    <!-- 3. Dynamic Main Content -->
     <main id="main-view"></main>
 
   </div>
+
+  <!-- Hidden File Input for Attaching Friend Files (PDF / Word / Images) -->
+  <input type="file" id="hidden-file-picker" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,image/*" style="display:none;" onchange="handleFileSelected(event)" />
 
   <!-- Add / Edit Friend Modal -->
   <div id="friend-modal" class="modal-overlay">
@@ -744,6 +919,20 @@
               <button type="button" class="tag-btn" onclick="addTag('ชุดกิจกรรม/แบบฝึกทักษะ')">📒 + ชุดกิจกรรม</button>
             </div>
           </div>
+
+          <!-- 3 Links Fields -->
+          <div class="col-full" style="padding-top:4px;border-top:2px dashed #BAE6FD;">
+            <label class="form-label" style="color:#0369A1;">📎 ลิงก์ไฟล์งานของเพื่อน (ถ้าเพื่อนส่งเป็นลิงก์มาให้วางตรงนี้ได้เลย)</label>
+          </div>
+          <div class="col-full">
+            <input type="url" id="f-link-drive" class="input-cute" style="border-color:var(--sky-border);" placeholder="📁 ลิงก์โฟลเดอร์ Google Drive รวมของเพื่อน (ถ้ามี)" />
+          </div>
+          <div>
+            <input type="url" id="f-link-plan" class="input-cute" style="border-color:var(--sky-border);" placeholder="📄 ลิงก์ไฟล์แผนการสอน" />
+          </div>
+          <div>
+            <input type="url" id="f-link-video" class="input-cute" style="border-color:var(--sky-border);" placeholder="🎥 ลิงก์คลิปสอน / ผลลัพธ์" />
+          </div>
         </div>
 
         <div class="chk-grid">
@@ -754,7 +943,7 @@
         </div>
 
         <div>
-          <label class="form-label">📝 บันทึกช่วยจำ / คำแนะนำที่คุยกับเพื่อน</label>
+          <label class="form-label">📝 บันทึกช่วยจำเพิ่มเติม</label>
           <textarea id="f-notes" rows="2" class="input-cute" placeholder="จดสิ่งที่แนะนำเพื่อนไว้กันลืม..."></textarea>
         </div>
 
@@ -771,17 +960,25 @@
     </div>
   </div>
 
-  <!-- Message Modal -->
+  <!-- 4-Mode Message Generator Modal -->
   <div id="msg-modal" class="modal-overlay">
-    <div class="modal-box" style="max-width:440px;border-color:var(--amber-border);">
+    <div class="modal-box" style="max-width:480px;border-color:var(--amber-border);">
       <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed var(--amber-border);padding-bottom:8px;">
-        <h3 style="font-size:17px;color:#B45309;">💌 ข้อความทักถามเพื่อนครู (ส่ง Line / FB)</h3>
+        <h3 style="font-size:17px;color:#B45309;">💌 สร้างข้อความทักแชทเพื่อน (4 สถานการณ์)</h3>
         <button type="button" class="btn btn-amber btn-sm" onclick="closeMsgModal()">✕</button>
       </div>
-      <div id="msg-box" style="background:#FFFBEB;border:2px solid var(--amber-border);border-radius:18px;padding:13px;font-size:15px;white-space:pre-wrap;line-height:1.6;"></div>
+
+      <div class="msg-mode-tabs">
+        <button type="button" class="msg-mode-btn active" id="mm-1" onclick="setMsgMode(1)">👋 1. ทักถามหัวข้อ/ชั้นเรียน</button>
+        <button type="button" class="msg-mode-btn" id="mm-2" onclick="setMsgMode(2)">📋 2. ทักตามงาน/การบ้าน</button>
+        <button type="button" class="msg-mode-btn" id="mm-3" onclick="setMsgMode(3)">🔍 3. ส่งผลช่วยตรวจจุดตาย</button>
+        <button type="button" class="msg-mode-btn" id="mm-4" onclick="setMsgMode(4)">🍀 4. ส่งกำลังใจลุ้นป้ายเขียว</button>
+      </div>
+
+      <div id="msg-box" style="background:#FFFBEB;border:2px solid var(--amber-border);border-radius:18px;padding:13px;font-size:14.5px;white-space:pre-wrap;line-height:1.6;"></div>
       <div style="display:flex;justify-content:space-between;gap:8px;">
         <button type="button" class="btn btn-lavender btn-sm" onclick="editFromMsgModal()">✏️ กรอกคำตอบเพื่อน</button>
-        <button type="button" class="btn btn-pink btn-sm" onclick="copyChatMsg()">📋 คัดลอกข้อความ</button>
+        <button type="button" class="btn btn-pink btn-sm" onclick="copyChatMsg()">📋 คัดลอกข้อความส่งแชท</button>
       </div>
     </div>
   </div>
@@ -791,11 +988,35 @@
   <script>
     const STORAGE_KEY = 'kru_kiattisak_dpa_friends_v1';
     const THAI_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+
     const CHECKLIST_OPTS = [
       { key: 'แผนการสอน', label: '📝 1. แผนการสอน' },
       { key: 'คลิปการสอน', label: '🎬 2. คลิป 60 นาที' },
       { key: 'ผลลัพธ์ผู้เรียน', label: '🌟 3. ผลลัพธ์ผู้เรียน' },
       { key: 'ระบบ PA/DPA', label: '🟢 4. ระบบ DPA' }
+    ];
+
+    // 6 จุดตายสำคัญของ DPA ก่อนยื่น
+    const DPA_PITFALLS = [
+      { key: 'p1', label: '🎥 คลิปสอนไม่เกิน 60 นาที ถ่ายมุมเดียวต่อเนื่อง (ห้ามตัดต่อ/ห้ามใส่เพลง/ไม่มีอินโทร)' },
+      { key: 'p2', label: '🔊 เห็นหน้าครูและนักเรียนชัดเจน เสียงครู-นักเรียนดังฟังชัดตลอดคลิป' },
+      { key: 'p3', label: '📋 กิจกรรมในคลิปการสอนตรงตามขั้นตอนที่เขียนในแผนการจัดการเรียนรู้ 100%' },
+      { key: 'p4', label: '🎯 แผนการสอนระบุประเด็นท้าทาย (PA) และตัวชี้วัด/จุดประสงค์ชัดเจน' },
+      { key: 'p5', label: '🌟 ผลลัพธ์ผู้เรียน (คลิป ≤10 นาที หรือไฟล์ผลงาน PDF) สอดคล้องกับแผนและคลิปสอน' },
+      { key: 'p6', label: '🔓 ไฟล์ทั้งหมดเปิดดูได้จริง ไม่ติดล็อกสิทธิ์เข้าถึงในระบบ DPA' }
+    ];
+
+    // ปุ่มสแตมป์ความคืบหน้า 1 คลิก (ไม่ต้องพิมพ์เอง!)
+    const QUICK_STAMPS = [
+      { label: '💬 ทักถามหัวข้อแล้ว', status: 'ถึงเวลาทักถามข้อมูล' },
+      { label: '🎯 สรุปเรื่องและชั้นเรียนแล้ว', status: 'กำลังวางแผน/ให้คำปรึกษา' },
+      { label: '📝 ส่งแผนมาให้ตรวจแล้ว', status: 'กำลังทำเอกสาร/อัดคลิป', check: 'แผนการสอน' },
+      { label: '🔧 แนะนำให้กลับไปแก้แผน', status: 'กำลังวางแผน/ให้คำปรึกษา' },
+      { label: '🎬 ส่งคลิปสอนมาให้ช่วยดูแล้ว', status: 'กำลังทำเอกสาร/อัดคลิป', check: 'คลิปการสอน' },
+      { label: '⚠️ แนะนำให้แก้คลิป/เช็กจุดตาย DPA', status: 'กำลังทำเอกสาร/อัดคลิป' },
+      { label: '🌟 ตรวจครบผ่านฉลุย พร้อมยื่น!', status: 'กำลังทำเอกสาร/อัดคลิป', check: 'ผลลัพธ์ผู้เรียน' },
+      { label: '🚀 เพื่อนกดยื่น DPA เรียบร้อย!', status: 'ยื่น DPA แล้ว', check: 'ระบบ PA/DPA' },
+      { label: '🟢 อนุมัติผ่านแล้ว (ป้ายเขียว!) 🎉', status: 'ผ่านแล้ว 🎉' }
     ];
 
     const DEFAULT_FRIENDS = [
@@ -812,7 +1033,14 @@
         topic: '',
         innovation: '',
         checklist: ['แผนการสอน'],
-        notes: 'เคยคุยกันตอนงานเขตว่าครบกำหนดปลายเดือน พ.ย. 69 ต้องทักไปถามว่าจะทำเรื่องอะไร สอนชั้นไหน และใช้นวัตกรรมอะไร'
+        pitfalls: ['p4'],
+        links: { drive: '', plan: '', video: '' },
+        files: [],
+        timeline: [
+          { date: '5 พ.ย. 2569', text: '💬 คุยกันตอนงานเขตว่าครบกำหนดปลายเดือน พ.ย. 69' }
+        ],
+        notes: 'เคยคุยกันตอนงานเขตว่าครบกำหนดปลายเดือน พ.ย. 69 ต้องทักไปถามว่าจะทำเรื่องอะไร สอนชั้นไหน และใช้นวัตกรรมอะไร',
+        isSample: true
       },
       {
         id: 'friend_2',
@@ -827,7 +1055,14 @@
         topic: '',
         innovation: '',
         checklist: ['แผนการสอน'],
-        notes: 'เลือกชั้น ป.5 ไว้แล้ว แต่ยังลังเลเรื่องเศษส่วนกับทศนิยม รอทักถามสรุปหัวข้อและวิธีสอน'
+        pitfalls: [],
+        links: { drive: '', plan: '', video: '' },
+        files: [],
+        timeline: [
+          { date: '5 พ.ย. 2569', text: '🎯 เลือกชั้น ป.5 ไว้แล้ว รอสรุปเรื่องที่จะทำ' }
+        ],
+        notes: 'เลือกชั้น ป.5 ไว้แล้ว แต่ยังลังเลเรื่องเศษส่วนกับทศนิยม รอทักถามสรุปหัวข้อและวิธีสอน',
+        isSample: true
       },
       {
         id: 'friend_3',
@@ -842,7 +1077,15 @@
         topic: 'หน้าที่ของส่วนต่างๆ ของพืชดอก',
         innovation: 'สืบเสาะ 5E + ชุดกิจกรรมการเรียนรู้',
         checklist: ['แผนการสอน', 'คลิปการสอน', 'ผลลัพธ์ผู้เรียน'],
-        notes: 'ปรึกษาเรื่องตัดต่อต้นคลิปและตรวจแผนการสอนเรียบร้อย เหลืออัปโหลดเข้าระบบ DPA'
+        pitfalls: ['p1', 'p2', 'p3', 'p4', 'p5'],
+        links: { drive: '', plan: '', video: '' },
+        files: [],
+        timeline: [
+          { date: '4 พ.ย. 2569', text: '🎬 ส่งคลิปสอนมาให้ช่วยดูแล้ว' },
+          { date: '5 พ.ย. 2569', text: '🌟 ตรวจครบผ่านฉลุย พร้อมยื่น!' }
+        ],
+        notes: 'ปรึกษาเรื่องตัดต่อต้นคลิปและตรวจแผนการสอนเรียบร้อย เหลืออัปโหลดเข้าระบบ DPA',
+        isSample: true
       },
       {
         id: 'friend_4',
@@ -857,15 +1100,63 @@
         topic: 'เศรษฐศาสตร์ในชีวิตประจำวัน',
         innovation: 'Active Learning + บอร์ดเกม / Gamification',
         checklist: ['แผนการสอน'],
-        notes: 'ครบกำหนดมีนาคมปีหน้า เริ่มวางโครงบอร์ดเกมและวิจัยในชั้นเรียนล่วงหน้าแล้ว'
+        pitfalls: ['p4'],
+        links: { drive: '', plan: '', video: '' },
+        files: [],
+        timeline: [
+          { date: '5 พ.ย. 2569', text: '🎯 สรุปเรื่องและชั้นเรียนแล้ว' }
+        ],
+        notes: 'ครบกำหนดมีนาคมปีหน้า เริ่มวางโครงบอร์ดเกมและวิจัยในชั้นเรียนล่วงหน้าแล้ว',
+        isSample: true
       }
     ];
 
     let friends = [];
-    let activeTab = 'overview'; // 'overview' OR friend.id
-    let overviewFilter = 'all'; // 'all' | 'consult' | 'ค.ศ.2' | 'ค.ศ.3'
+    let activeTab = 'overview';
+    let overviewFilter = 'all';
     let searchQuery = '';
     let activeMsgFriendId = null;
+    let currentMsgMode = 1;
+    let pendingFileFriendId = null;
+
+    // IndexedDB for storing attached files (PDF, Word, Images) on mobile without 5MB localStorage limit
+    let dbPromise = null;
+    function getDB() {
+      if (!dbPromise) {
+        dbPromise = new Promise((resolve, reject) => {
+          const req = indexedDB.open('KruKiattisakDPADocsDB', 1);
+          req.onupgradeneeded = e => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('files')) {
+              db.createObjectStore('files', { keyPath: 'fileId' });
+            }
+          };
+          req.onsuccess = e => resolve(e.target.result);
+          req.onerror = e => reject(e);
+        });
+      }
+      return dbPromise;
+    }
+
+    async function saveBlobToDB(fileId, fileName, mimeType, dataUrl) {
+      const db = await getDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('files', 'readwrite');
+        tx.objectStore('files').put({ fileId, fileName, mimeType, dataUrl });
+        tx.oncomplete = () => resolve();
+        tx.onerror = e => reject(e);
+      });
+    }
+
+    async function getBlobFromDB(fileId) {
+      const db = await getDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('files', 'readonly');
+        const req = tx.objectStore('files').get(fileId);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = e => reject(e);
+      });
+    }
 
     function loadData() {
       try {
@@ -887,7 +1178,7 @@
       const el = document.getElementById('toast');
       el.textContent = msg;
       el.style.display = 'block';
-      setTimeout(() => { el.style.display = 'none'; }, 2500);
+      setTimeout(() => { el.style.display = 'none'; }, 2600);
     }
 
     function formatThaiDate(dateStr) {
@@ -895,6 +1186,11 @@
       const p = dateStr.split('-');
       if (p.length !== 3) return dateStr;
       return `${parseInt(p[2], 10)} ${THAI_MONTHS[parseInt(p[1], 10) - 1] || ''} ${parseInt(p[0], 10) + 543}`;
+    }
+
+    function nowThaiStamp() {
+      const d = new Date();
+      return `${d.getDate()} ${THAI_MONTHS[d.getMonth()]} ${d.getFullYear() + 543}`;
     }
 
     function getDaysUntil(dateStr) {
@@ -941,6 +1237,13 @@
       renderApp();
     }
 
+    function clearSampleFriends() {
+      if (!confirm('🧹 ต้องการล้างรายชื่อตัวอย่างทั้ง 4 คนออก เพื่อเริ่มใส่รายชื่อเพื่อนจริงของคุณครูใช่ไหมครับ?')) return;
+      friends = friends.filter(f => !f.isSample && !['friend_1','friend_2','friend_3','friend_4'].includes(f.id));
+      activeTab = 'overview';
+      saveData('🧹 ล้างข้อมูลตัวอย่างออกเรียบร้อย! กด + เพิ่มเพื่อนจริงได้เลยจ้า');
+    }
+
     function renderTabsBar() {
       const bar = document.getElementById('tabs-bar');
       document.getElementById('tab-counter').textContent = `ทั้งหมด ${friends.length} คน`;
@@ -979,6 +1282,7 @@
       const consultList = friends.filter(needsConsult).sort((a, b) => getDaysUntil(a.targetDate) - getDaysUntil(b.targetDate));
       const ks2Count = friends.filter(f => f.rank === 'ค.ศ.2').length;
       const ks3Count = friends.filter(f => f.rank === 'ค.ศ.3').length;
+      const hasSample = friends.some(f => f.isSample || ['friend_1','friend_2','friend_3','friend_4'].includes(f.id));
 
       const filtered = friends
         .filter(f => {
@@ -997,14 +1301,14 @@
         radarHtml = `
           <section class="radar-card">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
-              <h2 style="font-size:16px;color:#92400E;">📣 คิวเพื่อนใกล้ครบกำหนด — ต้องทักถามแผนทำผลงาน (${consultList.length} คน)</h2>
+              <h2 style="font-size:15.5px;color:#92400E;">📣 คิวเพื่อนใกล้ครบกำหนด — ต้องทักถามแผนทำผลงาน (${consultList.length} คน)</h2>
             </div>
             ${consultList.map(f => {
               const d = getDaysUntil(f.targetDate);
               const dayTxt = d < 0 ? `ครบแล้ว (${formatThaiDate(f.targetDate)})` : `อีก ${d} วัน (${formatThaiDate(f.targetDate)})`;
               return `
                 <div class="radar-row">
-                  <div onclick="selectTab('${f.id}')" style="cursor:pointer;flex:1;min-width:160px;">
+                  <div onclick="selectTab('${f.id}')" style="cursor:pointer;flex:1;min-width:155px;">
                     <div style="font-size:15.5px;color:var(--text-main);">
                       <strong>${esc(f.name)}</strong>
                       <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}" style="padding:1px 8px;font-size:12px;">${esc(f.rank)}</span>
@@ -1012,7 +1316,7 @@
                     <div style="font-size:13px;color:#B45309;">📅 ${dayTxt} &bull; 🌷 แตะเพื่อเปิดหน้าของเพื่อน</div>
                   </div>
                   <div style="display:flex;gap:6px;flex-shrink:0;">
-                    <button type="button" class="btn btn-pink btn-sm" onclick="openMsgModal('${f.id}')">💬 ทักถาม</button>
+                    <button type="button" class="btn btn-pink btn-sm" onclick="openMsgModal('${f.id}')">💬 ทักแชท</button>
                     <button type="button" class="btn btn-amber btn-sm" onclick="selectTab('${f.id}')">👉 ดูแท็บ</button>
                   </div>
                 </div>
@@ -1046,13 +1350,18 @@
 
           ${radarHtml}
 
-          <!-- Compact Friend Directory (Click any friend to jump to their tab!) -->
+          <!-- Compact Friend Directory -->
           <section class="directory-card">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-              <h2 style="font-size:16px;color:var(--lavender-text);">📋 รายชื่อเพื่อนทั้งหมด (แตะชื่อเพื่อเปิดดูรายคน)</h2>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+              <h2 style="font-size:15.5px;color:var(--lavender-text);">📋 รายชื่อเพื่อนทั้งหมด (แตะชื่อเพื่อเปิดดูรายคน)</h2>
+              ${hasSample ? `
+                <button type="button" class="btn btn-lavender btn-sm" onclick="clearSampleFriends()">
+                  🧹 ล้างข้อมูลตัวอย่าง 4 คนออก
+                </button>
+              ` : ''}
             </div>
 
-            <div class="search-row">
+            <div>
               <input
                 type="search"
                 class="input-cute"
@@ -1064,8 +1373,9 @@
 
             <div style="display:flex;flex-direction:column;gap:7px;">
               ${filtered.length === 0 ? `
-                <div style="text-align:center;padding:20px;color:var(--text-sub);">
-                  🌸 ไม่พบรายชื่อเพื่อนในหมวดนี้จ้า
+                <div style="text-align:center;padding:24px;color:var(--text-sub);">
+                  <div style="font-size:26px;">🌸</div>
+                  <div>ยังไม่มีรายชื่อเพื่อนครู กดปุ่ม <strong>➕ เพิ่มเพื่อน</strong> ด้านบนได้เลยจ้า!</div>
                 </div>
               ` : filtered.map(f => {
                 const cd = getCountdownBadge(f);
@@ -1074,7 +1384,7 @@
                   <div class="friend-row-item" onclick="selectTab('${f.id}')">
                     <div style="min-width:0;flex:1;">
                       <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                        <span style="font-size:16px;"><strong>${esc(f.name)}</strong></span>
+                        <span style="font-size:15.5px;"><strong>${esc(f.name)}</strong></span>
                         <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}" style="padding:1px 8px;font-size:12px;">
                           ${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3' : '📘 ค.ศ.2'}
                         </span>
@@ -1086,7 +1396,7 @@
                       </div>
                     </div>
                     <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
-                      <span class="pill" style="background:#F3E8FF;color:#6B21A8;font-size:12px;">เอกสาร ${chk.length}/4</span>
+                      <span class="pill" style="background:#F3E8FF;color:#6B21A8;font-size:12px;">${chk.length}/4</span>
                       <span style="font-size:15px;color:#EC4899;">👉</span>
                     </div>
                   </div>
@@ -1113,6 +1423,10 @@
       const cd = getCountdownBadge(f);
       const chk = Array.isArray(f.checklist) ? f.checklist : [];
       const pct = Math.round((chk.length / 4) * 100);
+      const pitfalls = Array.isArray(f.pitfalls) ? f.pitfalls : [];
+      const links = f.links || { drive: '', plan: '', video: '' };
+      const attachedFiles = Array.isArray(f.files) ? f.files : [];
+      const timeline = Array.isArray(f.timeline) ? f.timeline : [];
       const themeCls = f.rank === 'ค.ศ.3' ? 'theme-ks3' : 'theme-ks2';
 
       return `
@@ -1120,7 +1434,7 @@
           <!-- Quick Prev / Next Friend Switcher -->
           <div class="person-nav-strip">
             <button type="button" class="btn btn-lavender btn-sm" onclick="selectTab('overview')">
-              ⬅ กลับหน้าแดชบอร์ด
+              ⬅ แดชบอร์ดรวม
             </button>
             <div style="display:flex;gap:5px;">
               ${prevFriend ? `<button type="button" class="btn btn-amber btn-sm" onclick="selectTab('${prevFriend.id}')">◀ ${esc(shortName(prevFriend.name))}</button>` : ''}
@@ -1131,13 +1445,13 @@
           <!-- Friend Identity Header -->
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap;">
             <div>
-              <h2 style="font-size:21px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <h2 style="font-size:20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                 <span>${esc(f.name)}</span>
                 <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">
                   ${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3 ชำนาญการพิเศษ' : '📘 ค.ศ.2 ชำนาญการ'}
                 </span>
               </h2>
-              <div style="font-size:14px;color:var(--text-sub);margin-top:3px;">
+              <div style="font-size:13.5px;color:var(--text-sub);margin-top:2px;">
                 🏫 ${esc(f.school || 'ยังไม่ได้ระบุโรงเรียน')} ${f.contact ? `&bull; 📱 ${esc(f.contact)}` : ''}
               </div>
             </div>
@@ -1146,24 +1460,25 @@
 
           <!-- Countdown Strip -->
           <div class="countdown-banner ${cd.cls}">
-            <span>📅 วันที่ครบกำหนดยื่นได้: <strong>${formatThaiDate(f.targetDate)}</strong></span>
+            <span>📅 ยื่นได้: <strong>${formatThaiDate(f.targetDate)}</strong></span>
             <span>${cd.text}</span>
           </div>
 
           <!-- Quick Action Buttons -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
             <button type="button" class="btn btn-amber" onclick="openMsgModal('${f.id}')">
-              💬 ทักถามเพื่อนในแชท
+              💌 ข้อความทักแชท (4 แบบ)
             </button>
             <button type="button" class="btn btn-pink" onclick="openFriendModal('${f.id}')">
-              ✏️ แก้ไข / กรอกคำตอบ
+              ✏️ แก้ไขข้อมูล / ลิงก์
             </button>
           </div>
 
-          <!-- GoodNotes Style Consultation Sheet -->
+          <!-- 1. GoodNotes Style Consultation Sheet -->
           <div class="notebook-box">
-            <div style="font-size:15.5px;color:#B45309;display:flex;justify-content:space-between;align-items:center;">
-              <span>📒 สมุดบันทึกแผนการทำผลงาน (สำหรับการให้คำปรึกษา)</span>
+            <div style="font-size:15px;color:#B45309;display:flex;justify-content:space-between;align-items:center;">
+              <span>📒 แผนการทำผลงานของเพื่อน</span>
+              <button type="button" class="tag-btn" onclick="openFriendModal('${f.id}')">✏️ แก้ไข</button>
             </div>
             <div class="notebook-line">
               <span class="notebook-key">📚 วิชา / กลุ่มสาระ:</span>
@@ -1178,7 +1493,7 @@
               <span>
                 ${f.topic
                   ? `<strong>${esc(f.topic)}</strong>`
-                  : `<span style="color:#DB2777;">🌷 ยังไม่ได้สรุปเรื่องที่จะทำ</span> <button type="button" class="tag-btn" onclick="openFriendModal('${f.id}')">+ กรอกเรื่อง</button>`}
+                  : `<span style="color:#DB2777;">🌷 รอถามเพื่อนว่าจะทำเรื่องอะไร</span>`}
               </span>
             </div>
             <div class="notebook-line">
@@ -1186,15 +1501,63 @@
               <span>
                 ${f.innovation
                   ? `<strong>${esc(f.innovation)}</strong>`
-                  : `<span style="color:#D97706;">ยังไม่ได้เลือกนวัตกรรมหรือวิธีสอน</span> <button type="button" class="tag-btn" onclick="openFriendModal('${f.id}')">+ เลือกนวัตกรรม</button>`}
+                  : `<span style="color:#D97706;">ยังไม่ได้เลือกนวัตกรรมหรือวิธีสอน</span>`}
               </span>
             </div>
           </div>
 
-          <!-- DPA 4-Step Checklist -->
+          <!-- 2. Links & Attached Files Box (Supports BOTH Cloud Links AND Direct File Uploads!) -->
+          <div class="files-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
+              <span style="font-size:15px;color:#0369A1;">📎 ลิงก์ Drive &amp; ไฟล์งานที่เพื่อนส่งมาให้ดู</span>
+              <button type="button" class="btn btn-sky btn-sm" onclick="triggerFileUpload('${f.id}')">
+                📤 แนบไฟล์จากมือถือ (PDF/Word/รูป)
+              </button>
+            </div>
+
+            <!-- 3 Link Slots -->
+            <div class="link-pills-grid">
+              <div class="link-slot">
+                <span>📁 Drive รวม</span>
+                ${links.drive
+                  ? `<a href="${esc(links.drive)}" target="_blank" rel="noopener" class="tag-btn" style="background:var(--mint-light);color:#065F46;border-color:var(--mint-border);text-decoration:none;">เปิดดู ↗</a>`
+                  : `<button type="button" class="tag-btn" onclick="quickPromptLink('${f.id}','drive','ลิงก์โฟลเดอร์ Google Drive รวม')">+ แปะลิงก์</button>`}
+              </div>
+              <div class="link-slot">
+                <span>📄 แผนการสอน</span>
+                ${links.plan
+                  ? `<a href="${esc(links.plan)}" target="_blank" rel="noopener" class="tag-btn" style="background:var(--mint-light);color:#065F46;border-color:var(--mint-border);text-decoration:none;">เปิดดู ↗</a>`
+                  : `<button type="button" class="tag-btn" onclick="quickPromptLink('${f.id}','plan','ลิงก์ไฟล์แผนการสอน')">+ แปะลิงก์</button>`}
+              </div>
+              <div class="link-slot">
+                <span>🎥 คลิปสอน</span>
+                ${links.video
+                  ? `<a href="${esc(links.video)}" target="_blank" rel="noopener" class="tag-btn" style="background:var(--mint-light);color:#065F46;border-color:var(--mint-border);text-decoration:none;">เปิดดู ↗</a>`
+                  : `<button type="button" class="tag-btn" onclick="quickPromptLink('${f.id}','video','ลิงก์คลิปการสอน/ผลลัพธ์')">+ แปะลิงก์</button>`}
+              </div>
+            </div>
+
+            <!-- Attached Files List -->
+            ${attachedFiles.length > 0 ? `
+              <div style="display:flex;flex-direction:column;gap:5px;margin-top:2px;">
+                <div style="font-size:12.5px;color:#0369A1;">📄 ไฟล์ที่แนบไว้ในเครื่อง (${attachedFiles.length} ไฟล์):</div>
+                ${attachedFiles.map(file => `
+                  <div class="attached-file-row">
+                    <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">📎 ${esc(file.name)} <small style="color:var(--text-sub);">(${esc(file.sizeLabel || '')})</small></span>
+                    <div style="display:flex;gap:5px;flex-shrink:0;">
+                      <button type="button" class="tag-btn" style="background:var(--mint-light);color:#065F46;border-color:var(--mint-border);" onclick="openAttachedFile('${file.fileId}')">เปิด/ดาวน์โหลด</button>
+                      <button type="button" class="tag-btn" style="background:#FEE2E2;color:#B91C1C;border-color:#FCA5A5;" onclick="removeAttachedFile('${f.id}','${file.fileId}')">✕</button>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- 3. DPA 4-Step Main Checklist -->
           <div>
             <div style="display:flex;justify-content:space-between;font-size:14px;color:#059669;">
-              <span>✅ เช็กลิสต์เอกสาร DPA (${chk.length}/4 รายการ)</span>
+              <span>✅ เช็กลิสต์เอกสารหลัก DPA (${chk.length}/4 รายการ)</span>
               <span>${pct}%</span>
             </div>
             <div class="progress-track">
@@ -1213,13 +1576,63 @@
             </div>
           </div>
 
-          <!-- Coaching Notes -->
-          <div class="memo-box">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
-              <strong style="color:#BE185D;">📝 บันทึกช่วยจำ / คำแนะนำที่ให้เพื่อน:</strong>
-              <button type="button" class="tag-btn" onclick="openFriendModal('${f.id}')">✏️ แก้ไขบันทึก</button>
+          <!-- 4. Collapsible DPA 6 Pitfalls Scanner -->
+          <details class="pitfalls-box">
+            <summary>
+              <span>🛡️ เช็กลิสต์สแกน 6 จุดตาย DPA ก่อนยื่น (ตรวจแล้ว ${pitfalls.length}/6 ข้อ)</span>
+              <span style="font-size:12.5px;background:#FFE4E6;padding:2px 9px;border-radius:99px;">แตะเพื่อกาง/พับ ▾</span>
+            </summary>
+            <div class="pitfalls-list">
+              ${DPA_PITFALLS.map(pf => {
+                const checked = pitfalls.includes(pf.key);
+                return `
+                  <label class="pitfall-item ${checked ? 'checked' : ''}">
+                    <input type="checkbox" ${checked ? 'checked' : ''} onchange="togglePitfall('${f.id}', '${pf.key}', this.checked)" />
+                    <span>${esc(pf.label)}</span>
+                  </label>
+                `;
+              }).join('')}
             </div>
-            <div>${f.notes ? esc(f.notes) : 'ยังไม่มีบันทึกเพิ่มเติม กดปุ่มแก้ไขเพื่อจดสิ่งที่คุยกับเพื่อนไว้ได้เลยจ้า'}</div>
+          </details>
+
+          <!-- 5. ZERO-TYPING 1-Tap Timeline & Voice Recorder -->
+          <div class="timeline-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+              <span style="font-size:15px;color:var(--lavender-text);">⚡ จิ้มบันทึกไทม์ไลน์ใน 1 คลิก (ไม่ต้องพิมพ์เอง!)</span>
+              <button type="button" class="btn btn-pink btn-sm" onclick="startVoiceLog('${f.id}')" title="พูดด้วยเสียงเพื่อจดลงไทม์ไลน์">
+                🎙️ พูดเพื่อจดบันทึก
+              </button>
+            </div>
+            <div style="font-size:12.5px;color:var(--text-sub);">
+              แตะปุ่มด้านล่างปุ๊บ ระบบจะลงวันที่วันนี้ในไทม์ไลน์และอัปเดตสถานะของเพื่อนให้อัตโนมัติทันที:
+            </div>
+            <div class="stamp-grid">
+              ${QUICK_STAMPS.map((st, sIdx) => `
+                <button type="button" class="stamp-btn" onclick="applyQuickStamp('${f.id}', ${sIdx})">
+                  + ${esc(st.label)}
+                </button>
+              `).join('')}
+            </div>
+
+            <!-- Custom 1-line note or timeline history -->
+            <div style="display:flex;gap:6px;margin-top:2px;">
+              <input type="text" id="quick-note-input-${f.id}" class="input-cute" style="padding:6px 10px;font-size:13.5px;" placeholder="หรือพิมพ์สั้นๆ แล้วกด +บันทึก..." />
+              <button type="button" class="btn btn-lavender btn-sm" onclick="addCustomTimeline('${f.id}')">+ บันทึก</button>
+            </div>
+
+            <div class="timeline-list">
+              ${timeline.length === 0 ? `
+                <div style="font-size:13px;color:var(--text-sub);text-align:center;padding:8px;">ยังไม่มีประวัติไทม์ไลน์ แตะปุ่มสแตมป์ด้านบนได้เลยจ้า</div>
+              ` : timeline.map((t, tIdx) => `
+                <div class="timeline-entry">
+                  <div>
+                    <span style="font-size:12px;color:#7C3AED;background:#F3E8FF;padding:1px 7px;border-radius:99px;margin-right:5px;">${esc(t.date)}</span>
+                    <span>${esc(t.text)}</span>
+                  </div>
+                  <button type="button" style="background:none;border:none;color:#9CA3AF;cursor:pointer;font-size:13px;" onclick="removeTimelineEntry('${f.id}', ${tIdx})">✕</button>
+                </div>
+              `).join('')}
+            </div>
           </div>
         </article>
       `;
@@ -1235,6 +1648,154 @@
       }
     }
 
+    // 1-Tap Quick Stamp Handler (Zero Typing!)
+    function applyQuickStamp(friendId, stampIdx) {
+      const f = friends.find(x => x.id === friendId);
+      const st = QUICK_STAMPS[stampIdx];
+      if (!f || !st) return;
+
+      if (!Array.isArray(f.timeline)) f.timeline = [];
+      f.timeline.unshift({
+        date: nowThaiStamp(),
+        text: st.label
+      });
+
+      if (st.status) {
+        f.status = st.status;
+      }
+      if (st.check) {
+        const set = new Set(Array.isArray(f.checklist) ? f.checklist : []);
+        set.add(st.check);
+        f.checklist = Array.from(set);
+      }
+      saveData(`⚡ บันทึก "${st.label}" ลงไทม์ไลน์แล้วจ้า!`);
+    }
+
+    function addCustomTimeline(friendId) {
+      const f = friends.find(x => x.id === friendId);
+      const input = document.getElementById(`quick-note-input-${friendId}`);
+      if (!f || !input || !input.value.trim()) return;
+      if (!Array.isArray(f.timeline)) f.timeline = [];
+      f.timeline.unshift({
+        date: nowThaiStamp(),
+        text: input.value.trim()
+      });
+      input.value = '';
+      saveData('📝 เพิ่มบันทึกไทม์ไลน์แล้ว!');
+    }
+
+    function removeTimelineEntry(friendId, idx) {
+      const f = friends.find(x => x.id === friendId);
+      if (!f || !Array.isArray(f.timeline)) return;
+      f.timeline.splice(idx, 1);
+      saveData('ลบรายการไทม์ไลน์แล้ว');
+    }
+
+    // Voice-to-Text (Speech Recognition in Thai)
+    function startVoiceLog(friendId) {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        const txt = prompt('🎙️ พิมพ์หรือกดปุ่มไมโครโฟนบนคีย์บอร์ดมือถือเพื่อพูดบันทึกได้เลยครับ:');
+        if (txt && txt.trim()) {
+          const f = friends.find(x => x.id === friendId);
+          if (f) {
+            if (!Array.isArray(f.timeline)) f.timeline = [];
+            f.timeline.unshift({ date: nowThaiStamp(), text: `🎙️ ${txt.trim()}` });
+            saveData('🎙️ บันทึกเข้าไทม์ไลน์แล้ว!');
+          }
+        }
+        return;
+      }
+      const rec = new SpeechRec();
+      rec.lang = 'th-TH';
+      rec.interimResults = false;
+      showToast('🎙️ กำลังฟัง... พูดสิ่งที่คุยกับเพื่อนได้เลยครับ!');
+      rec.onresult = e => {
+        const transcript = e.results[0][0].transcript;
+        const f = friends.find(x => x.id === friendId);
+        if (f && transcript) {
+          if (!Array.isArray(f.timeline)) f.timeline = [];
+          f.timeline.unshift({ date: nowThaiStamp(), text: `🎙️ ${transcript}` });
+          saveData(`🎙️ บันทึกเสียง: "${transcript}" เรียบร้อย!`);
+        }
+      };
+      rec.onerror = () => {
+        showToast('สามารถกดรูปไมโครโฟนบนคีย์บอร์ดมือถือแทนได้นะครับ');
+      };
+      rec.start();
+    }
+
+    // Quick Link Prompt
+    function quickPromptLink(friendId, linkType, title) {
+      const f = friends.find(x => x.id === friendId);
+      if (!f) return;
+      if (!f.links) f.links = { drive: '', plan: '', video: '' };
+      const url = prompt(`🔗 วาง ${title} ของ ${shortName(f.name)}:`, f.links[linkType] || '');
+      if (url === null) return;
+      f.links[linkType] = url.trim();
+      saveData('🔗 บันทึกลิงก์งานของเพื่อนเรียบร้อยแล้ว!');
+    }
+
+    // Direct File Attachment (PDF / Word / Images)
+    function triggerFileUpload(friendId) {
+      pendingFileFriendId = friendId;
+      const picker = document.getElementById('hidden-file-picker');
+      picker.value = '';
+      picker.click();
+    }
+
+    function handleFileSelected(e) {
+      const files = Array.from(e.target.files || []);
+      if (!files.length || !pendingFileFriendId) return;
+      const f = friends.find(x => x.id === pendingFileFriendId);
+      if (!f) return;
+      if (!Array.isArray(f.files)) f.files = [];
+
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = async ev => {
+          const fileId = `file_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+          const sizeKB = Math.round(file.size / 1024);
+          const sizeLabel = sizeKB > 1024 ? `${(sizeKB / 1024).toFixed(1)} MB` : `${sizeKB} KB`;
+          try {
+            await saveBlobToDB(fileId, file.name, file.type, ev.target.result);
+            f.files.push({ fileId, name: file.name, sizeLabel });
+            if (!Array.isArray(f.timeline)) f.timeline = [];
+            f.timeline.unshift({ date: nowThaiStamp(), text: `📎 แนบไฟล์: ${file.name}` });
+            saveData(`📎 แนบไฟล์ "${file.name}" เรียบร้อยแล้วจ้า!`);
+          } catch (err) {
+            showToast('แนบไฟล์ไม่สำเร็จ ลองใช้ลิงก์ Google Drive แทนนะครับ');
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function openAttachedFile(fileId) {
+      try {
+        const rec = await getBlobFromDB(fileId);
+        if (!rec || !rec.dataUrl) {
+          showToast('ไม่พบข้อมูลไฟล์ในเครื่องนี้');
+          return;
+        }
+        const a = document.createElement('a');
+        a.href = rec.dataUrl;
+        a.download = rec.fileName || 'document';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } catch (e) {
+        showToast('เปิดไฟล์ไม่สำเร็จ');
+      }
+    }
+
+    function removeAttachedFile(friendId, fileId) {
+      const f = friends.find(x => x.id === friendId);
+      if (!f || !Array.isArray(f.files)) return;
+      f.files = f.files.filter(x => x.fileId !== fileId);
+      saveData('ลบไฟล์แนบออกแล้ว');
+    }
+
     function toggleCheck(id, key, checked) {
       const f = friends.find(x => x.id === id);
       if (!f) return;
@@ -1242,6 +1803,15 @@
       if (checked) set.add(key); else set.delete(key);
       f.checklist = Array.from(set);
       saveData(`✨ อัปเดตเช็กลิสต์ของ ${shortName(f.name)} แล้วจ้า!`);
+    }
+
+    function togglePitfall(id, key, checked) {
+      const f = friends.find(x => x.id === id);
+      if (!f) return;
+      const set = new Set(Array.isArray(f.pitfalls) ? f.pitfalls : []);
+      if (checked) set.add(key); else set.delete(key);
+      f.pitfalls = Array.from(set);
+      saveData(`🛡️ อัปเดตการตรวจจุดตาย DPA แล้ว (${f.pitfalls.length}/6 ข้อ)`);
     }
 
     function addTag(val) {
@@ -1266,6 +1836,11 @@
       document.getElementById('f-innovation').value = f ? (f.innovation || '') : '';
       document.getElementById('f-notes').value = f ? (f.notes || '') : '';
 
+      const links = (f && f.links) ? f.links : { drive: '', plan: '', video: '' };
+      document.getElementById('f-link-drive').value = links.drive || '';
+      document.getElementById('f-link-plan').value = links.plan || '';
+      document.getElementById('f-link-video').value = links.video || '';
+
       const chk = f && Array.isArray(f.checklist) ? f.checklist : [];
       document.getElementById('c-plan').checked = chk.includes('แผนการสอน');
       document.getElementById('c-video').checked = chk.includes('คลิปการสอน');
@@ -1283,6 +1858,7 @@
     function saveFriendForm(e) {
       e.preventDefault();
       const id = document.getElementById('f-id').value || `friend_${Date.now()}`;
+      const existing = friends.find(x => x.id === id);
       const checklist = [];
       if (document.getElementById('c-plan').checked) checklist.push('แผนการสอน');
       if (document.getElementById('c-video').checked) checklist.push('คลิปการสอน');
@@ -1301,13 +1877,23 @@
         grade: document.getElementById('f-grade').value.trim(),
         topic: document.getElementById('f-topic').value.trim(),
         innovation: document.getElementById('f-innovation').value.trim(),
+        links: {
+          drive: document.getElementById('f-link-drive').value.trim(),
+          plan: document.getElementById('f-link-plan').value.trim(),
+          video: document.getElementById('f-link-video').value.trim()
+        },
+        files: existing && Array.isArray(existing.files) ? existing.files : [],
+        pitfalls: existing && Array.isArray(existing.pitfalls) ? existing.pitfalls : [],
+        timeline: existing && Array.isArray(existing.timeline) ? existing.timeline : [
+          { date: nowThaiStamp(), text: '🌸 เริ่มสร้างสมุดที่ปรึกษาให้เพื่อน' }
+        ],
         checklist,
         notes: document.getElementById('f-notes').value.trim()
       };
 
       const idx = friends.findIndex(x => x.id === id);
       if (idx >= 0) friends[idx] = item; else friends.push(item);
-      activeTab = item.id; // Switch directly to this friend's tab!
+      activeTab = item.id;
       closeFriendModal();
       saveData(`🌸 บันทึกและเปิดหน้าของ ${shortName(item.name)} แล้วจ้า!`);
     }
@@ -1316,30 +1902,56 @@
       const id = document.getElementById('f-id').value;
       const f = friends.find(x => x.id === id);
       if (!f) return;
+      if (!confirm(`ต้องการลบรายชื่อ "${f.name}" ใช่ไหมครับ?`)) return;
       friends = friends.filter(x => x.id !== id);
       activeTab = 'overview';
       closeFriendModal();
       saveData(`ลบรายชื่อ ${f.name} แล้ว`);
     }
 
+    // 4-Mode Message Generator
     function openMsgModal(id) {
-      const f = friends.find(x => x.id === id);
-      if (!f) return;
       activeMsgFriendId = id;
+      currentMsgMode = 1;
+      updateMsgPreview();
+      document.getElementById('msg-modal').classList.add('open');
+    }
+
+    function setMsgMode(mode) {
+      currentMsgMode = mode;
+      [1, 2, 3, 4].forEach(m => {
+        const btn = document.getElementById(`mm-${m}`);
+        if (m === mode) btn.classList.add('active'); else btn.classList.remove('active');
+      });
+      updateMsgPreview();
+    }
+
+    function updateMsgPreview() {
+      const f = friends.find(x => x.id === activeMsgFriendId);
+      if (!f) return;
       const d = getDaysUntil(f.targetDate);
       const tDate = formatThaiDate(f.targetDate);
       const rankTxt = f.rank === 'ค.ศ.3' ? 'ค.ศ.3 (ชำนาญการพิเศษ)' : 'ค.ศ.2 (ชำนาญการ)';
-      const timeTxt = d < 0
-        ? `เห็นว่าครบกำหนดยื่น ${rankTxt} ตั้งแต่วันที่ ${tDate} แล้วนะ!`
-        : `เห็นที่คุยกันไว้ว่าจะครบกำหนดยื่น ${rankTxt} วันที่ ${tDate} (อีก ${d} วัน) นี้แล้ว!`;
+      const chk = Array.isArray(f.checklist) ? f.checklist : [];
+      const pitfalls = Array.isArray(f.pitfalls) ? f.pitfalls : [];
 
-      const questions = (!f.topic || !f.grade || !f.innovation)
-        ? `เลยแวะมาทักถามความคืบหน้าหน่อยครับ จะได้ช่วยกันวางแผนถูก:\n1️⃣ เล็งไว้หรือยังว่าจะทำเรื่องอะไร / หน่วยการเรียนรู้ไหน?\n2️⃣ เลือกอัดคลิปสอนนักเรียนระดับชั้นไหน?\n3️⃣ กะว่าจะใช้นวัตกรรม สื่อ หรือวิธีการสอนแบบไหนเป็นตัวชูโรง? (เช่น Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม ฯลฯ)`
-        : `จากที่คุยกันไว้ว่าจะทำเรื่อง "${f.topic}" ชั้น ${f.grade} โดยใช้ "${f.innovation}" ตอนนี้เตรียมแผนการสอน คลิปการสอน 60 นาที กับผลลัพธ์ผู้เรียนไปถึงไหนแล้ว ติดตรงไหนทักมาปรึกษาได้เลยนะครับ!`;
+      let text = '';
+      if (currentMsgMode === 1) {
+        const timeTxt = d < 0
+          ? `เห็นว่าครบกำหนดยื่น ${rankTxt} ตั้งแต่วันที่ ${tDate} แล้วนะ!`
+          : `เห็นที่คุยกันไว้ว่าจะครบกำหนดยื่น ${rankTxt} วันที่ ${tDate} (อีก ${d} วัน) นี้แล้ว!`;
+        text = `สวัสดีครับ ${f.name}! 😊🌸\n${timeTxt}\n\nเลยแวะมาทักถามความคืบหน้าหน่อยครับ จะได้ช่วยกันวางแผนถูก:\n1️⃣ เล็งไว้หรือยังว่าจะทำเรื่องอะไร / หน่วยการเรียนรู้ไหน?\n2️⃣ เลือกอัดคลิปสอนนักเรียนระดับชั้นไหน?\n3️⃣ กะว่าจะใช้นวัตกรรม สื่อ หรือวิธีการสอนแบบไหนเป็นตัวชูโรง? (เช่น Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม ฯลฯ)\n\nว่างแล้วพิมพ์บอกไว้ได้เลยนะ เดี๋ยวจดไว้ในสมุดที่ปรึกษาให้ครับ! ✌🏻✨🟢`;
+      } else if (currentMsgMode === 2) {
+        const missingDocs = CHECKLIST_OPTS.filter(c => !chk.includes(c.key)).map(c => c.label).join(', ');
+        text = `สวัสดีครับ ${f.name}! 😊✨\nแวะมาอัปเดตความคืบหน้าเรื่องทำ ${rankTxt} ${f.topic ? `เรื่อง "${f.topic}"` : ''} ${f.grade ? `(ชั้น ${f.grade})` : ''} ครับ!\n\nตอนนี้รายการที่กำลังลุยต่อคือ: ${missingDocs || 'เตรียมความพร้อมขั้นสุดท้าย'}\nถ้าทำไฟล์แผนการสอนหรืออัดคลิปเสร็จแล้ว ส่งลิงก์ Google Drive หรือส่งไฟล์มาให้ช่วยสแกนดูได้เลยนะครับ สู้ๆ ครับ! ✌🏻🌸`;
+      } else if (currentMsgMode === 3) {
+        const uncheckedPitfalls = DPA_PITFALLS.filter(p => !pitfalls.includes(p.key)).map(p => `• ${p.label}`).join('\n');
+        text = `สวัสดีครับ ${f.name}! 🔍✨\nผมช่วยเช็กงานสำหรับยื่น ${rankTxt} ให้เบื้องต้นแล้วนะครับ (${pitfalls.length}/6 จุดสำคัญ)\n\n${uncheckedPitfalls ? `จุดที่อยากให้ลองเช็กเพิ่มอีกนิดก่อนยื่นครับ:\n${uncheckedPitfalls}` : '🎉 เช็กครบทั้ง 6 จุดสำคัญของ DPA แล้ว ผ่านฉลุยเลยครับ!'}\n\n${f.notes ? `หมายเหตุเพิ่มเติม: ${f.notes}\n` : ''}ปรับเสร็จแล้วส่งมาให้ดูอีกรอบได้ตลอดเลยนะครับ! ✌🏻🟢`;
+      } else {
+        text = `สวัสดีครับ ${f.name}! 🎉🍀\nขอส่งกำลังใจให้สำหรับการยื่นขอ ${rankTxt} ในระบบ DPA นะครับ! เตรียมงานมาตั้งใจขนาดนี้ ขอให้กรรมการอ่านแผนดูคลิปแล้วประทับใจ ได้ขึ้น "ป้ายเขียวอนุมัติ" ไวๆ เลยนะครับ ลุ้นไปด้วยกันครับ! 🟢✨🎉✌🏻`;
+      }
 
-      const fullMsg = `สวัสดีครับ ${f.name}! 😊🌸\n${timeTxt}\n\n${questions}\n\nว่างแล้วพิมพ์บอกไว้ได้เลยนะ เดี๋ยวจดไว้ในสมุดที่ปรึกษาให้ จะได้ช่วยกันลุ้นป้ายเขียว DPA ด้วยกันครับ! 🎉✌🏻🟢`;
-      document.getElementById('msg-box').textContent = fullMsg;
-      document.getElementById('msg-modal').classList.add('open');
+      document.getElementById('msg-box').textContent = text;
     }
 
     function closeMsgModal() {
@@ -1353,7 +1965,7 @@
 
     function copyChatMsg() {
       const txt = document.getElementById('msg-box').textContent;
-      navigator.clipboard.writeText(txt).then(() => showToast('📋 คัดลอกข้อความทักแชทเรียบร้อยแล้ว!')).catch(() => showToast('คัดลอกแล้ว!'));
+      navigator.clipboard.writeText(txt).then(() => showToast('📋 คัดลอกข้อความส่งแชทเรียบร้อยแล้ว!')).catch(() => showToast('คัดลอกแล้ว!'));
     }
 
     function esc(s) {
