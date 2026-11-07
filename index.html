@@ -246,21 +246,28 @@
       overflow: hidden;
     }
 
-    /* แถบสลับโหมดหลัก 3 แท็บ: [รวมทั้งหมด] [แท็บ ค.ศ.2] [แท็บ ค.ศ.3] */
+    /* แถบสลับโหมดหลัก 4 แท็บ: [รวมทั้งหมด] [แท็บ ค.ศ.2] [แท็บ ค.ศ.3] [แท็บก๊อปปี้คำพูดขอข้อมูล] */
     .rank-mode-bar {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 7px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
       width: 100%;
     }
 
+    @media (min-width: 680px) {
+      .rank-mode-bar {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
     .rank-mode-tab {
-      padding: 9px 6px;
+      padding: 10px 8px;
+      min-height: 54px;
       border-radius: 16px;
       border: 2.5px solid #E2E8F0;
       background: #F8FAFC;
       color: var(--text-main);
-      font-size: 0.95rem;
+      font-size: 0.96rem;
       cursor: pointer;
       display: flex;
       flex-direction: column;
@@ -268,7 +275,7 @@
       justify-content: center;
       gap: 2px;
       text-align: center;
-      line-height: 1.2;
+      line-height: 1.25;
       transition: all 0.15s ease;
       min-width: 0;
     }
@@ -313,6 +320,123 @@
       border-color: #FFFFFF;
       box-shadow: 0 4px 8px rgba(234, 88, 12, 0.32);
       transform: translateY(-1px);
+    }
+
+    .rank-mode-tab.mode-prompt {
+      border-color: #34D399;
+      background: #ECFDF5;
+      color: #065F46;
+    }
+
+    .rank-mode-tab.mode-prompt.active {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #FFFFFF;
+      border-color: #FFFFFF;
+      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.34);
+      transform: translateY(-1px);
+    }
+
+    /* การ์ดในแท็บก๊อปปี้คำพูดขอข้อมูลเพื่อน */
+    .prompt-hub-card {
+      background: #FFFFFF;
+      border: 3px solid #6EE7B7;
+      border-radius: 22px;
+      padding: 15px;
+      box-shadow: 0 5px 0 rgba(16, 185, 129, 0.18);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .req-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 8px;
+      width: 100%;
+    }
+
+    @media (min-width: 600px) {
+      .req-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .req-box {
+      background: #F0FDF4;
+      border: 2px solid #A7F3D0;
+      border-radius: 16px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .req-num {
+      background: #059669;
+      color: #FFFFFF;
+      border-radius: 10px;
+      min-width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.92rem;
+      flex-shrink: 0;
+    }
+
+    .tpl-btn-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 8px;
+      width: 100%;
+    }
+
+    @media (min-width: 640px) {
+      .tpl-btn-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .tpl-choice-btn {
+      padding: 11px 13px;
+      min-height: 48px;
+      border-radius: 16px;
+      border: 2.5px solid #A7F3D0;
+      background: #F0FDF4;
+      color: #065F46;
+      font-size: 0.98rem;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      transition: all 0.15s ease;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .tpl-choice-btn.active {
+      background: linear-gradient(135deg, #10B981, #047857);
+      color: #FFFFFF;
+      border-color: #065F46;
+      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.28);
+    }
+
+    .prompt-preview-area {
+      background: #FFFDF9;
+      border: 2.5px solid #34D399;
+      border-radius: 18px;
+      padding: 14px;
+      font-size: 1.02rem;
+      line-height: 1.55;
+      color: var(--text-main);
+      white-space: pre-wrap;
+      word-break: break-word;
+      width: 100%;
     }
 
     /* ชั้นวางสมุดแยกหมวด ค.ศ.2 และ ค.ศ.3 */
@@ -1583,6 +1707,11 @@
       `;
     }
 
+    function openCopyPromptsTab() {
+      activeTab = 'copy_prompts';
+      renderApp();
+    }
+
     function renderTabsBar() {
       const bar = document.getElementById('tabs-bar');
       const sorted = [...friends].sort((a, b) => getDaysUntil(a.targetDate) - getDaysUntil(b.targetDate));
@@ -1592,16 +1721,17 @@
       const isAllActive = activeTab === 'overview' && rankShelfMode === 'all';
       const isKs2ModeActive = activeTab === 'overview' && rankShelfMode === 'ค.ศ.2';
       const isKs3ModeActive = activeTab === 'overview' && rankShelfMode === 'ค.ศ.3';
+      const isPromptTabActive = activeTab === 'copy_prompts';
 
-      const showKs2Shelf = rankShelfMode === 'all' || rankShelfMode === 'ค.ศ.2';
-      const showKs3Shelf = rankShelfMode === 'all' || rankShelfMode === 'ค.ศ.3';
+      const showKs2Shelf = !isPromptTabActive && (rankShelfMode === 'all' || rankShelfMode === 'ค.ศ.2');
+      const showKs3Shelf = !isPromptTabActive && (rankShelfMode === 'all' || rankShelfMode === 'ค.ศ.3');
 
       let html = `
         <div style="display:flex;flex-direction:column;gap:10px;">
-          <!-- 1. แถบแท็บหมวดหลัก: [รวมทั้งหมด] | [แท็บ ค.ศ.2] | [แท็บ ค.ศ.3] -->
-          <div style="font-size:0.9rem;color:var(--text-sub);display:flex;justify-content:space-between;align-items:center;">
-            <span>🗂️ เลือกแท็บหมวดวิทยฐานะ (แยก ค.ศ.2 / ค.ศ.3):</span>
-            <strong style="color:#BE185D;">รวม ${friends.length} คน</strong>
+          <!-- 1. แถบแท็บหมวดหลัก 4 แท็บ: [รวมทั้งหมด] | [แท็บ ค.ศ.2] | [แท็บ ค.ศ.3] | [แท็บคำพูดขอข้อมูล] -->
+          <div style="font-size:0.92rem;color:var(--text-sub);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">
+            <span>🗂️ เลือกแท็บหมวดวิทยฐานะ หรือก๊อปปี้คำพูดทักเพื่อน:</span>
+            <strong style="color:#BE185D;">รวมเพื่อน ${friends.length} คน</strong>
           </div>
 
           <div class="rank-mode-bar">
@@ -1616,6 +1746,10 @@
             <button type="button" class="rank-mode-tab mode-ks3 ${isKs3ModeActive ? 'active' : ''}" onclick="selectRankMode('ค.ศ.3')">
               <span>👑 แท็บ ค.ศ.3</span>
               <strong>ชำนาญการพิเศษ (${ks3Friends.length})</strong>
+            </button>
+            <button type="button" class="rank-mode-tab mode-prompt ${isPromptTabActive ? 'active' : ''}" onclick="openCopyPromptsTab()">
+              <span>💬 คำพูดขอข้อมูล</span>
+              <strong>ก๊อปปี้ส่งแชท (5 แบบ)</strong>
             </button>
           </div>
       `;
@@ -2087,10 +2221,246 @@
       `;
     }
 
+    let currentAskTpl = 1;
+    let askTargetName = '';
+
+    const REQUIRED_FIELDS_INFO = [
+      { num: '1', icon: '🎀', title: 'ชื่อ-นามสกุล และชื่อเล่น', desc: 'ไว้ตั้งชื่อหน้าสมุดประจำตัวเพื่อน (เช่น ครูเมย์ ธนพร)' },
+      { num: '2', icon: '🏫', title: 'โรงเรียน / สังกัด', desc: 'ชื่อโรงเรียนและเขตพื้นที่ฯ ของเพื่อน' },
+      { num: '3', icon: '🌈', title: 'ระดับวิทยฐานะที่จะยื่น', desc: 'ทำ ค.ศ.2 (ชำนาญการ) หรือ ค.ศ.3 (ชำนาญการพิเศษ)' },
+      { num: '4', icon: '📅', title: 'วันที่ครบกำหนดยื่นได้', desc: 'วัน/เดือน/ปี พ.ศ. ที่อายุงานครบเกณฑ์ (ไว้ตั้งเรดาร์นับถอยหลัง)' },
+      { num: '5', icon: '📚', title: 'วิชา / กลุ่มสาระการเรียนรู้', desc: 'วิชาที่เลือกใช้ทำแผนและอัดคลิปส่ง DPA' },
+      { num: '6', icon: '🎒', title: 'ระดับชั้นที่เลือกอัดคลิป', desc: 'เช่น ป.4, ป.5, ม.1 (ชั้นที่ถนัดและเด็กพร้อมที่สุด)' },
+      { num: '7', icon: '🎯', title: 'เรื่องที่จะทำ / หน่วยการเรียนรู้', desc: 'หัวข้อแผนการสอนที่จะใช้อัดคลิป 60 นาที' },
+      { num: '8', icon: '💡', title: 'นวัตกรรม / วิธีการสอนที่ใช้', desc: 'เช่น Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม, 5E' }
+    ];
+
+    const ASK_TEMPLATES = [
+      { id: 1, label: '📝 แบบที่ 1: แบบฟอร์มมาตรฐาน 8 ข้อ (ให้เพื่อนก๊อปเติมส่งกลับได้เลย)', badge: 'ฮิตสุด ⭐' },
+      { id: 2, label: '😊 แบบที่ 2: แบบกันเอง (ทักเพื่อนสนิท / รุ่นเดียวกัน ถามสบายๆ)', badge: 'เพื่อนสนิท' },
+      { id: 3, label: '🙏 แบบที่ 3: แบบสุภาพ (ทักพี่ครู / น้องครู / ต่างโรงเรียน)', badge: 'สุภาพ' },
+      { id: 4, label: '📘 แบบที่ 4: ขอข้อมูลเพื่อนทำ ค.ศ.2 (เน้นจุด "แก้ไขปัญหาผู้เรียน")', badge: 'เฉพาะ ค.ศ.2' },
+      { id: 5, label: '👑 แบบที่ 5: ขอข้อมูลเพื่อนทำ ค.ศ.3 (เน้นจุด "ริเริ่มคิดค้นนวัตกรรม")', badge: 'เฉพาะ ค.ศ.3' }
+    ];
+
+    function buildAskPromptText(tplId, customName) {
+      const callName = (customName && customName.trim()) ? customName.trim() : 'ตัวเอง';
+      const politeName = (customName && customName.trim()) ? customName.trim() : 'คุณครู';
+
+      if (tplId === 1) {
+        return `สวัสดีจ้า ${callName}! 😊🌸\nตอนนี้เราทำ "สมุดที่ปรึกษาวิทยฐานะ (ค.ศ.2 - ค.ศ.3)" ไว้ช่วยจำคิวและช่วยดูแผน/ดูคลิปให้เพื่อนๆ จะได้คอยแจ้งเตือนวันยื่นและช่วยเช็ก 6 จุดตาย DPA ให้จนขึ้นป้ายเขียวเลย! 🟢✨\n\nรบกวนก๊อปปี้ข้อความด้านล่างนี้ แล้วพิมพ์ข้อมูลส่งกลับมาให้หน่อยน้า 👇🏻\n-------------------------\n1. ชื่อ-นามสกุล (ชื่อเล่น): \n2. โรงเรียน: \n3. วิทยฐานะที่จะยื่น (ค.ศ.2 หรือ ค.ศ.3): \n4. วันที่ครบกำหนดยื่นได้ (ว/ด/ป): \n5. วิชา / กลุ่มสาระฯ: \n6. ระดับชั้นที่จะอัดคลิปสอน: \n7. เรื่อง / หน่วยการเรียนรู้ที่เล็งไว้: \n8. นวัตกรรม / วิธีสอนที่ใช้ (เช่น Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม): \n9. เบอร์โทร / ID Line: \n-------------------------\n(ถ้าข้อ 7-8 ยังไม่ชัวร์ เว้นว่างไว้ก่อนได้นะ เดี๋ยวเราช่วยวางแผนจ้า! ✌🏻💖)`;
+      }
+
+      if (tplId === 2) {
+        return `ทักทายจ้า ${callName}! 🥳🌸\nไหนๆ เราก็เพิ่งผ่านสนาม ค.ศ.3 มาหมาดๆ เลยทำสมุดจดคิวเพื่อนที่จะทำ ค.ศ.2 กับ ค.ศ.3 เอาไว้ จะได้ไม่ลืมวันครบกำหนดของเพื่อน และช่วยสแกนแผน-สแกนคลิปให้ก่อนยื่นจริง!\n\nส่งข้อมูลสั้นๆ มาให้เราบันทึกเข้าสมุดหน่อยสิ:\n✅ จะยื่น ค.ศ.2 หรือ ค.ศ.3 นะ?\n✅ ครบกำหนดยื่นได้วันที่เท่าไหร่?\n✅ สอนวิชาอะไร ชั้นไหน?\n✅ เล็งไว้หรือยังว่าจะทำเรื่องอะไร ใช้นวัตกรรม/สื่อแบบไหน?\n\nพิมพ์ตอบมาได้เลย เดี๋ยวเราล็อกคิวขึ้นสมุดประจำตัวไว้ให้จ้า! ✌🏻✨🟢`;
+      }
+
+      if (tplId === 3) {
+        return `สวัสดีครับ ${politeName} 😊🙏🏻\nตอนนี้เกียรติศักดิ์ได้จัดทำระบบสมุดบันทึกให้คำปรึกษาการทำวิทยฐานะ (ค.ศ.2 - ค.ศ.3) เพื่อช่วยวางแผนไทม์ไลน์ แจ้งเตือนวันครบกำหนด และช่วยตรวจทานแผนการสอน/คลิปการสอนตามเกณฑ์ ว9/2564 (DPA) ครับ\n\nหาก ${politeName} สะดวก รบกวนแจ้งข้อมูลเบื้องต้นเพื่อบันทึกในระบบดังนี้ครับ:\n1. ชื่อ-นามสกุล และโรงเรียน\n2. ระดับวิทยฐานะที่จะยื่น (ค.ศ.2 หรือ ค.ศ.3)\n3. วันที่ครบกำหนดยื่นขอมี/เลื่อนวิทยฐานะ\n4. วิชาและระดับชั้นที่เลือกจัดทำผลงาน\n5. หัวข้อเรื่อง / หน่วยการเรียนรู้ และนวัตกรรมที่สนใจใช้\n\nยินดีช่วยดูแลและให้คำปรึกษาจนผ่านป้ายเขียวเลยครับ! 🟢✨`;
+      }
+
+      if (tplId === 4) {
+        return `สวัสดีจ้า ${callName}! 📘✨\nแวะมาชวนเตรียมตัวทำ "ค.ศ.2 (ครูชำนาญการ)" ด้วยกัน! หัวใจสำคัญของ ค.ศ.2 คือการเน้นระดับ "แก้ไขปัญหาผู้เรียน" ให้เห็นชัดเจนในคลิป 60 นาทีและผลลัพธ์ผู้เรียน\n\nส่งข้อมูลมาให้เราบันทึกลงสมุดที่ปรึกษาหน่อยน้า:\n1. ชื่อเล่น / โรงเรียน: \n2. วันที่ครบกำหนดยื่น ค.ศ.2: \n3. วิชาและระดับชั้นที่จะอัดคลิป: \n4. ปัญหาของเด็กในห้องที่อยากหยิบมาแก้ (เรื่องที่จะสอน): \n5. วิธีสอน/สื่อนวัตกรรมที่จะใช้แก้ปัญหา (เช่น Active Learning, บอร์ดเกม, ชุดฝึกทักษะ): \n\nส่งมาได้เลย เดี๋ยวช่วยวางโครงแผนการสอนให้ตรงเกณฑ์เป๊ะๆ จ้า! ✌🏻📘`;
+      }
+
+      return `สวัสดีจ้า ${callName}! 👑✨\nแวะมาชวนวางแผนลุย "ค.ศ.3 (ครูชำนาญการพิเศษ)" ด้วยกัน! หัวใจสำคัญของ ค.ศ.3 คือต้องเห็นระดับ "ริเริ่ม พัฒนา คิดค้นนวัตกรรมใหม่" และเด็กได้ลงมือสร้างชิ้นงานด้วยตัวเอง (Active Learning)\n\nส่งข้อมูลมาให้เราบันทึกเข้าสมุดที่ปรึกษา ค.ศ.3 หน่อยน้า:\n1. ชื่อเล่น / โรงเรียน: \n2. วันที่ครบกำหนดยื่น ค.ศ.3: \n3. วิชาและระดับชั้นที่จะอัดคลิป: \n4. หน่วยการเรียนรู้ / เรื่องที่จะทำ: \n5. นวัตกรรมหรือกระบวนการสอนที่จะริเริ่มพัฒนา (เช่น GPAS 5 Steps, PBL, บอร์ดเกมสร้างสรรค์, สืบเสาะ 5E): \n\nว่างแล้วพิมพ์ส่งมาได้เลย เดี๋ยวเราช่วยดูจุดตาย DPA 6 ข้อให้ครบก่อนยื่นจ้า! ✌🏻👑🟢`;
+    }
+
+    function selectAskTemplate(tplId) {
+      currentAskTpl = tplId;
+      renderApp();
+    }
+
+    function onAskNameInput(val) {
+      askTargetName = val;
+      const box = document.getElementById('ask-prompt-textarea');
+      if (box) {
+        box.value = buildAskPromptText(currentAskTpl, askTargetName);
+      }
+    }
+
+    function pickExistingFriendForPrompt(friendId) {
+      if (!friendId) {
+        askTargetName = '';
+      } else {
+        const f = friends.find(x => x.id === friendId);
+        if (f) askTargetName = shortName(f.name);
+      }
+      renderApp();
+    }
+
+    function copyAskPromptText() {
+      const box = document.getElementById('ask-prompt-textarea');
+      const txt = box ? box.value : buildAskPromptText(currentAskTpl, askTargetName);
+      navigator.clipboard.writeText(txt)
+        .then(() => showToast('📋 คัดลอกคำพูดเรียบร้อย! กดวางส่งใน Line หรือ Messenger ได้เลยจ้า'))
+        .catch(() => showToast('📋 คัดลอกคำพูดเรียบร้อยแล้วจ้า!'));
+    }
+
+    function parseFriendReplyAndOpenModal() {
+      const rawEl = document.getElementById('smart-paste-input');
+      const raw = rawEl ? rawEl.value.trim() : '';
+      if (!raw) {
+        showToast('⚠️ กรุณาวางข้อความที่เพื่อนตอบกลับมาก่อนนะครับ');
+        return;
+      }
+
+      const getLineVal = (patterns) => {
+        const lines = raw.split(/\r?\n/);
+        for (const line of lines) {
+          for (const pat of patterns) {
+            const idx = line.toLowerCase().indexOf(pat.toLowerCase());
+            if (idx !== -1) {
+              const after = line.slice(idx + pat.length).replace(/^[\s:：)\].-]+/, '').trim();
+              if (after) return after;
+            }
+          }
+        }
+        return '';
+      };
+
+      const nameVal = getLineVal(['ชื่อ-นามสกุล (ชื่อเล่น)', 'ชื่อ-นามสกุล', 'ชื่อเล่น', '1.']);
+      const schoolVal = getLineVal(['โรงเรียน', 'สังกัด', '2.']);
+      const rankRaw = getLineVal(['วิทยฐานะที่จะยื่น', 'วิทยฐานะ', '3.']) || raw;
+      const rankVal = rankRaw.includes('3') || rankRaw.includes('พิเศษ') ? 'ค.ศ.3' : 'ค.ศ.2';
+      const subjectVal = getLineVal(['วิชา / กลุ่มสาระฯ', 'วิชา', 'กลุ่มสาระ', '5.']);
+      const gradeVal = getLineVal(['ระดับชั้นที่จะอัดคลิปสอน', 'ระดับชั้น', 'ชั้น', '6.']);
+      const topicVal = getLineVal(['เรื่อง / หน่วยการเรียนรู้ที่เล็งไว้', 'หน่วยการเรียนรู้', 'เรื่องที่จะทำ', 'เรื่อง', '7.']);
+      const innoVal = getLineVal(['นวัตกรรม / วิธีสอนที่ใช้', 'นวัตกรรม', 'วิธีสอน', '8.']);
+      const contactVal = getLineVal(['เบอร์โทร / ID Line', 'เบอร์โทร', 'Line', '9.']);
+
+      openFriendModal(null, rankVal);
+      if (nameVal) document.getElementById('f-name').value = nameVal;
+      if (schoolVal) document.getElementById('f-school').value = schoolVal;
+      document.getElementById('f-rank').value = rankVal;
+      if (subjectVal) document.getElementById('f-subject').value = subjectVal;
+      if (gradeVal) document.getElementById('f-grade').value = gradeVal;
+      if (topicVal) document.getElementById('f-topic').value = topicVal;
+      if (innoVal) document.getElementById('f-innovation').value = innoVal;
+      if (contactVal) document.getElementById('f-contact').value = contactVal;
+      document.getElementById('f-notes').value = `ข้อความจากเพื่อน:\n${raw}`;
+
+      showToast('✨ ดึงข้อมูลเข้าฟอร์มให้แล้ว! ตรวจสอบวันที่แล้วกดบันทึกได้เลยจ้า');
+    }
+
+    function renderCopyPromptsTab() {
+      const promptText = buildAskPromptText(currentAskTpl, askTargetName);
+      return `
+        <div style="display:flex;flex-direction:column;gap:14px;">
+
+          <!-- ส่วนที่ 1: สรุป 8 ข้อมูลที่ต้องขอจากเพื่อน -->
+          <section class="prompt-hub-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:2px dashed #A7F3D0;padding-bottom:10px;">
+              <div>
+                <h2 style="font-size:1.2rem;color:#065F46;">📌 เราต้องขอข้อมูลอะไรจากเพื่อนบ้าง? (ครบทั้ง 8 ข้อ)</h2>
+                <div style="font-size:0.95rem;color:var(--text-sub);margin-top:2px;">
+                  เวลาทักไปถามเพื่อนเพื่อนำมาใส่ระบบสมุดที่ปรึกษา ให้ถาม 8 ข้อมูลนี้เลยครับ:
+                </div>
+              </div>
+              <button type="button" class="btn btn-pink btn-sm" onclick="openFriendModal()">
+                ➕ เปิดหน้าต่างกรอกข้อมูลเพื่อน
+              </button>
+            </div>
+
+            <div class="req-grid">
+              ${REQUIRED_FIELDS_INFO.map(item => `
+                <div class="req-box">
+                  <span class="req-num">${item.num}</span>
+                  <div style="min-width:0;">
+                    <div style="font-size:1.02rem;color:#065F46;"><strong>${item.icon} ${esc(item.title)}</strong></div>
+                    <div style="font-size:0.92rem;color:var(--text-sub);margin-top:2px;">${esc(item.desc)}</div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </section>
+
+          <!-- ส่วนที่ 2: ก๊อปปี้คำพูดสำเร็จรูปไปส่งใน Line / Messenger -->
+          <section class="prompt-hub-card" style="border-color:var(--amber-border);box-shadow:0 5px 0 rgba(251, 191, 36, 0.2);">
+            <div>
+              <h2 style="font-size:1.2rem;color:#B45309;">💬 ก๊อปปี้คำพูดไปทักขอข้อมูลเพื่อน (เลือกได้ 5 แบบ)</h2>
+              <div style="font-size:0.95rem;color:var(--text-sub);margin-top:2px;">
+                กดเลือกแบบคำพูดที่ต้องการ แล้วกดปุ่ม <strong>"📋 คัดลอกคำพูดส่งแชท"</strong> ไปวางใน Line หรือ Messenger ได้เลย!
+              </div>
+            </div>
+
+            <!-- ช่องใส่ชื่อเพื่อน (หรือเลือกจากรายชื่อในระบบ) -->
+            <div style="background:#FFFBEB;border:2px solid var(--amber-border);border-radius:16px;padding:11px;display:flex;flex-direction:column;gap:8px;">
+              <label style="font-size:0.96rem;color:#92400E;">👤 <strong>ระบุชื่อเพื่อนที่จะทัก (ไม่บังคับ):</strong> พิมพ์ชื่อเพื่อนเพื่อให้ระบบใส่ในคำพูดให้อัตโนมัติ</label>
+              <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:8px;">
+                <input
+                  type="text"
+                  class="input-cute"
+                  style="border-color:var(--amber-border);background:#FFFFFF;"
+                  placeholder="พิมพ์ชื่อเพื่อน เช่น ครูเมย์, พี่อ้อม, ครูนัท..."
+                  value="${esc(askTargetName)}"
+                  oninput="onAskNameInput(this.value)"
+                />
+                <select class="input-cute" style="border-color:var(--amber-border);background:#FFFFFF;" onchange="pickExistingFriendForPrompt(this.value)">
+                  <option value="">-- หรือเลือกชื่อจากเพื่อนที่มีในสมุด (${friends.length} คน) --</option>
+                  ${friends.map(f => `<option value="${f.id}" ${askTargetName === shortName(f.name) ? 'selected' : ''}>${esc(f.name)} (${esc(f.rank)})</option>`).join('')}
+                </select>
+              </div>
+            </div>
+
+            <!-- ปุ่มเลือกคำพูด 5 สไตล์ -->
+            <div class="tpl-btn-grid">
+              ${ASK_TEMPLATES.map(t => `
+                <button type="button" class="tpl-choice-btn ${currentAskTpl === t.id ? 'active' : ''}" onclick="selectAskTemplate(${t.id})">
+                  <span>${esc(t.label)}</span>
+                  <span class="pill" style="background:#FFFFFF;color:#065F46;flex-shrink:0;">${esc(t.badge)}</span>
+                </button>
+              `).join('')}
+            </div>
+
+            <!-- กล่องข้อความที่พร้อมก๊อปปี้ (แก้ไขเพิ่มเองได้ด้วย) -->
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:6px;">
+                <span style="font-size:0.96rem;color:#065F46;">✨ <strong>ข้อความพร้อมส่ง (แตะแก้ไขข้อความในกล่องได้ตามใจชอบ):</strong></span>
+              </div>
+              <textarea id="ask-prompt-textarea" rows="11" class="prompt-preview-area">${esc(promptText)}</textarea>
+            </div>
+
+            <!-- ปุ่มกดก๊อปปี้ขนาดใหญ่ กดง่าย -->
+            <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:9px;">
+              <button type="button" class="btn btn-pink" style="font-size:1.1rem;padding:13px 16px;" onclick="copyAskPromptText()">
+                📋 กดคัดลอกคำพูดนี้ไปส่งแชท (Line / Messenger)
+              </button>
+            </div>
+          </section>
+
+          <!-- ส่วนที่ 3: ฟีเจอร์วิเศษ วางคำตอบเพื่อนแล้วดึงเข้าฟอร์มอัตโนมัติ -->
+          <section class="prompt-hub-card" style="border-color:var(--lavender-border);box-shadow:0 5px 0 rgba(192, 132, 252, 0.2);">
+            <div>
+              <h2 style="font-size:1.15rem;color:var(--lavender-text);">🪄 เพื่อนตอบกลับมาแล้ว? วางข้อความตรงนี้เพื่อดึงเข้าสมุดอัตโนมัติ!</h2>
+              <div style="font-size:0.95rem;color:var(--text-sub);margin-top:2px;">
+                เมื่อเพื่อนกรอกข้อมูลส่งกลับมาใน Line คุณครูก๊อปปี้ข้อความของเพื่อนมาวางในช่องด้านล่างนี้ แล้วกดปุ่มสีม่วง ระบบจะดึงข้อมูลไปใส่หน้าต่าง <strong>+ เพิ่มเพื่อน</strong> ให้อัตโนมัติ ไม่ต้องพิมพ์ทีละช่องครับ!
+              </div>
+            </div>
+
+            <textarea
+              id="smart-paste-input"
+              rows="5"
+              class="input-cute"
+              style="border-color:var(--lavender-border);"
+              placeholder="วางข้อความที่เพื่อนตอบกลับมาตรงนี้ เช่น&#10;1. ชื่อ-นามสกุล (ชื่อเล่น): ครูส้ม (กมลวรรณ)&#10;2. โรงเรียน: รร.บ้านหนองแสง&#10;3. วิทยฐานะที่จะยื่น: ค.ศ.2&#10;5. วิชา: ภาษาไทย..."
+            ></textarea>
+
+            <button type="button" class="btn btn-lavender" style="background:#7C3AED;color:#FFFFFF;border-color:#5B21B6;font-size:1.05rem;" onclick="parseFriendReplyAndOpenModal()">
+              ✨ ดึงข้อมูลจากข้อความเพื่อน ➔ เข้าหน้าต่างเพิ่มเพื่อนอัตโนมัติ!
+            </button>
+          </section>
+
+        </div>
+      `;
+    }
+
     function renderApp() {
       renderTabsBar();
       const mainEl = document.getElementById('main-view');
-      if (activeTab === 'overview') {
+      if (activeTab === 'copy_prompts') {
+        mainEl.innerHTML = renderCopyPromptsTab();
+      } else if (activeTab === 'overview') {
         mainEl.innerHTML = renderOverview();
       } else {
         mainEl.innerHTML = renderSingleFriendPage(activeTab);
