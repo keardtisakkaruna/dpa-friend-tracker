@@ -86,7 +86,7 @@
       gap: 12px;
     }
 
-    /* 1. Top Header — สมดุล ไม่ล้นขอบ100% */
+    /* 1. Top Header — สมดุล ไม่ล้นขอบ 100% */
     .top-bar {
       background: linear-gradient(135deg, #FCE7F3 0%, #FEF3C7 55%, #D1FAE5 100%);
       border: 3px solid var(--pink-border);
@@ -206,7 +206,7 @@
       padding: 8px 10px;
     }
 
-    /* 2. แผงแท็บรายชื่อเพื่อนแยกสี (เห็นครบทุกคน ไม่โดนตัดขอบขวา ไม่บังจอเวลาเลื่อน) */
+    /* 2. แผงแท็บแยกหมวด ค.ศ.2 และ ค.ศ.3 ชัดเจน! */
     .tabs-wrapper {
       background: #FFFFFF;
       border: 3px solid var(--pink-border);
@@ -214,23 +214,122 @@
       padding: 12px;
       box-shadow: 0 4px 0 rgba(244, 114, 182, 0.18);
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .tabs-label {
-      font-size: 0.92rem;
-      color: var(--text-sub);
-      padding: 0 2px 8px 2px;
+    /* แถบสลับโหมดหลัก 3 แท็บ: [รวมทั้งหมด] [ห้อง ค.ศ.2] [ห้อง ค.ศ.3] */
+    .rank-mode-bar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+      width: 100%;
+    }
+
+    .rank-mode-tab {
+      padding: 9px 6px;
+      border-radius: 16px;
+      border: 2.5px solid #E2E8F0;
+      background: #F8FAFC;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      cursor: pointer;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
+      gap: 2px;
+      text-align: center;
+      line-height: 1.2;
+      transition: all 0.15s ease;
+    }
+
+    .rank-mode-tab.mode-all {
+      border-color: var(--pink-border);
+      background: #FFF5F8;
+      color: #BE185D;
+    }
+
+    .rank-mode-tab.mode-all.active {
+      background: linear-gradient(135deg, #EC4899, #E11D48);
+      color: #FFFFFF;
+      border-color: #FFFFFF;
+      box-shadow: 0 4px 8px rgba(225, 29, 72, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .rank-mode-tab.mode-ks2 {
+      border-color: var(--sky-border);
+      background: #F0F9FF;
+      color: #0369A1;
+    }
+
+    .rank-mode-tab.mode-ks2.active {
+      background: linear-gradient(135deg, #0284C7, #0369A1);
+      color: #FFFFFF;
+      border-color: #FFFFFF;
+      box-shadow: 0 4px 8px rgba(2, 132, 199, 0.32);
+      transform: translateY(-1px);
+    }
+
+    .rank-mode-tab.mode-ks3 {
+      border-color: var(--orange-border);
+      background: #FFF7ED;
+      color: #C2410C;
+    }
+
+    .rank-mode-tab.mode-ks3.active {
+      background: linear-gradient(135deg, #F97316, #EA580C);
+      color: #FFFFFF;
+      border-color: #FFFFFF;
+      box-shadow: 0 4px 8px rgba(234, 88, 12, 0.32);
+      transform: translateY(-1px);
+    }
+
+    /* ชั้นวางสมุดแยกหมวด ค.ศ.2 และ ค.ศ.3 */
+    .rank-shelf {
+      border-radius: 18px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .rank-shelf.shelf-ks2 {
+      background: #F0F9FF;
+      border: 2px solid var(--sky-border);
+    }
+
+    .rank-shelf.shelf-ks3 {
+      background: #FFF7ED;
+      border: 2px solid var(--orange-border);
+    }
+
+    .shelf-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
       flex-wrap: wrap;
+      font-size: 0.96rem;
+    }
+
+    .shelf-add-btn {
+      font-size: 0.86rem;
+      padding: 4px 10px;
+      border-radius: 99px;
+      border: 1.5px solid #FFFFFF;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
       gap: 4px;
     }
 
     .tabs-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
+      gap: 7px;
       width: 100%;
     }
 
@@ -241,12 +340,12 @@
     }
 
     .tab-chip {
-      padding: 9px 12px;
-      border-radius: 16px;
+      padding: 9px 10px;
+      border-radius: 14px;
       border: 2.5px solid #F9A8D4;
       background: #FFF5F8;
       color: var(--text-main);
-      font-size: 0.98rem;
+      font-size: 0.96rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -256,27 +355,13 @@
       min-width: 0;
       width: 100%;
       text-align: center;
-      box-shadow: 0 3px 0 rgba(0,0,0,0.06);
+      box-shadow: 0 2px 0 rgba(0,0,0,0.06);
     }
 
     .tab-chip span.tab-text {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-    }
-
-    .tab-chip.tab-overview {
-      grid-column: 1 / -1;
-      background: #FFF0F6;
-      border-color: #F472B6;
-      font-size: 1.02rem;
-    }
-
-    .tab-chip.tab-overview.active {
-      background: linear-gradient(135deg, #EC4899, #E11D48);
-      color: #FFFFFF;
-      border-color: #FFFFFF;
-      box-shadow: 0 4px 10px rgba(225, 29, 72, 0.3);
     }
 
     .tab-dot {
@@ -375,9 +460,27 @@
       box-shadow: 0 4px 0 rgba(192, 132, 252, 0.22);
       display: flex;
       flex-direction: column;
-      gap: 11px;
+      gap: 12px;
       width: 100%;
       overflow: hidden;
+    }
+
+    .rank-group-box {
+      border-radius: 18px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .rank-group-box.group-ks2 {
+      background: #F0F9FF;
+      border: 2.5px solid var(--sky-border);
+    }
+
+    .rank-group-box.group-ks3 {
+      background: #FFF7ED;
+      border: 2.5px solid var(--orange-border);
     }
 
     .input-cute {
@@ -471,7 +574,7 @@
       justify-content: space-between;
       gap: 8px;
       flex-wrap: wrap;
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.85);
       padding: 8px 11px;
       border-radius: 14px;
     }
@@ -881,7 +984,7 @@
 <body>
   <div class="app-shell">
 
-    <!-- 1. Top Header (สมดุล ไม่ล้นขอบ100%) -->
+    <!-- 1. Top Header (สมดุล ไม่ล้นขอบ 100%) -->
     <header class="top-bar">
       <div class="brand-row">
         <div class="avatar-badge">
@@ -907,13 +1010,9 @@
       </div>
     </header>
 
-    <!-- 2. Folder Tabs (แยกสีตามเพื่อนแต่ละคน และเห็นครบทุกคนไม่โดนตัดขอบ!) -->
-    <nav class="tabs-wrapper" aria-label="แถบสลับหน้าเพื่อนครู">
-      <div class="tabs-label">
-        <span>🎨 แตะชื่อเพื่อนเพื่อเปิดสมุดรายคน (คนละสีจำง่าย!):</span>
-        <strong id="tab-counter" style="color:#BE185D;">0 คน</strong>
-      </div>
-      <div id="tabs-bar" class="tabs-grid"></div>
+    <!-- 2. แผงแท็บแยกหมวด ค.ศ.2 และ ค.ศ.3 ชัดเจน! -->
+    <nav class="tabs-wrapper" aria-label="แถบสลับหมวด ค.ศ.2 และ ค.ศ.3">
+      <div id="tabs-bar"></div>
     </nav>
 
     <!-- 3. Dynamic Main Content -->
@@ -942,6 +1041,14 @@
             <input type="text" id="f-name" required class="input-cute" placeholder="เช่น ครูเมย์ (ธนพร)" />
           </div>
 
+          <div>
+            <label class="form-label">🌈 ระดับวิทยฐานะที่จะทำ * (เลือกเพื่อจัดเข้าแท็บ ค.ศ.2 / ค.ศ.3)</label>
+            <select id="f-rank" class="input-cute">
+              <option value="ค.ศ.2">📘 ค.ศ.2 (ครูชำนาญการ)</option>
+              <option value="ค.ศ.3">👑 ค.ศ.3 (ครูชำนาญการพิเศษ)</option>
+            </select>
+          </div>
+
           <!-- เลือกสีสมุดประจำตัวเพื่อน -->
           <div>
             <label class="form-label">🎨 สีสมุดประจำตัวของเพื่อนคนนี้ (แยกสีให้จำง่าย)</label>
@@ -951,13 +1058,6 @@
           <div>
             <label class="form-label">🏫 โรงเรียน / สังกัด</label>
             <input type="text" id="f-school" class="input-cute" placeholder="เช่น รร.วัดคลองห้า" />
-          </div>
-          <div>
-            <label class="form-label">🌈 ระดับที่จะทำ *</label>
-            <select id="f-rank" class="input-cute">
-              <option value="ค.ศ.2">📘 ค.ศ.2 (ครูชำนาญการ)</option>
-              <option value="ค.ศ.3">👑 ค.ศ.3 (ครูชำนาญการพิเศษ)</option>
-            </select>
           </div>
           <div>
             <label class="form-label">📅 วันที่ครบกำหนดยื่นได้ *</label>
@@ -1172,7 +1272,6 @@
         const found = FRIEND_THEMES.find(t => t.key === f.colorTheme);
         if (found) return found;
       }
-      // หากเป็นข้อมูลเดิมที่ยังไม่มี colorTheme ให้แจกสีอัตโนมัติไม่ซ้ำกันตามลำดับรายชื่อ
       const idxInList = friends.findIndex(x => x.id === (f && f.id));
       const pickIdx = idxInList >= 0 ? idxInList : fallbackIdx;
       return FRIEND_THEMES[pickIdx % FRIEND_THEMES.length];
@@ -1303,7 +1402,10 @@
     ];
 
     let friends = [];
+    /* activeTab: 'overview' | 'ks2' | 'ks3' | friendId */
     let activeTab = 'overview';
+    /* rankShelfMode: 'all' | 'ค.ศ.2' | 'ค.ศ.3' */
+    let rankShelfMode = 'all';
     let overviewFilter = 'all';
     let searchQuery = '';
     let activeMsgFriendId = null;
@@ -1384,7 +1486,6 @@
       } catch (e) {
         friends = DEFAULT_FRIENDS;
       }
-      // ตรวจสอบให้เพื่อนทุกคนมีสีประจำตัวไม่ซ้ำกัน
       friends.forEach((f, idx) => {
         if (!f.colorTheme) {
           f.colorTheme = FRIEND_THEMES[idx % FRIEND_THEMES.length].key;
@@ -1451,6 +1552,13 @@
       return fullName.split('(')[0].trim();
     }
 
+    function selectRankMode(mode) {
+      rankShelfMode = mode;
+      activeTab = 'overview';
+      overviewFilter = mode === 'all' ? 'all' : mode;
+      renderApp();
+    }
+
     function selectTab(tabId) {
       activeTab = tabId;
       renderApp();
@@ -1466,6 +1574,11 @@
 
     function setOverviewFilter(mode) {
       overviewFilter = mode;
+      if (mode === 'ค.ศ.2' || mode === 'ค.ศ.3') {
+        rankShelfMode = mode;
+      } else if (mode === 'all') {
+        rankShelfMode = 'all';
+      }
       renderApp();
     }
 
@@ -1476,41 +1589,145 @@
       saveData('🧹 ล้างข้อมูลตัวอย่างออกเรียบร้อย! กด + เพิ่มเพื่อนจริงได้เลยจ้า');
     }
 
-    function renderTabsBar() {
-      const bar = document.getElementById('tabs-bar');
-      document.getElementById('tab-counter').textContent = `ทั้งหมด ${friends.length} คน`;
+    function renderFriendChipButton(f) {
+      const isActive = activeTab === f.id;
+      const urgent = needsConsult(f);
+      const th = getFriendTheme(f);
+      const styleStr = isActive
+        ? `background:${th.activeGrad};color:#FFFFFF;border-color:#FFFFFF;box-shadow:0 4px 10px ${th.shadow};transform:translateY(-1px);`
+        : `background:${th.chipBg};color:${th.strong};border-color:${th.border};`;
 
-      const sorted = [...friends].sort((a, b) => getDaysUntil(a.targetDate) - getDaysUntil(b.targetDate));
-
-      let html = `
-        <button type="button" class="tab-chip tab-overview ${activeTab === 'overview' ? 'active' : ''}" onclick="selectTab('overview')">
-          <span>📊 แดชบอร์ดรวมทุกคน (${friends.length} คน)</span>
+      return `
+        <button type="button" class="tab-chip" style="${styleStr}" onclick="selectTab('${f.id}')">
+          <span>${th.emoji}</span>
+          <span class="tab-text">${esc(shortName(f.name))}</span>
+          ${urgent ? '<span class="tab-dot" title="ใกล้ครบกำหนด/รอทักถาม"></span>' : ''}
         </button>
       `;
+    }
 
-      html += sorted.map((f, idx) => {
-        const isActive = activeTab === f.id;
-        const urgent = needsConsult(f);
-        const th = getFriendTheme(f, idx);
-        const rankShort = f.rank === 'ค.ศ.3' ? 'ค.ศ.3' : 'ค.ศ.2';
-        const styleStr = isActive
-          ? `background:${th.activeGrad};color:#FFFFFF;border-color:#FFFFFF;box-shadow:0 4px 10px ${th.shadow};transform:translateY(-1px);`
-          : `background:${th.chipBg};color:${th.strong};border-color:${th.border};`;
+    function renderTabsBar() {
+      const bar = document.getElementById('tabs-bar');
+      const sorted = [...friends].sort((a, b) => getDaysUntil(a.targetDate) - getDaysUntil(b.targetDate));
+      const ks2Friends = sorted.filter(f => f.rank === 'ค.ศ.2');
+      const ks3Friends = sorted.filter(f => f.rank === 'ค.ศ.3');
 
-        return `
-          <button type="button" class="tab-chip" style="${styleStr}" onclick="selectTab('${f.id}')">
-            <span>${th.emoji}</span>
-            <span class="tab-text">${esc(shortName(f.name))} (${rankShort})</span>
-            ${urgent ? '<span class="tab-dot" title="ใกล้ครบกำหนด/รอทักถาม"></span>' : ''}
-          </button>
+      const isAllActive = activeTab === 'overview' && rankShelfMode === 'all';
+      const isKs2ModeActive = activeTab === 'overview' && rankShelfMode === 'ค.ศ.2';
+      const isKs3ModeActive = activeTab === 'overview' && rankShelfMode === 'ค.ศ.3';
+
+      const showKs2Shelf = rankShelfMode === 'all' || rankShelfMode === 'ค.ศ.2';
+      const showKs3Shelf = rankShelfMode === 'all' || rankShelfMode === 'ค.ศ.3';
+
+      let html = `
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <!-- 1. แถบแท็บหมวดหลัก: [รวมทั้งหมด] | [แท็บ ค.ศ.2] | [แท็บ ค.ศ.3] -->
+          <div style="font-size:0.9rem;color:var(--text-sub);display:flex;justify-content:space-between;align-items:center;">
+            <span>🗂️ เลือกแท็บหมวดวิทยฐานะ (แยก ค.ศ.2 / ค.ศ.3):</span>
+            <strong style="color:#BE185D;">รวม ${friends.length} คน</strong>
+          </div>
+
+          <div class="rank-mode-bar">
+            <button type="button" class="rank-mode-tab mode-all ${isAllActive ? 'active' : ''}" onclick="selectRankMode('all')">
+              <span>📊 รวมทั้งหมด</span>
+              <strong>${friends.length} คน</strong>
+            </button>
+            <button type="button" class="rank-mode-tab mode-ks2 ${isKs2ModeActive ? 'active' : ''}" onclick="selectRankMode('ค.ศ.2')">
+              <span>📘 แท็บ ค.ศ.2</span>
+              <strong>ชำนาญการ (${ks2Friends.length})</strong>
+            </button>
+            <button type="button" class="rank-mode-tab mode-ks3 ${isKs3ModeActive ? 'active' : ''}" onclick="selectRankMode('ค.ศ.3')">
+              <span>👑 แท็บ ค.ศ.3</span>
+              <strong>ชำนาญการพิเศษ (${ks3Friends.length})</strong>
+            </button>
+          </div>
+      `;
+
+      if (showKs2Shelf) {
+        html += `
+          <!-- ชั้นวางสมุดเพื่อน ค.ศ.2 -->
+          <div class="rank-shelf shelf-ks2">
+            <div class="shelf-header">
+              <strong style="color:#0369A1;">📘 รายชื่อสมุดเพื่อนทำ ค.ศ.2 (${ks2Friends.length} คน)</strong>
+              <button type="button" class="shelf-add-btn" style="background:#0284C7;color:#FFFFFF;" onclick="openFriendModal(null, 'ค.ศ.2')">
+                ➕ เพิ่มเพื่อน ค.ศ.2
+              </button>
+            </div>
+            ${ks2Friends.length === 0 ? `
+              <div style="font-size:0.9rem;color:#0369A1;text-align:center;padding:6px;">
+                ยังไม่มีเพื่อนในหมวด ค.ศ.2 กด "+ เพิ่มเพื่อน ค.ศ.2" ได้เลยจ้า
+              </div>
+            ` : `
+              <div class="tabs-grid">
+                ${ks2Friends.map(f => renderFriendChipButton(f)).join('')}
+              </div>
+            `}
+          </div>
         `;
-      }).join('');
+      }
 
+      if (showKs3Shelf) {
+        html += `
+          <!-- ชั้นวางสมุดเพื่อน ค.ศ.3 -->
+          <div class="rank-shelf shelf-ks3">
+            <div class="shelf-header">
+              <strong style="color:#C2410C;">👑 รายชื่อสมุดเพื่อนทำ ค.ศ.3 (${ks3Friends.length} คน)</strong>
+              <button type="button" class="shelf-add-btn" style="background:#EA580C;color:#FFFFFF;" onclick="openFriendModal(null, 'ค.ศ.3')">
+                ➕ เพิ่มเพื่อน ค.ศ.3
+              </button>
+            </div>
+            ${ks3Friends.length === 0 ? `
+              <div style="font-size:0.9rem;color:#C2410C;text-align:center;padding:6px;">
+                ยังไม่มีเพื่อนในหมวด ค.ศ.3 กด "+ เพิ่มเพื่อน ค.ศ.3" ได้เลยจ้า
+              </div>
+            ` : `
+              <div class="tabs-grid">
+                ${ks3Friends.map(f => renderFriendChipButton(f)).join('')}
+              </div>
+            `}
+          </div>
+        `;
+      }
+
+      html += `</div>`;
       bar.innerHTML = html;
     }
 
+    function renderFriendDirectoryRow(f, idx) {
+      const cd = getCountdownBadge(f);
+      const chk = Array.isArray(f.checklist) ? f.checklist : [];
+      const th = getFriendTheme(f, idx);
+      return `
+        <div class="friend-row-item" style="background:${th.pageBg};border:2.5px solid ${th.border};border-left:7px solid ${th.strong};" onclick="selectTab('${f.id}')">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
+            <div style="font-size:1.1rem;color:${th.strong};display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              <span>${th.emoji}</span>
+              <strong>${esc(f.name)}</strong>
+              <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">
+                ${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3' : '📘 ค.ศ.2'}
+              </span>
+            </div>
+            <span class="pill" style="background:#FFFFFF;color:${th.strong};border:1.5px solid ${th.border};">
+              เอกสาร ${chk.length}/4 👉
+            </span>
+          </div>
+          <div style="font-size:0.96rem;color:var(--text-main);">
+            📅 ยื่นได้: <strong>${formatThaiDate(f.targetDate)}</strong> (${cd.text})
+          </div>
+          <div style="font-size:0.95rem;color:var(--text-sub);">
+            📚 ${esc(f.subject || 'ยังไม่ระบุวิชา')} ${f.grade ? `(ชั้น ${esc(f.grade)})` : ''} &bull;
+            ${f.topic ? `🎯 <strong>${esc(f.topic)}</strong>` : `<span style="color:${th.strong};">🌷 รอถามเรื่องที่จะทำ</span>`}
+          </div>
+        </div>
+      `;
+    }
+
     function renderOverview() {
-      const consultList = friends.filter(needsConsult).sort((a, b) => getDaysUntil(a.targetDate) - getDaysUntil(b.targetDate));
+      const activePool = rankShelfMode === 'all'
+        ? friends
+        : friends.filter(f => f.rank === rankShelfMode);
+
+      const consultList = activePool.filter(needsConsult).sort((a, b) => getDaysUntil(a.targetDate) - getDaysUntil(b.targetDate));
       const ks2Count = friends.filter(f => f.rank === 'ค.ศ.2').length;
       const ks3Count = friends.filter(f => f.rank === 'ค.ศ.3').length;
       const hasSample = friends.some(f => f.isSample || ['friend_1','friend_2','friend_3','friend_4'].includes(f.id));
@@ -1527,11 +1744,15 @@
         })
         .sort((a, b) => getDaysUntil(a.targetDate) - getDaysUntil(b.targetDate));
 
+      const filteredKs2 = filtered.filter(f => f.rank === 'ค.ศ.2');
+      const filteredKs3 = filtered.filter(f => f.rank === 'ค.ศ.3');
+
       let radarHtml = '';
       if (consultList.length > 0) {
+        const modeTitle = rankShelfMode === 'all' ? 'ทั้งหมด' : `หมวด ${rankShelfMode}`;
         radarHtml = `
           <section class="radar-card">
-            <h2 style="font-size:1.12rem;color:#92400E;">📣 คิวเพื่อนใกล้ครบกำหนด — ต้องทักถามแผน (${consultList.length} คน)</h2>
+            <h2 style="font-size:1.1rem;color:#92400E;">📣 คิวเพื่อนใกล้ครบกำหนด (${modeTitle}) — ต้องทักถามแผน (${consultList.length} คน)</h2>
             ${consultList.map((f, idx) => {
               const d = getDaysUntil(f.targetDate);
               const th = getFriendTheme(f, idx);
@@ -1539,12 +1760,12 @@
               return `
                 <div class="radar-row" style="border-left:6px solid ${th.border};">
                   <div onclick="selectTab('${f.id}')" style="cursor:pointer;">
-                    <div style="font-size:1.1rem;color:var(--text-main);display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                    <div style="font-size:1.08rem;color:var(--text-main);display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                       <span>${th.emoji}</span>
                       <strong>${esc(f.name)}</strong>
                       <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">${esc(f.rank)}</span>
                     </div>
-                    <div style="font-size:0.96rem;color:#B45309;margin-top:3px;">📅 ${dayTxt}</div>
+                    <div style="font-size:0.95rem;color:#B45309;margin-top:3px;">📅 ${dayTxt}</div>
                   </div>
                   <div class="radar-actions">
                     <button type="button" class="btn btn-pink btn-sm" onclick="openMsgModal('${f.id}')">💬 ทักแชทเพื่อน</button>
@@ -1559,6 +1780,9 @@
         `;
       }
 
+      const showKs2Group = overviewFilter !== 'ค.ศ.3';
+      const showKs3Group = overviewFilter !== 'ค.ศ.2';
+
       return `
         <div style="display:flex;flex-direction:column;gap:12px;">
           <!-- 2x2 Summary Strip -->
@@ -1569,7 +1793,7 @@
             </div>
             <div class="mini-stat ${overviewFilter === 'consult' ? 'active' : ''}" style="border-color:var(--amber-border);" onclick="setOverviewFilter('consult')">
               <span class="mini-stat-label" style="color:#B45309;">🔔 ทักถาม</span>
-              <strong class="mini-stat-num" style="color:#D97706;">${consultList.length} คน</strong>
+              <strong class="mini-stat-num" style="color:#D97706;">${friends.filter(needsConsult).length} คน</strong>
             </div>
             <div class="mini-stat ${overviewFilter === 'ค.ศ.2' ? 'active' : ''}" style="border-color:var(--sky-border);" onclick="setOverviewFilter('ค.ศ.2')">
               <span class="mini-stat-label" style="color:#0369A1;">📘 ค.ศ.2</span>
@@ -1583,10 +1807,12 @@
 
           ${radarHtml}
 
-          <!-- Directory List (การ์ดแยกสีตามเพื่อนแต่ละคน) -->
+          <!-- Directory List (แยกกล่องหมวด ค.ศ.2 และ หมวด ค.ศ.3 ชัดเจน!) -->
           <section class="directory-card">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
-              <h2 style="font-size:1.12rem;color:var(--lavender-text);">📋 รายชื่อเพื่อนทั้งหมด (แยกสีรายคน แตะเพื่อเปิดสมุด)</h2>
+              <h2 style="font-size:1.1rem;color:var(--lavender-text);">
+                📋 สมุดรายชื่อแยกตามหมวด ${overviewFilter === 'ค.ศ.2' ? '(เฉพาะ ค.ศ.2)' : overviewFilter === 'ค.ศ.3' ? '(เฉพาะ ค.ศ.3)' : '(ค.ศ.2 และ ค.ศ.3)'}
+              </h2>
               ${hasSample ? `
                 <button type="button" class="btn btn-lavender btn-sm" onclick="clearSampleFriends()">
                   🧹 ล้างข้อมูลตัวอย่าง 4 คน
@@ -1604,41 +1830,37 @@
               />
             </div>
 
-            <div style="display:flex;flex-direction:column;gap:9px;">
-              ${filtered.length === 0 ? `
-                <div style="text-align:center;padding:24px;color:var(--text-sub);font-size:1.02rem;">
-                  <div style="font-size:30px;">🌸</div>
-                  <div>ยังไม่มีรายชื่อเพื่อนครู กดปุ่ม <strong>➕ เพิ่มเพื่อน</strong> ด้านบนได้เลยจ้า!</div>
+            ${showKs2Group ? `
+              <div class="rank-group-box group-ks2">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
+                  <h3 style="font-size:1.08rem;color:#0369A1;">📘 หมวดเพื่อนทำ ค.ศ.2 ชำนาญการ (${filteredKs2.length} คน)</h3>
+                  <button type="button" class="shelf-add-btn" style="background:#0284C7;color:#FFFFFF;" onclick="openFriendModal(null, 'ค.ศ.2')">
+                    ➕ เพิ่มเพื่อน ค.ศ.2
+                  </button>
                 </div>
-              ` : filtered.map((f, idx) => {
-                const cd = getCountdownBadge(f);
-                const chk = Array.isArray(f.checklist) ? f.checklist : [];
-                const th = getFriendTheme(f, idx);
-                return `
-                  <div class="friend-row-item" style="background:${th.pageBg};border:2.5px solid ${th.border};border-left:7px solid ${th.strong};" onclick="selectTab('${f.id}')">
-                    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
-                      <div style="font-size:1.12rem;color:${th.strong};display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                        <span>${th.emoji}</span>
-                        <strong>${esc(f.name)}</strong>
-                        <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">
-                          ${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3' : '📘 ค.ศ.2'}
-                        </span>
-                      </div>
-                      <span class="pill" style="background:#FFFFFF;color:${th.strong};border:1.5px solid ${th.border};">
-                        เอกสาร ${chk.length}/4 👉
-                      </span>
-                    </div>
-                    <div style="font-size:0.96rem;color:var(--text-main);">
-                      📅 ยื่นได้: <strong>${formatThaiDate(f.targetDate)}</strong> (${cd.text})
-                    </div>
-                    <div style="font-size:0.95rem;color:var(--text-sub);">
-                      📚 ${esc(f.subject || 'ยังไม่ระบุวิชา')} ${f.grade ? `(ชั้น ${esc(f.grade)})` : ''} &bull;
-                      ${f.topic ? `🎯 <strong>${esc(f.topic)}</strong>` : `<span style="color:${th.strong};">🌷 รอถามเรื่องที่จะทำ</span>`}
-                    </div>
+                ${filteredKs2.length === 0 ? `
+                  <div style="text-align:center;padding:12px;color:#0369A1;font-size:0.95rem;">
+                    ยังไม่มีรายการในหมวด ค.ศ.2
                   </div>
-                `;
-              }).join('')}
-            </div>
+                ` : filteredKs2.map((f, idx) => renderFriendDirectoryRow(f, idx)).join('')}
+              </div>
+            ` : ''}
+
+            ${showKs3Group ? `
+              <div class="rank-group-box group-ks3">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
+                  <h3 style="font-size:1.08rem;color:#C2410C;">👑 หมวดเพื่อนทำ ค.ศ.3 ชำนาญการพิเศษ (${filteredKs3.length} คน)</h3>
+                  <button type="button" class="shelf-add-btn" style="background:#EA580C;color:#FFFFFF;" onclick="openFriendModal(null, 'ค.ศ.3')">
+                    ➕ เพิ่มเพื่อน ค.ศ.3
+                  </button>
+                </div>
+                ${filteredKs3.length === 0 ? `
+                  <div style="text-align:center;padding:12px;color:#C2410C;font-size:0.95rem;">
+                    ยังไม่มีรายการในหมวด ค.ศ.3
+                  </div>
+                ` : filteredKs3.map((f, idx) => renderFriendDirectoryRow(f, idx)).join('')}
+              </div>
+            ` : ''}
           </section>
         </div>
       `;
@@ -1654,8 +1876,11 @@
       }
 
       const th = getFriendTheme(f, idx);
-      const prevFriend = idx > 0 ? sorted[idx - 1] : null;
-      const nextFriend = idx < sorted.length - 1 ? sorted[idx + 1] : null;
+      // ปุ่มเลื่อนเพื่อนก่อนหน้า/ถัดไป เฉพาะในกลุ่มวิทยฐานะเดียวกัน (ค.ศ.2 ด้วยกัน หรือ ค.ศ.3 ด้วยกัน)
+      const sameRankList = sorted.filter(x => x.rank === f.rank);
+      const rIdx = sameRankList.findIndex(x => x.id === friendId);
+      const prevSameRank = rIdx > 0 ? sameRankList[rIdx - 1] : null;
+      const nextSameRank = rIdx < sameRankList.length - 1 ? sameRankList[rIdx + 1] : null;
 
       const cd = getCountdownBadge(f);
       const chk = Array.isArray(f.checklist) ? f.checklist : [];
@@ -1667,14 +1892,14 @@
 
       return `
         <article class="person-page" style="background:${th.pageBg};border:3.5px solid ${th.border};box-shadow:0 7px 0 ${th.shadow};">
-          <!-- แถบปุ่มสลับเพื่อนก่อนหน้า / ถัดไป -->
+          <!-- แถบปุ่มกลับหมวด ค.ศ.2/ค.ศ.3 และสลับเพื่อนในวิทยฐานะเดียวกัน -->
           <div class="person-nav-strip">
-            <button type="button" class="btn btn-sm" style="background:#FFFFFF;color:${th.strong};border-color:${th.border};" onclick="selectTab('overview')">
-              ⬅ กลับแดชบอร์ดรวม
+            <button type="button" class="btn btn-sm" style="background:#FFFFFF;color:${th.strong};border-color:${th.border};" onclick="selectRankMode('${f.rank}')">
+              ⬅ กลับแท็บ ${esc(f.rank)}
             </button>
             <div style="display:flex;gap:6px;">
-              ${prevFriend ? `<button type="button" class="btn btn-sm" style="background:#FFFFFF;color:var(--text-main);border-color:${th.border};" onclick="selectTab('${prevFriend.id}')">◀ ${esc(shortName(prevFriend.name))}</button>` : ''}
-              ${nextFriend ? `<button type="button" class="btn btn-sm" style="background:#FFFFFF;color:var(--text-main);border-color:${th.border};" onclick="selectTab('${nextFriend.id}')">${esc(shortName(nextFriend.name))} ▶</button>` : ''}
+              ${prevSameRank ? `<button type="button" class="btn btn-sm" style="background:#FFFFFF;color:var(--text-main);border-color:${th.border};" onclick="selectTab('${prevSameRank.id}')">◀ ${esc(shortName(prevSameRank.name))}</button>` : ''}
+              ${nextSameRank ? `<button type="button" class="btn btn-sm" style="background:#FFFFFF;color:var(--text-main);border-color:${th.border};" onclick="selectTab('${nextSameRank.id}')">${esc(shortName(nextSameRank.name))} ▶</button>` : ''}
             </div>
           </div>
 
@@ -1687,7 +1912,7 @@
               </div>
               <div style="min-width:0;flex:1;">
                 <div style="font-size:0.88rem;color:${th.strong};">
-                  📖 สมุดที่ปรึกษาประจำตัว (โทน${th.name})
+                  📖 สมุดหมวด ${esc(f.rank)} &bull; โทน${th.name}
                 </div>
                 <h2 style="font-size:1.35rem;color:var(--text-main);line-height:1.25;word-break:break-word;">
                   ${esc(f.name)}
@@ -1700,7 +1925,7 @@
 
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
               <span class="pill" style="background:#FFFFFF;color:${th.strong};border:1.5px solid ${th.border};">
-                ${f.rank === 'ค.ศ.3' ? '👑 เป้าหมาย: ค.ศ.3 ชำนาญการพิเศษ' : '📘 เป้าหมาย: ค.ศ.2 ชำนาญการ'}
+                ${f.rank === 'ค.ศ.3' ? '👑 หมวด: ค.ศ.3 ชำนาญการพิเศษ' : '📘 หมวด: ค.ศ.2 ชำนาญการ'}
               </span>
               <span class="pill" style="background:${th.activeGrad};color:#FFFFFF;">
                 ✨ ${esc(f.status || 'รอถึงกำหนด')}
@@ -1743,7 +1968,7 @@
           <!-- 1. GoodNotes Style Consultation Sheet -->
           <div class="notebook-box" style="border:2.5px dashed ${th.border};">
             <div style="font-size:1.08rem;color:${th.strong};display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
-              <span>📒 แผนการทำผลงานของ ${esc(shortName(f.name))}</span>
+              <span>📒 แผนการทำผลงาน ${esc(f.rank)} ของ ${esc(shortName(f.name))}</span>
               <button type="button" class="tag-btn" style="background:${th.chipBg};color:${th.strong};border-color:${th.border};" onclick="openFriendModal('${f.id}')">
                 ✏️ กรอก/แก้ไข
               </button>
@@ -2093,13 +2318,16 @@
       }).join('');
     }
 
-    function openFriendModal(id) {
+    function openFriendModal(id, presetRank) {
       const f = id ? friends.find(x => x.id === id) : null;
-      document.getElementById('modal-title').textContent = f ? `✏️ แก้ไขข้อมูล: ${f.name}` : '🌸 เพิ่มข้อมูลเพื่อนครู';
+      const defaultRank = presetRank || (rankShelfMode === 'ค.ศ.3' ? 'ค.ศ.3' : 'ค.ศ.2');
+      document.getElementById('modal-title').textContent = f
+        ? `✏️ แก้ไขข้อมูล: ${f.name}`
+        : `🌸 เพิ่มเพื่อนหมวด ${defaultRank}`;
       document.getElementById('f-id').value = f ? f.id : '';
       document.getElementById('f-name').value = f ? f.name : '';
       document.getElementById('f-school').value = f ? (f.school || '') : '';
-      document.getElementById('f-rank').value = f ? (f.rank || 'ค.ศ.2') : 'ค.ศ.2';
+      document.getElementById('f-rank').value = f ? (f.rank || 'ค.ศ.2') : defaultRank;
       document.getElementById('f-date').value = f ? (f.targetDate || '') : new Date().toISOString().slice(0, 10);
       document.getElementById('f-contact').value = f ? (f.contact || '') : '';
       document.getElementById('f-status').value = f ? (f.status || 'รอถึงกำหนด') : 'รอถึงกำหนด';
@@ -2172,7 +2400,7 @@
       if (idx >= 0) friends[idx] = item; else friends.push(item);
       activeTab = item.id;
       closeFriendModal();
-      saveData(`🌸 บันทึกและเปิดสมุดของ ${shortName(item.name)} แล้วจ้า!`);
+      saveData(`🌸 บันทึกเข้าหมวด ${item.rank} และเปิดสมุดของ ${shortName(item.name)} แล้วจ้า!`);
     }
 
     function deleteCurrentFriend() {
