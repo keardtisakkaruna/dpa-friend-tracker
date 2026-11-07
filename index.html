@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="คิวเพื่อน ค.ศ.2-3" />
@@ -13,37 +13,39 @@
   <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
   <style>
     :root {
+      --font-scale: 1;
       --bg-page: #FFF7FA;
       --bg-card: #FFFFFF;
-      --text-main: #3B2C35;
-      --text-sub: #7A6571;
+      --text-main: #2D1F28;
+      --text-sub: #634F5B;
 
-      --pink-primary: #EC4899;
+      --pink-primary: #E11D48;
+      --pink-btn: #EC4899;
       --pink-light: #FCE7F3;
-      --pink-border: #F9A8D4;
+      --pink-border: #F472B6;
 
-      --sky-primary: #0284C7;
+      --sky-primary: #0369A1;
       --sky-light: #E0F2FE;
-      --sky-border: #7DD3FC;
+      --sky-border: #38BDF8;
 
-      --orange-primary: #EA580C;
+      --orange-primary: #C2410C;
       --orange-light: #FFEDD5;
-      --orange-border: #FDBA74;
+      --orange-border: #FB923C;
 
-      --amber-primary: #D97706;
+      --amber-primary: #B45309;
       --amber-light: #FEF3C7;
-      --amber-border: #FCD34D;
+      --amber-border: #FBBF24;
 
-      --mint-primary: #059669;
+      --mint-primary: #047857;
       --mint-light: #D1FAE5;
-      --mint-border: #6EE7B7;
+      --mint-border: #34D399;
 
       --lavender-light: #F3E8FF;
-      --lavender-border: #D8B4FE;
+      --lavender-border: #C084FC;
       --lavender-text: #6B21A8;
     }
 
-    /* บังคับใช้ฟอนต์ Itim (ไอติม) ทั้งเว็บไซต์ 100% ทุกตัวอักษรและทุกปุ่ม */
+    /* บังคับใช้ฟอนต์ Itim (ไอติม) ทั้งเว็บไซต์ 100% พร้อมตัวอักษรขนาดใหญ่ชัดสะใจ */
     *, *::before, *::after,
     body, h1, h2, h3, h4, p, span, div, a,
     button, input, select, textarea, label, summary, details {
@@ -54,160 +56,160 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    html {
+      font-size: calc(18px * var(--font-scale));
+    }
+
     body {
       background-color: var(--bg-page);
       background-image:
-        radial-gradient(#FBCFE8 1.2px, transparent 1.2px),
-        radial-gradient(#BAE6FD 1.2px, #FFF7FA 1.2px);
-      background-size: 32px 32px;
-      background-position: 0 0, 16px 16px;
+        radial-gradient(#FBCFE8 1.5px, transparent 1.5px),
+        radial-gradient(#BAE6FD 1.5px, #FFF7FA 1.5px);
+      background-size: 34px 34px;
+      background-position: 0 0, 17px 17px;
       color: var(--text-main);
-      line-height: 1.5;
-      padding: 10px 10px 85px 10px;
+      line-height: 1.55;
+      padding: 12px 12px 100px 12px;
       min-height: 100vh;
     }
 
     .app-shell {
-      max-width: 680px;
+      max-width: 720px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 14px;
     }
 
-    /* 1. Compact Cute Top Header */
+    /* 1. Large & Clear Top Header (No Truncation!) */
     .top-bar {
       background: linear-gradient(135deg, #FCE7F3 0%, #FEF3C7 55%, #D1FAE5 100%);
-      border: 2.5px solid var(--pink-border);
-      border-radius: 22px;
-      padding: 10px 12px;
+      border: 3px solid var(--pink-border);
+      border-radius: 26px;
+      padding: 14px 16px;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      box-shadow: 0 4px 0 rgba(244, 114, 182, 0.18);
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 5px 0 rgba(244, 114, 182, 0.22);
     }
 
-    .brand-left {
+    .brand-row {
       display: flex;
       align-items: center;
-      gap: 9px;
-      min-width: 0;
+      gap: 12px;
     }
 
     .avatar-badge {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #EC4899, #F43F5E);
-      border: 2px solid #FFFFFF;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #EC4899, #E11D48);
+      border: 3px solid #FFFFFF;
       color: #FFFFFF;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      box-shadow: 0 3px 6px rgba(236, 72, 153, 0.25);
+      box-shadow: 0 4px 8px rgba(225, 29, 72, 0.3);
     }
 
     .brand-title {
-      font-size: 16.5px;
+      font-size: 1.35rem;
       color: var(--text-main);
-      line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      line-height: 1.25;
     }
 
     .brand-sub {
-      font-size: 12px;
+      font-size: 0.95rem;
       color: #BE185D;
+      margin-top: 2px;
     }
 
     .top-actions {
-      display: flex;
+      display: grid;
+      grid-template-columns: auto auto 1fr;
+      gap: 8px;
       align-items: center;
-      gap: 5px;
-      flex-shrink: 0;
     }
 
-    /* Cute Bouncy Buttons */
+    /* Big Easy-to-Tap Buttons */
     .btn {
-      font-size: 14px;
-      padding: 7px 13px;
+      font-size: 1rem;
+      padding: 10px 16px;
       border-radius: 999px;
-      border: 2px solid #FFFFFF;
+      border: 2.5px solid #FFFFFF;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 6px;
       text-decoration: none;
       white-space: nowrap;
       transition: transform 0.1s ease;
-      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.12);
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.14);
     }
 
     .btn:active {
       transform: translateY(2px);
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.14);
     }
 
     .btn-pink {
-      background: linear-gradient(135deg, #EC4899, #F43F5E);
+      background: linear-gradient(135deg, #EC4899, #E11D48);
       color: #FFFFFF;
-      box-shadow: 0 3px 0 #BE185D;
+      box-shadow: 0 4px 0 #9F1239;
     }
 
     .btn-mint {
       background: var(--mint-light);
       color: #065F46;
       border-color: var(--mint-border);
-      box-shadow: 0 3px 0 #6EE7B7;
+      box-shadow: 0 4px 0 #34D399;
     }
 
     .btn-amber {
       background: var(--amber-light);
       color: #92400E;
       border-color: var(--amber-border);
-      box-shadow: 0 3px 0 #FCD34D;
+      box-shadow: 0 4px 0 #FBBF24;
     }
 
     .btn-sky {
       background: var(--sky-light);
       color: #0369A1;
       border-color: var(--sky-border);
-      box-shadow: 0 3px 0 #7DD3FC;
+      box-shadow: 0 4px 0 #38BDF8;
     }
 
     .btn-lavender {
       background: var(--lavender-light);
       color: var(--lavender-text);
       border-color: var(--lavender-border);
-      box-shadow: 0 3px 0 #D8B4FE;
+      box-shadow: 0 4px 0 #C084FC;
     }
 
     .btn-sm {
-      font-size: 13px;
-      padding: 5px 10px;
+      font-size: 0.95rem;
+      padding: 8px 14px;
     }
 
-    /* 2. GoodNotes-Style Folder Tabs Bar */
+    /* 2. Sticky Large Folder Tabs Bar */
     .tabs-wrapper {
       background: #FFFFFF;
-      border: 2.5px solid var(--pink-border);
-      border-radius: 22px;
-      padding: 8px;
-      box-shadow: 0 4px 0 rgba(249, 168, 212, 0.22);
+      border: 3px solid var(--pink-border);
+      border-radius: 24px;
+      padding: 10px 12px;
+      box-shadow: 0 5px 0 rgba(244, 114, 182, 0.22);
       position: sticky;
       top: 6px;
       z-index: 30;
     }
 
     .tabs-label {
-      font-size: 12px;
+      font-size: 0.92rem;
       color: var(--text-sub);
-      padding: 0 6px 4px 6px;
+      padding: 0 4px 6px 4px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -216,9 +218,9 @@
     .tabs-scroll {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 9px;
       overflow-x: auto;
-      padding-bottom: 3px;
+      padding-bottom: 4px;
       scrollbar-width: none;
     }
 
@@ -227,17 +229,17 @@
     }
 
     .tab-chip {
-      padding: 6px 13px;
+      padding: 10px 18px;
       border-radius: 999px;
-      border: 2px solid #FBCFE8;
+      border: 2.5px solid #F9A8D4;
       background: #FFF5F8;
       color: var(--text-main);
-      font-size: 14px;
+      font-size: 1.08rem;
       cursor: pointer;
       white-space: nowrap;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 7px;
       transition: all 0.15s ease;
       flex-shrink: 0;
     }
@@ -253,18 +255,19 @@
     }
 
     .tab-chip.active {
-      background: linear-gradient(135deg, #EC4899, #F43F5E);
+      background: linear-gradient(135deg, #EC4899, #E11D48);
       color: #FFFFFF;
       border-color: #FFFFFF;
-      box-shadow: 0 3px 8px rgba(236, 72, 153, 0.35);
+      box-shadow: 0 4px 10px rgba(225, 29, 72, 0.35);
       transform: translateY(-1px);
     }
 
     .tab-dot {
-      width: 8px;
-      height: 8px;
+      width: 11px;
+      height: 11px;
       border-radius: 50%;
       background: #F59E0B;
+      border: 2px solid #FFFFFF;
       display: inline-block;
     }
 
@@ -272,82 +275,87 @@
       background: #FEF08A;
     }
 
-    /* 3. Overview Tab Content */
+    /* 3. Overview Tab Content (2x2 Big Summary Grid for Easy Reading!) */
     .stats-strip {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 7px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    @media (min-width: 560px) {
+      .stats-strip {
+        grid-template-columns: repeat(4, 1fr);
+      }
     }
 
     .mini-stat {
       background: #FFFFFF;
-      border: 2px solid var(--pink-border);
-      border-radius: 18px;
-      padding: 8px 5px;
-      text-align: center;
+      border: 3px solid var(--pink-border);
+      border-radius: 22px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       cursor: pointer;
-      box-shadow: 0 3px 0 rgba(0,0,0,0.04);
+      box-shadow: 0 4px 0 rgba(0,0,0,0.05);
     }
 
     .mini-stat.active {
-      outline: 2.5px solid #EC4899;
+      outline: 3.5px solid #E11D48;
       background: #FFF0F6;
     }
 
     .mini-stat-label {
-      font-size: 12px;
-      color: var(--text-sub);
-      display: block;
+      font-size: 1rem;
+      color: var(--text-main);
     }
 
     .mini-stat-num {
-      font-size: 18px;
+      font-size: 1.4rem;
       color: var(--text-main);
     }
 
     /* Urgent Radar Card */
     .radar-card {
       background: #FFFBEB;
-      border: 2.5px solid var(--amber-border);
-      border-radius: 22px;
-      padding: 12px 14px;
-      box-shadow: 0 4px 0 rgba(251, 191, 36, 0.2);
+      border: 3px solid var(--amber-border);
+      border-radius: 24px;
+      padding: 15px;
+      box-shadow: 0 5px 0 rgba(251, 191, 36, 0.25);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 12px;
     }
 
     .radar-row {
       background: #FFFFFF;
-      border: 2px solid var(--amber-border);
-      border-radius: 16px;
-      padding: 9px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    /* Directory Card */
-    .directory-card {
-      background: #FFFFFF;
-      border: 2.5px solid var(--lavender-border);
-      border-radius: 22px;
-      padding: 12px;
-      box-shadow: 0 4px 0 rgba(216, 180, 254, 0.25);
+      border: 2.5px solid var(--amber-border);
+      border-radius: 20px;
+      padding: 13px 14px;
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
+    /* Directory Card */
+    .directory-card {
+      background: #FFFFFF;
+      border: 3px solid var(--lavender-border);
+      border-radius: 24px;
+      padding: 15px;
+      box-shadow: 0 5px 0 rgba(192, 132, 252, 0.25);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
     .input-cute {
       width: 100%;
-      padding: 8px 12px;
-      border-radius: 14px;
-      border: 2px solid var(--pink-border);
+      padding: 11px 14px;
+      border-radius: 16px;
+      border: 2.5px solid var(--pink-border);
       background: #FFFDF9;
-      font-size: 14.5px;
+      font-size: 1.05rem;
       color: var(--text-main);
     }
 
@@ -359,13 +367,12 @@
 
     .friend-row-item {
       background: #FFFDF9;
-      border: 2px solid #F3E8FF;
-      border-radius: 16px;
-      padding: 10px 12px;
+      border: 2.5px solid #E9D5FF;
+      border-radius: 20px;
+      padding: 13px 15px;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
+      flex-direction: column;
+      gap: 6px;
       cursor: pointer;
     }
 
@@ -374,74 +381,73 @@
       background: #FFF5F8;
     }
 
-    /* 4. Single Friend Personal Page */
+    /* 4. Single Friend Personal Page (Big, Clear GoodNotes Dossier) */
     .person-page {
       background: #FFFFFF;
-      border: 3px solid var(--pink-border);
-      border-radius: 26px;
-      padding: 15px;
-      box-shadow: 0 7px 0 rgba(249, 168, 212, 0.28);
+      border: 3.5px solid var(--pink-border);
+      border-radius: 28px;
+      padding: 18px 16px;
+      box-shadow: 0 8px 0 rgba(244, 114, 182, 0.28);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 15px;
     }
 
     .person-page.theme-ks2 {
       border-color: var(--sky-border);
-      box-shadow: 0 7px 0 rgba(125, 211, 252, 0.28);
+      box-shadow: 0 8px 0 rgba(56, 189, 248, 0.28);
     }
 
     .person-page.theme-ks3 {
       border-color: var(--orange-border);
-      box-shadow: 0 7px 0 rgba(253, 186, 116, 0.28);
+      box-shadow: 0 8px 0 rgba(251, 146, 60, 0.28);
     }
 
     .person-nav-strip {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 6px;
-      padding-bottom: 8px;
-      border-bottom: 2px dashed #FBCFE8;
+      gap: 8px;
+      padding-bottom: 10px;
+      border-bottom: 2.5px dashed #FBCFE8;
+      flex-wrap: wrap;
     }
 
     .pill {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      padding: 3px 10px;
+      gap: 5px;
+      padding: 4px 13px;
       border-radius: 999px;
-      font-size: 13px;
+      font-size: 0.98rem;
     }
 
     .pill-ks2 {
       background: var(--sky-light);
       color: #0369A1;
-      border: 1.5px solid var(--sky-border);
+      border: 2px solid var(--sky-border);
     }
 
     .pill-ks3 {
       background: var(--orange-light);
       color: #C2410C;
-      border: 1.5px solid var(--orange-border);
+      border: 2px solid var(--orange-border);
     }
 
     .pill-status {
       background: var(--pink-light);
       color: #BE185D;
-      border: 1.5px solid var(--pink-border);
+      border: 2px solid var(--pink-border);
     }
 
     .countdown-banner {
-      padding: 10px 13px;
-      border-radius: 18px;
-      font-size: 14px;
+      padding: 13px 16px;
+      border-radius: 20px;
+      font-size: 1.08rem;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 6px;
-      border: 2px solid var(--sky-border);
+      flex-direction: column;
+      gap: 4px;
+      border: 2.5px solid var(--sky-border);
       background: var(--sky-light);
       color: #0369A1;
     }
@@ -467,21 +473,21 @@
     /* GoodNotes Notebook Box */
     .notebook-box {
       background: #FFFBEB;
-      border: 2px dashed var(--amber-border);
-      border-radius: 20px;
-      padding: 12px 14px;
+      border: 2.5px dashed var(--amber-border);
+      border-radius: 22px;
+      padding: 15px;
       display: flex;
       flex-direction: column;
-      gap: 7px;
-      font-size: 14.5px;
+      gap: 10px;
+      font-size: 1.08rem;
     }
 
     .notebook-line {
       display: flex;
-      align-items: baseline;
-      gap: 6px;
-      padding-bottom: 5px;
-      border-bottom: 1px dashed #FDE68A;
+      flex-direction: column;
+      gap: 2px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px dashed #FDE68A;
     }
 
     .notebook-line:last-child {
@@ -491,43 +497,41 @@
 
     .notebook-key {
       color: #92400E;
-      min-width: 115px;
-      flex-shrink: 0;
+      font-size: 0.98rem;
+    }
+
+    .notebook-val {
+      font-size: 1.12rem;
+      color: var(--text-main);
     }
 
     /* Links & Attached Files Section */
     .files-box {
       background: #F0F9FF;
-      border: 2px solid var(--sky-border);
-      border-radius: 20px;
-      padding: 12px 14px;
+      border: 2.5px solid var(--sky-border);
+      border-radius: 22px;
+      padding: 15px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .link-pills-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-    }
-
-    @media (max-width: 460px) {
-      .link-pills-grid {
-        grid-template-columns: 1fr;
-      }
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
     .link-slot {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 6px;
+      gap: 8px;
       background: #FFFFFF;
-      border: 1.5px solid var(--sky-border);
-      border-radius: 13px;
-      padding: 7px 10px;
-      font-size: 13px;
+      border: 2px solid var(--sky-border);
+      border-radius: 16px;
+      padding: 10px 14px;
+      font-size: 1.05rem;
     }
 
     .attached-file-row {
@@ -536,28 +540,29 @@
       justify-content: space-between;
       gap: 8px;
       background: #FFFFFF;
-      border: 1.5px dashed var(--sky-primary);
-      border-radius: 13px;
-      padding: 7px 10px;
-      font-size: 13px;
+      border: 2px dashed var(--sky-primary);
+      border-radius: 16px;
+      padding: 10px 14px;
+      font-size: 1rem;
     }
 
     /* Collapsible DPA 6 Pitfalls Box */
     details.pitfalls-box {
       background: #FFF1F2;
-      border: 2px solid #FDA4AF;
-      border-radius: 20px;
-      padding: 10px 13px;
+      border: 2.5px solid #FDA4AF;
+      border-radius: 22px;
+      padding: 13px 15px;
     }
 
     details.pitfalls-box summary {
-      font-size: 14.5px;
+      font-size: 1.08rem;
       color: #BE123C;
       cursor: pointer;
       list-style: none;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
     }
 
     details.pitfalls-box summary::-webkit-details-marker {
@@ -565,21 +570,21 @@
     }
 
     .pitfalls-list {
-      margin-top: 10px;
+      margin-top: 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
 
     .pitfall-item {
       display: flex;
       align-items: flex-start;
-      gap: 8px;
+      gap: 10px;
       background: #FFFFFF;
-      border: 1.5px solid #FECDD3;
-      border-radius: 13px;
-      padding: 8px 10px;
-      font-size: 13.5px;
+      border: 2px solid #FECDD3;
+      border-radius: 16px;
+      padding: 11px 13px;
+      font-size: 1.02rem;
       cursor: pointer;
     }
 
@@ -591,38 +596,46 @@
 
     .pitfall-item input {
       accent-color: #059669;
-      margin-top: 3px;
-      width: 16px;
-      height: 16px;
+      margin-top: 4px;
+      width: 22px;
+      height: 22px;
       flex-shrink: 0;
     }
 
     /* Zero-Typing 1-Tap Timeline & Voice Note Box */
     .timeline-box {
       background: #FAF5FF;
-      border: 2px solid var(--lavender-border);
-      border-radius: 20px;
-      padding: 12px 14px;
+      border: 2.5px solid var(--lavender-border);
+      border-radius: 22px;
+      padding: 15px;
       display: flex;
       flex-direction: column;
-      gap: 9px;
+      gap: 11px;
     }
 
     .stamp-grid {
       display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    @media (min-width: 520px) {
+      .stamp-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     .stamp-btn {
-      font-size: 13px;
-      padding: 5px 10px;
-      border-radius: 99px;
-      border: 1.5px solid var(--lavender-border);
+      font-size: 1.02rem;
+      padding: 10px 14px;
+      border-radius: 16px;
+      border: 2px solid var(--lavender-border);
       background: #FFFFFF;
       color: var(--lavender-text);
       cursor: pointer;
-      box-shadow: 0 2px 0 rgba(216, 180, 254, 0.4);
+      text-align: left;
+      box-shadow: 0 3px 0 rgba(192, 132, 252, 0.35);
       transition: transform 0.1s ease;
     }
 
@@ -634,17 +647,17 @@
     .timeline-list {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      max-height: 210px;
+      gap: 8px;
+      max-height: 260px;
       overflow-y: auto;
     }
 
     .timeline-entry {
       background: #FFFFFF;
-      border-left: 4px solid #A855F7;
-      border-radius: 10px;
-      padding: 7px 10px;
-      font-size: 13.5px;
+      border-left: 5px solid #A855F7;
+      border-radius: 14px;
+      padding: 10px 13px;
+      font-size: 1.02rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -653,11 +666,11 @@
 
     .progress-track {
       width: 100%;
-      height: 11px;
+      height: 14px;
       background: #FCE7F3;
       border-radius: 99px;
       overflow: hidden;
-      margin: 5px 0;
+      margin: 6px 0;
     }
 
     .progress-fill {
@@ -669,19 +682,25 @@
 
     .chk-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 7px;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    @media (min-width: 500px) {
+      .chk-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     .chk-card {
       display: flex;
       align-items: center;
-      gap: 7px;
-      padding: 8px 10px;
-      border-radius: 14px;
-      border: 2px solid #E5E7EB;
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 16px;
+      border: 2.5px solid #E5E7EB;
       background: #FAFAFA;
-      font-size: 13.5px;
+      font-size: 1.05rem;
       cursor: pointer;
     }
 
@@ -693,15 +712,16 @@
 
     .chk-card input {
       accent-color: #EC4899;
-      width: 16px;
-      height: 16px;
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
     }
 
     /* Modals */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(59, 44, 53, 0.55);
+      background: rgba(59, 44, 53, 0.6);
       backdrop-filter: blur(3px);
       z-index: 100;
       display: none;
@@ -717,47 +737,37 @@
 
     .modal-box {
       background: #FFFFFF;
-      border: 3px solid var(--pink-border);
-      border-radius: 26px;
+      border: 3.5px solid var(--pink-border);
+      border-radius: 28px;
       width: 100%;
-      max-width: 520px;
-      max-height: 91vh;
+      max-width: 540px;
+      max-height: 92vh;
       overflow-y: auto;
-      padding: 16px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+      gap: 12px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.22);
     }
 
     .form-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .col-full {
-      grid-column: 1 / -1;
-    }
-
-    @media (max-width: 480px) {
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
+      grid-template-columns: 1fr;
+      gap: 10px;
     }
 
     .form-label {
       display: block;
-      font-size: 13.5px;
+      font-size: 1.02rem;
       color: #BE185D;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
     }
 
     .tag-btn {
-      font-size: 13px;
-      padding: 4px 10px;
+      font-size: 0.96rem;
+      padding: 6px 13px;
       border-radius: 99px;
-      border: 1.5px solid var(--pink-border);
+      border: 2px solid var(--pink-border);
       background: var(--pink-light);
       color: #BE185D;
       cursor: pointer;
@@ -765,17 +775,17 @@
 
     .msg-mode-tabs {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
+      grid-template-columns: 1fr;
+      gap: 7px;
     }
 
     .msg-mode-btn {
-      padding: 7px 10px;
-      border-radius: 12px;
+      padding: 10px 14px;
+      border-radius: 16px;
       border: 2px solid var(--amber-border);
       background: #FFFBEB;
       color: #92400E;
-      font-size: 13px;
+      font-size: 1.02rem;
       cursor: pointer;
       text-align: left;
     }
@@ -788,19 +798,19 @@
 
     .toast {
       position: fixed;
-      bottom: 18px;
-      left: 18px;
-      right: 18px;
-      max-width: 340px;
+      bottom: 20px;
+      left: 16px;
+      right: 16px;
+      max-width: 380px;
       margin: 0 auto;
-      background: #EC4899;
+      background: #E11D48;
       color: #FFFFFF;
-      border: 2px solid #FFFFFF;
-      padding: 10px 16px;
+      border: 2.5px solid #FFFFFF;
+      padding: 12px 18px;
       border-radius: 99px;
-      font-size: 14.5px;
+      font-size: 1.05rem;
       text-align: center;
-      box-shadow: 0 6px 16px rgba(236, 72, 153, 0.4);
+      box-shadow: 0 8px 20px rgba(225, 29, 72, 0.4);
       z-index: 200;
       display: none;
     }
@@ -809,33 +819,36 @@
 <body>
   <div class="app-shell">
 
-    <!-- 1. Compact Header -->
+    <!-- 1. Large & Clear Top Header -->
     <header class="top-bar">
-      <div class="brand-left">
+      <div class="brand-row">
         <div class="avatar-badge">
-          <span style="font-size:18px;line-height:1;">🧑🏻‍🏫</span>
-          <span style="font-size:10px;line-height:1;">ค.ศ.3</span>
+          <span style="font-size:24px;line-height:1;">🧑🏻‍🏫</span>
+          <span style="font-size:12px;line-height:1;margin-top:2px;">ค.ศ.3</span>
         </div>
-        <div style="min-width:0;">
-          <h1 class="brand-title">🌸 สมุดจำคิวเพื่อนทำ ค.ศ.2-3</h1>
+        <div>
+          <h1 class="brand-title">🌸 สมุดจำคิวเพื่อนทำ ค.ศ.2 - ค.ศ.3</h1>
           <div class="brand-sub">ครูเกียรติศักดิ์ กรุณา (9,999 กิจกรรม) ✨</div>
         </div>
       </div>
 
       <div class="top-actions">
-        <a href="https://docs.google.com/spreadsheets/d/1JW35O0ZLsJ0lxno5jOxTR3A34vGCv4ljdsfo_CylVys/edit" target="_blank" rel="noopener" class="btn btn-mint btn-sm" title="เปิดตาราง Google Sheets">
-          📗 ชีต
+        <button type="button" class="btn btn-lavender btn-sm" id="btn-font-scale" onclick="cycleFontScale()" title="ปรับขนาดตัวอักษร">
+          🔍 ก+ ขยายจอ
+        </button>
+        <a href="https://docs.google.com/spreadsheets/d/1JW35O0ZLsJ0lxno5jOxTR3A34vGCv4ljdsfo_CylVys/edit" target="_blank" rel="noopener" class="btn btn-mint btn-sm">
+          📗 เปิดชีต
         </a>
         <button type="button" class="btn btn-pink btn-sm" onclick="openFriendModal()">
-          ➕ เพิ่มเพื่อน
+          ➕ เพิ่มเพื่อนครู
         </button>
       </div>
     </header>
 
-    <!-- 2. Sticky Notebook Folder Tabs -->
+    <!-- 2. Sticky Large Folder Tabs -->
     <nav class="tabs-wrapper" aria-label="แถบสลับหน้า">
       <div class="tabs-label">
-        <span>🗂️ แตะสลับแท็บแดชบอร์ด หรือชื่อเพื่อนเพื่อดูรายคน:</span>
+        <span>🗂️ แตะสลับแท็บเพื่อดูรายคน:</span>
         <span id="tab-counter">0 คน</span>
       </div>
       <div id="tabs-bar" class="tabs-scroll"></div>
@@ -846,18 +859,18 @@
 
   </div>
 
-  <!-- Hidden File Input for Attaching Friend Files (PDF / Word / Images) -->
+  <!-- Hidden File Input -->
   <input type="file" id="hidden-file-picker" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,image/*" style="display:none;" onchange="handleFileSelected(event)" />
 
   <!-- Add / Edit Friend Modal -->
   <div id="friend-modal" class="modal-overlay">
     <div class="modal-box">
-      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed #FBCFE8;padding-bottom:8px;">
-        <h3 id="modal-title" style="font-size:18px;color:#BE185D;">🌸 เพิ่มข้อมูลเพื่อนครู</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2.5px dashed #FBCFE8;padding-bottom:10px;">
+        <h3 id="modal-title" style="font-size:1.25rem;color:#BE185D;">🌸 เพิ่มข้อมูลเพื่อนครู</h3>
         <button type="button" class="btn btn-lavender btn-sm" onclick="closeFriendModal()">✕ ปิด</button>
       </div>
 
-      <form id="friend-form" onsubmit="saveFriendForm(event)" style="display:flex;flex-direction:column;gap:10px;">
+      <form id="friend-form" onsubmit="saveFriendForm(event)" style="display:flex;flex-direction:column;gap:12px;">
         <input type="hidden" id="f-id" />
 
         <div class="form-grid">
@@ -903,14 +916,14 @@
             <label class="form-label">🎒 ระดับชั้นที่สอน</label>
             <input type="text" id="f-grade" class="input-cute" placeholder="เช่น ป.4, ป.5, ม.1" />
           </div>
-          <div class="col-full">
+          <div>
             <label class="form-label">🎯 อยากทำเรื่องอะไร? (หน่วยการเรียนรู้ / เรื่องที่สอน)</label>
             <input type="text" id="f-topic" class="input-cute" placeholder="เช่น การอ่านจับใจความสำคัญ, การบวกลบเศษส่วน" />
           </div>
-          <div class="col-full">
+          <div>
             <label class="form-label">💡 ใช้นวัตกรรม หรือ วิธีการสอนแบบไหน?</label>
             <input type="text" id="f-innovation" class="input-cute" placeholder="เช่น Active Learning + บอร์ดเกม, GPAS 5 Steps, PBL, 5E" />
-            <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;">
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
               <button type="button" class="tag-btn" onclick="addTag('Active Learning')">🧠 + Active Learning</button>
               <button type="button" class="tag-btn" onclick="addTag('GPAS 5 Steps')">🚀 + GPAS 5 Steps</button>
               <button type="button" class="tag-btn" onclick="addTag('PBL')">🧩 + PBL</button>
@@ -921,16 +934,10 @@
           </div>
 
           <!-- 3 Links Fields -->
-          <div class="col-full" style="padding-top:4px;border-top:2px dashed #BAE6FD;">
-            <label class="form-label" style="color:#0369A1;">📎 ลิงก์ไฟล์งานของเพื่อน (ถ้าเพื่อนส่งเป็นลิงก์มาให้วางตรงนี้ได้เลย)</label>
-          </div>
-          <div class="col-full">
-            <input type="url" id="f-link-drive" class="input-cute" style="border-color:var(--sky-border);" placeholder="📁 ลิงก์โฟลเดอร์ Google Drive รวมของเพื่อน (ถ้ามี)" />
-          </div>
-          <div>
-            <input type="url" id="f-link-plan" class="input-cute" style="border-color:var(--sky-border);" placeholder="📄 ลิงก์ไฟล์แผนการสอน" />
-          </div>
-          <div>
+          <div style="padding-top:6px;border-top:2px dashed #BAE6FD;">
+            <label class="form-label" style="color:#0369A1;">📎 ลิงก์ไฟล์งานของเพื่อน (ถ้ามี)</label>
+            <input type="url" id="f-link-drive" class="input-cute" style="border-color:var(--sky-border);margin-bottom:8px;" placeholder="📁 ลิงก์โฟลเดอร์ Google Drive รวม" />
+            <input type="url" id="f-link-plan" class="input-cute" style="border-color:var(--sky-border);margin-bottom:8px;" placeholder="📄 ลิงก์ไฟล์แผนการสอน" />
             <input type="url" id="f-link-video" class="input-cute" style="border-color:var(--sky-border);" placeholder="🎥 ลิงก์คลิปสอน / ผลลัพธ์" />
           </div>
         </div>
@@ -947,7 +954,7 @@
           <textarea id="f-notes" rows="2" class="input-cute" placeholder="จดสิ่งที่แนะนำเพื่อนไว้กันลืม..."></textarea>
         </div>
 
-        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:2px dashed #FBCFE8;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:2.5px dashed #FBCFE8;">
           <button type="button" id="btn-del" class="btn btn-amber btn-sm" style="display:none;background:#FEE2E2;color:#B91C1C;border-color:#FCA5A5;" onclick="deleteCurrentFriend()">
             🗑️ ลบรายชื่อ
           </button>
@@ -962,23 +969,23 @@
 
   <!-- 4-Mode Message Generator Modal -->
   <div id="msg-modal" class="modal-overlay">
-    <div class="modal-box" style="max-width:480px;border-color:var(--amber-border);">
-      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed var(--amber-border);padding-bottom:8px;">
-        <h3 style="font-size:17px;color:#B45309;">💌 สร้างข้อความทักแชทเพื่อน (4 สถานการณ์)</h3>
-        <button type="button" class="btn btn-amber btn-sm" onclick="closeMsgModal()">✕</button>
+    <div class="modal-box" style="max-width:500px;border-color:var(--amber-border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2.5px dashed var(--amber-border);padding-bottom:10px;">
+        <h3 style="font-size:1.2rem;color:#B45309;">💌 สร้างข้อความทักแชทเพื่อน (4 แบบ)</h3>
+        <button type="button" class="btn btn-amber btn-sm" onclick="closeMsgModal()">✕ ปิด</button>
       </div>
 
       <div class="msg-mode-tabs">
-        <button type="button" class="msg-mode-btn active" id="mm-1" onclick="setMsgMode(1)">👋 1. ทักถามหัวข้อ/ชั้นเรียน</button>
-        <button type="button" class="msg-mode-btn" id="mm-2" onclick="setMsgMode(2)">📋 2. ทักตามงาน/การบ้าน</button>
-        <button type="button" class="msg-mode-btn" id="mm-3" onclick="setMsgMode(3)">🔍 3. ส่งผลช่วยตรวจจุดตาย</button>
-        <button type="button" class="msg-mode-btn" id="mm-4" onclick="setMsgMode(4)">🍀 4. ส่งกำลังใจลุ้นป้ายเขียว</button>
+        <button type="button" class="msg-mode-btn active" id="mm-1" onclick="setMsgMode(1)">👋 1. ทักถามหัวข้อ / ชั้นเรียน / นวัตกรรม</button>
+        <button type="button" class="msg-mode-btn" id="mm-2" onclick="setMsgMode(2)">📋 2. ทักตามงาน / ถามความคืบหน้า</button>
+        <button type="button" class="msg-mode-btn" id="mm-3" onclick="setMsgMode(3)">🔍 3. ส่งผลช่วยตรวจ 6 จุดตาย DPA</button>
+        <button type="button" class="msg-mode-btn" id="mm-4" onclick="setMsgMode(4)">🍀 4. ส่งกำลังใจวันยื่น / ลุ้นป้ายเขียว</button>
       </div>
 
-      <div id="msg-box" style="background:#FFFBEB;border:2px solid var(--amber-border);border-radius:18px;padding:13px;font-size:14.5px;white-space:pre-wrap;line-height:1.6;"></div>
-      <div style="display:flex;justify-content:space-between;gap:8px;">
+      <div id="msg-box" style="background:#FFFBEB;border:2.5px solid var(--amber-border);border-radius:18px;padding:15px;font-size:1.05rem;white-space:pre-wrap;line-height:1.65;"></div>
+      <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;">
         <button type="button" class="btn btn-lavender btn-sm" onclick="editFromMsgModal()">✏️ กรอกคำตอบเพื่อน</button>
-        <button type="button" class="btn btn-pink btn-sm" onclick="copyChatMsg()">📋 คัดลอกข้อความส่งแชท</button>
+        <button type="button" class="btn btn-pink" onclick="copyChatMsg()">📋 คัดลอกข้อความส่งแชท</button>
       </div>
     </div>
   </div>
@@ -987,16 +994,16 @@
 
   <script>
     const STORAGE_KEY = 'kru_kiattisak_dpa_friends_v1';
+    const SCALE_KEY = 'kru_kiattisak_font_scale_v1';
     const THAI_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
 
     const CHECKLIST_OPTS = [
       { key: 'แผนการสอน', label: '📝 1. แผนการสอน' },
       { key: 'คลิปการสอน', label: '🎬 2. คลิป 60 นาที' },
       { key: 'ผลลัพธ์ผู้เรียน', label: '🌟 3. ผลลัพธ์ผู้เรียน' },
-      { key: 'ระบบ PA/DPA', label: '🟢 4. ระบบ DPA' }
+      { key: 'ระบบ PA/DPA', label: '🟢 4. ระบบ DPA พร้อมยื่น' }
     ];
 
-    // 6 จุดตายสำคัญของ DPA ก่อนยื่น
     const DPA_PITFALLS = [
       { key: 'p1', label: '🎥 คลิปสอนไม่เกิน 60 นาที ถ่ายมุมเดียวต่อเนื่อง (ห้ามตัดต่อ/ห้ามใส่เพลง/ไม่มีอินโทร)' },
       { key: 'p2', label: '🔊 เห็นหน้าครูและนักเรียนชัดเจน เสียงครู-นักเรียนดังฟังชัดตลอดคลิป' },
@@ -1006,7 +1013,6 @@
       { key: 'p6', label: '🔓 ไฟล์ทั้งหมดเปิดดูได้จริง ไม่ติดล็อกสิทธิ์เข้าถึงในระบบ DPA' }
     ];
 
-    // ปุ่มสแตมป์ความคืบหน้า 1 คลิก (ไม่ต้องพิมพ์เอง!)
     const QUICK_STAMPS = [
       { label: '💬 ทักถามหัวข้อแล้ว', status: 'ถึงเวลาทักถามข้อมูล' },
       { label: '🎯 สรุปเรื่องและชั้นเรียนแล้ว', status: 'กำลังวางแผน/ให้คำปรึกษา' },
@@ -1118,8 +1124,33 @@
     let activeMsgFriendId = null;
     let currentMsgMode = 1;
     let pendingFileFriendId = null;
+    let currentScale = 1.08; // เริ่มต้นแบบใหญ่ชัดสบายตา!
 
-    // IndexedDB for storing attached files (PDF, Word, Images) on mobile without 5MB localStorage limit
+    const SCALE_STEPS = [
+      { val: 1.0, label: '🔍 ขนาด: ปกติ' },
+      { val: 1.1, label: '🔍 ขนาด: ใหญ่ชัด' },
+      { val: 1.22, label: '🔍 ขนาด: ใหญ่มากพิเศษ' }
+    ];
+
+    function applyFontScale(scale) {
+      currentScale = scale;
+      document.documentElement.style.setProperty('--font-scale', String(scale));
+      localStorage.setItem(SCALE_KEY, String(scale));
+      const btn = document.getElementById('btn-font-scale');
+      if (btn) {
+        const found = SCALE_STEPS.find(s => Math.abs(s.val - scale) < 0.03) || SCALE_STEPS[1];
+        btn.textContent = found.label;
+      }
+    }
+
+    function cycleFontScale() {
+      const idx = SCALE_STEPS.findIndex(s => Math.abs(s.val - currentScale) < 0.03);
+      const next = SCALE_STEPS[(idx + 1) % SCALE_STEPS.length];
+      applyFontScale(next.val);
+      showToast(`ปรับเป็น "${next.label}" แล้วจ้า!`);
+    }
+
+    // IndexedDB
     let dbPromise = null;
     function getDB() {
       if (!dbPromise) {
@@ -1159,6 +1190,9 @@
     }
 
     function loadData() {
+      const savedScale = parseFloat(localStorage.getItem(SCALE_KEY) || '1.1');
+      applyFontScale(isNaN(savedScale) ? 1.1 : savedScale);
+
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         friends = raw ? JSON.parse(raw) : DEFAULT_FRIENDS;
@@ -1300,24 +1334,22 @@
       if (consultList.length > 0) {
         radarHtml = `
           <section class="radar-card">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
-              <h2 style="font-size:15.5px;color:#92400E;">📣 คิวเพื่อนใกล้ครบกำหนด — ต้องทักถามแผนทำผลงาน (${consultList.length} คน)</h2>
-            </div>
+            <h2 style="font-size:1.2rem;color:#92400E;">📣 คิวเพื่อนใกล้ครบกำหนด — ต้องทักถามแผน (${consultList.length} คน)</h2>
             ${consultList.map(f => {
               const d = getDaysUntil(f.targetDate);
-              const dayTxt = d < 0 ? `ครบแล้ว (${formatThaiDate(f.targetDate)})` : `อีก ${d} วัน (${formatThaiDate(f.targetDate)})`;
+              const dayTxt = d < 0 ? `ครบกำหนดแล้ว (${formatThaiDate(f.targetDate)})` : `อีก ${d} วัน (${formatThaiDate(f.targetDate)})`;
               return `
                 <div class="radar-row">
-                  <div onclick="selectTab('${f.id}')" style="cursor:pointer;flex:1;min-width:155px;">
-                    <div style="font-size:15.5px;color:var(--text-main);">
+                  <div onclick="selectTab('${f.id}')" style="cursor:pointer;">
+                    <div style="font-size:1.2rem;color:var(--text-main);display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                       <strong>${esc(f.name)}</strong>
-                      <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}" style="padding:1px 8px;font-size:12px;">${esc(f.rank)}</span>
+                      <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">${esc(f.rank)}</span>
                     </div>
-                    <div style="font-size:13px;color:#B45309;">📅 ${dayTxt} &bull; 🌷 แตะเพื่อเปิดหน้าของเพื่อน</div>
+                    <div style="font-size:1.02rem;color:#B45309;margin-top:4px;">📅 ${dayTxt}</div>
                   </div>
-                  <div style="display:flex;gap:6px;flex-shrink:0;">
-                    <button type="button" class="btn btn-pink btn-sm" onclick="openMsgModal('${f.id}')">💬 ทักแชท</button>
-                    <button type="button" class="btn btn-amber btn-sm" onclick="selectTab('${f.id}')">👉 ดูแท็บ</button>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                    <button type="button" class="btn btn-pink btn-sm" onclick="openMsgModal('${f.id}')">💬 ทักแชทเพื่อน</button>
+                    <button type="button" class="btn btn-amber btn-sm" onclick="selectTab('${f.id}')">👉 เปิดดูหน้าเพื่อน</button>
                   </div>
                 </div>
               `;
@@ -1327,33 +1359,33 @@
       }
 
       return `
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <!-- 4 Compact Summary Boxes -->
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <!-- 2x2 Big Summary Grid -->
           <section class="stats-strip">
             <div class="mini-stat ${overviewFilter === 'all' ? 'active' : ''}" onclick="setOverviewFilter('all')">
               <span class="mini-stat-label">🧸 ทั้งหมด</span>
-              <div class="mini-stat-num">${friends.length} คน</div>
+              <strong class="mini-stat-num">${friends.length} คน</strong>
             </div>
             <div class="mini-stat ${overviewFilter === 'consult' ? 'active' : ''}" style="border-color:var(--amber-border);" onclick="setOverviewFilter('consult')">
               <span class="mini-stat-label" style="color:#B45309;">🔔 ทักถาม</span>
-              <div class="mini-stat-num" style="color:#D97706;">${consultList.length} คน</div>
+              <strong class="mini-stat-num" style="color:#D97706;">${consultList.length} คน</strong>
             </div>
             <div class="mini-stat ${overviewFilter === 'ค.ศ.2' ? 'active' : ''}" style="border-color:var(--sky-border);" onclick="setOverviewFilter('ค.ศ.2')">
               <span class="mini-stat-label" style="color:#0369A1;">📘 ค.ศ.2</span>
-              <div class="mini-stat-num" style="color:#0284C7;">${ks2Count} คน</div>
+              <strong class="mini-stat-num" style="color:#0284C7;">${ks2Count} คน</strong>
             </div>
             <div class="mini-stat ${overviewFilter === 'ค.ศ.3' ? 'active' : ''}" style="border-color:var(--orange-border);" onclick="setOverviewFilter('ค.ศ.3')">
               <span class="mini-stat-label" style="color:#C2410C;">👑 ค.ศ.3</span>
-              <div class="mini-stat-num" style="color:#EA580C;">${ks3Count} คน</div>
+              <strong class="mini-stat-num" style="color:#EA580C;">${ks3Count} คน</strong>
             </div>
           </section>
 
           ${radarHtml}
 
-          <!-- Compact Friend Directory -->
+          <!-- Directory List -->
           <section class="directory-card">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
-              <h2 style="font-size:15.5px;color:var(--lavender-text);">📋 รายชื่อเพื่อนทั้งหมด (แตะชื่อเพื่อเปิดดูรายคน)</h2>
+              <h2 style="font-size:1.2rem;color:var(--lavender-text);">📋 รายชื่อเพื่อนทั้งหมด (แตะชื่อเพื่อเปิดดูรายคน)</h2>
               ${hasSample ? `
                 <button type="button" class="btn btn-lavender btn-sm" onclick="clearSampleFriends()">
                   🧹 ล้างข้อมูลตัวอย่าง 4 คนออก
@@ -1371,33 +1403,32 @@
               />
             </div>
 
-            <div style="display:flex;flex-direction:column;gap:7px;">
+            <div style="display:flex;flex-direction:column;gap:10px;">
               ${filtered.length === 0 ? `
-                <div style="text-align:center;padding:24px;color:var(--text-sub);">
-                  <div style="font-size:26px;">🌸</div>
-                  <div>ยังไม่มีรายชื่อเพื่อนครู กดปุ่ม <strong>➕ เพิ่มเพื่อน</strong> ด้านบนได้เลยจ้า!</div>
+                <div style="text-align:center;padding:26px;color:var(--text-sub);font-size:1.1rem;">
+                  <div style="font-size:32px;">🌸</div>
+                  <div>ยังไม่มีรายชื่อเพื่อนครู กดปุ่ม <strong>➕ เพิ่มเพื่อนครู</strong> ด้านบนได้เลยจ้า!</div>
                 </div>
               ` : filtered.map(f => {
                 const cd = getCountdownBadge(f);
                 const chk = Array.isArray(f.checklist) ? f.checklist : [];
                 return `
                   <div class="friend-row-item" onclick="selectTab('${f.id}')">
-                    <div style="min-width:0;flex:1;">
-                      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                        <span style="font-size:15.5px;"><strong>${esc(f.name)}</strong></span>
-                        <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}" style="padding:1px 8px;font-size:12px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+                      <div style="font-size:1.2rem;">
+                        <strong>${esc(f.name)}</strong>
+                        <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">
                           ${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3' : '📘 ค.ศ.2'}
                         </span>
-                        <span style="font-size:12.5px;color:#BE185D;">&bull; 📅 ${formatThaiDate(f.targetDate)} (${cd.text})</span>
                       </div>
-                      <div style="font-size:13.5px;color:var(--text-sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-                        📚 ${esc(f.subject || 'ยังไม่ระบุวิชา')} ${f.grade ? `(${esc(f.grade)})` : ''} &bull;
-                        ${f.topic ? `🎯 ${esc(f.topic)}` : '<span style="color:#DB2777;">🌷 รอถามเรื่องที่จะทำ</span>'}
-                      </div>
+                      <span class="pill" style="background:#F3E8FF;color:#6B21A8;">เอกสาร ${chk.length}/4 👉</span>
                     </div>
-                    <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
-                      <span class="pill" style="background:#F3E8FF;color:#6B21A8;font-size:12px;">${chk.length}/4</span>
-                      <span style="font-size:15px;color:#EC4899;">👉</span>
+                    <div style="font-size:1.02rem;color:#BE185D;">
+                      📅 ยื่นได้: <strong>${formatThaiDate(f.targetDate)}</strong> (${cd.text})
+                    </div>
+                    <div style="font-size:1.02rem;color:var(--text-sub);">
+                      📚 ${esc(f.subject || 'ยังไม่ระบุวิชา')} ${f.grade ? `(ชั้น ${esc(f.grade)})` : ''} &bull;
+                      ${f.topic ? `🎯 <strong>${esc(f.topic)}</strong>` : '<span style="color:#DB2777;">🌷 รอถามเรื่องที่จะทำ</span>'}
                     </div>
                   </div>
                 `;
@@ -1436,69 +1467,65 @@
             <button type="button" class="btn btn-lavender btn-sm" onclick="selectTab('overview')">
               ⬅ แดชบอร์ดรวม
             </button>
-            <div style="display:flex;gap:5px;">
+            <div style="display:flex;gap:6px;">
               ${prevFriend ? `<button type="button" class="btn btn-amber btn-sm" onclick="selectTab('${prevFriend.id}')">◀ ${esc(shortName(prevFriend.name))}</button>` : ''}
               ${nextFriend ? `<button type="button" class="btn btn-amber btn-sm" onclick="selectTab('${nextFriend.id}')">${esc(shortName(nextFriend.name))} ▶</button>` : ''}
             </div>
           </div>
 
           <!-- Friend Identity Header -->
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap;">
-            <div>
-              <h2 style="font-size:20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap;">
+              <h2 style="font-size:1.45rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                 <span>${esc(f.name)}</span>
                 <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">
                   ${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3 ชำนาญการพิเศษ' : '📘 ค.ศ.2 ชำนาญการ'}
                 </span>
               </h2>
-              <div style="font-size:13.5px;color:var(--text-sub);margin-top:2px;">
-                🏫 ${esc(f.school || 'ยังไม่ได้ระบุโรงเรียน')} ${f.contact ? `&bull; 📱 ${esc(f.contact)}` : ''}
-              </div>
+              <span class="pill pill-status">${esc(f.status || 'รอถึงกำหนด')}</span>
             </div>
-            <span class="pill pill-status">${esc(f.status || 'รอถึงกำหนด')}</span>
+            <div style="font-size:1.05rem;color:var(--text-sub);">
+              🏫 ${esc(f.school || 'ยังไม่ได้ระบุโรงเรียน')} ${f.contact ? `&bull; 📱 ${esc(f.contact)}` : ''}
+            </div>
           </div>
 
-          <!-- Countdown Strip -->
+          <!-- Big Clear Countdown Strip -->
           <div class="countdown-banner ${cd.cls}">
-            <span>📅 ยื่นได้: <strong>${formatThaiDate(f.targetDate)}</strong></span>
-            <span>${cd.text}</span>
+            <div>📅 วันที่ครบกำหนดยื่นได้: <strong>${formatThaiDate(f.targetDate)}</strong></div>
+            <div style="font-size:1.15rem;"><strong>${cd.text}</strong></div>
           </div>
 
           <!-- Quick Action Buttons -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
             <button type="button" class="btn btn-amber" onclick="openMsgModal('${f.id}')">
-              💌 ข้อความทักแชท (4 แบบ)
+              💌 ทักแชทเพื่อน
             </button>
             <button type="button" class="btn btn-pink" onclick="openFriendModal('${f.id}')">
-              ✏️ แก้ไขข้อมูล / ลิงก์
+              ✏️ แก้ไขข้อมูล
             </button>
           </div>
 
           <!-- 1. GoodNotes Style Consultation Sheet -->
           <div class="notebook-box">
-            <div style="font-size:15px;color:#B45309;display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-size:1.18rem;color:#B45309;display:flex;justify-content:space-between;align-items:center;">
               <span>📒 แผนการทำผลงานของเพื่อน</span>
-              <button type="button" class="tag-btn" onclick="openFriendModal('${f.id}')">✏️ แก้ไข</button>
+              <button type="button" class="tag-btn" onclick="openFriendModal('${f.id}')">✏️ กรอก/แก้ไข</button>
             </div>
             <div class="notebook-line">
-              <span class="notebook-key">📚 วิชา / กลุ่มสาระ:</span>
-              <span>${esc(f.subject || 'ยังไม่ระบุวิชา')}</span>
+              <span class="notebook-key">📚 วิชา / กลุ่มสาระ &amp; ชั้นเรียน:</span>
+              <span class="notebook-val">${esc(f.subject || 'ยังไม่ระบุวิชา')} ${f.grade ? `(ชั้น ${esc(f.grade)})` : '(ยังไม่ระบุชั้นเรียน)'}</span>
             </div>
             <div class="notebook-line">
-              <span class="notebook-key">🎒 ระดับชั้นที่สอน:</span>
-              <span>${f.grade ? `ชั้น ${esc(f.grade)}` : '<span style="color:#D97706;">ยังไม่ระบุชั้นเรียน</span>'}</span>
-            </div>
-            <div class="notebook-line">
-              <span class="notebook-key">🎯 เรื่องที่จะทำ:</span>
-              <span>
+              <span class="notebook-key">🎯 อยากทำเรื่องอะไร (หน่วยการเรียนรู้):</span>
+              <span class="notebook-val">
                 ${f.topic
                   ? `<strong>${esc(f.topic)}</strong>`
-                  : `<span style="color:#DB2777;">🌷 รอถามเพื่อนว่าจะทำเรื่องอะไร</span>`}
+                  : `<span style="color:#DB2777;">🌷 ยังไม่ได้สรุปเรื่องที่จะทำ (กดปุ่มแก้ไขเมื่อเพื่อนตอบแชท)</span>`}
               </span>
             </div>
             <div class="notebook-line">
-              <span class="notebook-key">💡 นวัตกรรม/วิธีสอน:</span>
-              <span>
+              <span class="notebook-key">💡 นวัตกรรม / วิธีการสอนที่ใช้:</span>
+              <span class="notebook-val">
                 ${f.innovation
                   ? `<strong>${esc(f.innovation)}</strong>`
                   : `<span style="color:#D97706;">ยังไม่ได้เลือกนวัตกรรมหรือวิธีสอน</span>`}
@@ -1506,46 +1533,44 @@
             </div>
           </div>
 
-          <!-- 2. Links & Attached Files Box (Supports BOTH Cloud Links AND Direct File Uploads!) -->
+          <!-- 2. Links & Attached Files Box -->
           <div class="files-box">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
-              <span style="font-size:15px;color:#0369A1;">📎 ลิงก์ Drive &amp; ไฟล์งานที่เพื่อนส่งมาให้ดู</span>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:1.15rem;color:#0369A1;">📎 ลิงก์ Drive &amp; ไฟล์งานที่เพื่อนส่งมาให้ดู</span>
               <button type="button" class="btn btn-sky btn-sm" onclick="triggerFileUpload('${f.id}')">
                 📤 แนบไฟล์จากมือถือ (PDF/Word/รูป)
               </button>
             </div>
 
-            <!-- 3 Link Slots -->
             <div class="link-pills-grid">
               <div class="link-slot">
-                <span>📁 Drive รวม</span>
+                <span>📁 โฟลเดอร์ Google Drive รวม</span>
                 ${links.drive
                   ? `<a href="${esc(links.drive)}" target="_blank" rel="noopener" class="tag-btn" style="background:var(--mint-light);color:#065F46;border-color:var(--mint-border);text-decoration:none;">เปิดดู ↗</a>`
                   : `<button type="button" class="tag-btn" onclick="quickPromptLink('${f.id}','drive','ลิงก์โฟลเดอร์ Google Drive รวม')">+ แปะลิงก์</button>`}
               </div>
               <div class="link-slot">
-                <span>📄 แผนการสอน</span>
+                <span>📄 ลิงก์ไฟล์แผนการสอน</span>
                 ${links.plan
                   ? `<a href="${esc(links.plan)}" target="_blank" rel="noopener" class="tag-btn" style="background:var(--mint-light);color:#065F46;border-color:var(--mint-border);text-decoration:none;">เปิดดู ↗</a>`
                   : `<button type="button" class="tag-btn" onclick="quickPromptLink('${f.id}','plan','ลิงก์ไฟล์แผนการสอน')">+ แปะลิงก์</button>`}
               </div>
               <div class="link-slot">
-                <span>🎥 คลิปสอน</span>
+                <span>🎥 ลิงก์คลิปการสอน / ผลลัพธ์</span>
                 ${links.video
                   ? `<a href="${esc(links.video)}" target="_blank" rel="noopener" class="tag-btn" style="background:var(--mint-light);color:#065F46;border-color:var(--mint-border);text-decoration:none;">เปิดดู ↗</a>`
                   : `<button type="button" class="tag-btn" onclick="quickPromptLink('${f.id}','video','ลิงก์คลิปการสอน/ผลลัพธ์')">+ แปะลิงก์</button>`}
               </div>
             </div>
 
-            <!-- Attached Files List -->
             ${attachedFiles.length > 0 ? `
-              <div style="display:flex;flex-direction:column;gap:5px;margin-top:2px;">
-                <div style="font-size:12.5px;color:#0369A1;">📄 ไฟล์ที่แนบไว้ในเครื่อง (${attachedFiles.length} ไฟล์):</div>
+              <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+                <div style="font-size:1rem;color:#0369A1;">📄 ไฟล์ที่แนบไว้ในเครื่อง (${attachedFiles.length} ไฟล์):</div>
                 ${attachedFiles.map(file => `
                   <div class="attached-file-row">
                     <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">📎 ${esc(file.name)} <small style="color:var(--text-sub);">(${esc(file.sizeLabel || '')})</small></span>
-                    <div style="display:flex;gap:5px;flex-shrink:0;">
-                      <button type="button" class="tag-btn" style="background:var(--mint-light);color:#065F46;border-color:var(--mint-border);" onclick="openAttachedFile('${file.fileId}')">เปิด/ดาวน์โหลด</button>
+                    <div style="display:flex;gap:6px;flex-shrink:0;">
+                      <button type="button" class="tag-btn" style="background:var(--mint-light);color:#065F46;border-color:var(--mint-border);" onclick="openAttachedFile('${file.fileId}')">เปิดดู</button>
                       <button type="button" class="tag-btn" style="background:#FEE2E2;color:#B91C1C;border-color:#FCA5A5;" onclick="removeAttachedFile('${f.id}','${file.fileId}')">✕</button>
                     </div>
                   </div>
@@ -1556,9 +1581,9 @@
 
           <!-- 3. DPA 4-Step Main Checklist -->
           <div>
-            <div style="display:flex;justify-content:space-between;font-size:14px;color:#059669;">
+            <div style="display:flex;justify-content:space-between;font-size:1.12rem;color:#059669;">
               <span>✅ เช็กลิสต์เอกสารหลัก DPA (${chk.length}/4 รายการ)</span>
-              <span>${pct}%</span>
+              <strong>${pct}%</strong>
             </div>
             <div class="progress-track">
               <div class="progress-fill" style="width:${pct}%"></div>
@@ -1579,8 +1604,8 @@
           <!-- 4. Collapsible DPA 6 Pitfalls Scanner -->
           <details class="pitfalls-box">
             <summary>
-              <span>🛡️ เช็กลิสต์สแกน 6 จุดตาย DPA ก่อนยื่น (ตรวจแล้ว ${pitfalls.length}/6 ข้อ)</span>
-              <span style="font-size:12.5px;background:#FFE4E6;padding:2px 9px;border-radius:99px;">แตะเพื่อกาง/พับ ▾</span>
+              <span>🛡️ เช็กลิสต์สแกน 6 จุดตาย DPA ก่อนยื่น (${pitfalls.length}/6 ข้อ)</span>
+              <span style="font-size:0.95rem;background:#FFE4E6;padding:3px 11px;border-radius:99px;flex-shrink:0;">แตะกางดู ▾</span>
             </summary>
             <div class="pitfalls-list">
               ${DPA_PITFALLS.map(pf => {
@@ -1597,39 +1622,38 @@
 
           <!-- 5. ZERO-TYPING 1-Tap Timeline & Voice Recorder -->
           <div class="timeline-box">
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
-              <span style="font-size:15px;color:var(--lavender-text);">⚡ จิ้มบันทึกไทม์ไลน์ใน 1 คลิก (ไม่ต้องพิมพ์เอง!)</span>
-              <button type="button" class="btn btn-pink btn-sm" onclick="startVoiceLog('${f.id}')" title="พูดด้วยเสียงเพื่อจดลงไทม์ไลน์">
-                🎙️ พูดเพื่อจดบันทึก
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <span style="font-size:1.15rem;color:var(--lavender-text);">⚡ จิ้มบันทึกไทม์ไลน์ใน 1 คลิก (ไม่ต้องพิมพ์เอง!)</span>
+              <button type="button" class="btn btn-pink btn-sm" onclick="startVoiceLog('${f.id}')">
+                🎙️ กดพูดเพื่อจดบันทึก
               </button>
             </div>
-            <div style="font-size:12.5px;color:var(--text-sub);">
-              แตะปุ่มด้านล่างปุ๊บ ระบบจะลงวันที่วันนี้ในไทม์ไลน์และอัปเดตสถานะของเพื่อนให้อัตโนมัติทันที:
+            <div style="font-size:0.98rem;color:var(--text-sub);">
+              แตะปุ่มด้านล่างปุ๊บ ระบบลงวันที่วันนี้ในไทม์ไลน์และอัปเดตสถานะของเพื่อนให้อัตโนมัติทันที:
             </div>
             <div class="stamp-grid">
               ${QUICK_STAMPS.map((st, sIdx) => `
                 <button type="button" class="stamp-btn" onclick="applyQuickStamp('${f.id}', ${sIdx})">
-                  + ${esc(st.label)}
+                  ➕ ${esc(st.label)}
                 </button>
               `).join('')}
             </div>
 
-            <!-- Custom 1-line note or timeline history -->
-            <div style="display:flex;gap:6px;margin-top:2px;">
-              <input type="text" id="quick-note-input-${f.id}" class="input-cute" style="padding:6px 10px;font-size:13.5px;" placeholder="หรือพิมพ์สั้นๆ แล้วกด +บันทึก..." />
+            <div style="display:flex;gap:8px;margin-top:4px;">
+              <input type="text" id="quick-note-input-${f.id}" class="input-cute" placeholder="หรือพิมพ์สั้นๆ แล้วกด +บันทึก..." />
               <button type="button" class="btn btn-lavender btn-sm" onclick="addCustomTimeline('${f.id}')">+ บันทึก</button>
             </div>
 
             <div class="timeline-list">
               ${timeline.length === 0 ? `
-                <div style="font-size:13px;color:var(--text-sub);text-align:center;padding:8px;">ยังไม่มีประวัติไทม์ไลน์ แตะปุ่มสแตมป์ด้านบนได้เลยจ้า</div>
+                <div style="font-size:1rem;color:var(--text-sub);text-align:center;padding:10px;">ยังไม่มีประวัติไทม์ไลน์ แตะปุ่มสแตมป์ด้านบนได้เลยจ้า</div>
               ` : timeline.map((t, tIdx) => `
                 <div class="timeline-entry">
                   <div>
-                    <span style="font-size:12px;color:#7C3AED;background:#F3E8FF;padding:1px 7px;border-radius:99px;margin-right:5px;">${esc(t.date)}</span>
+                    <span style="font-size:0.92rem;color:#7C3AED;background:#F3E8FF;padding:2px 9px;border-radius:99px;margin-right:6px;">${esc(t.date)}</span>
                     <span>${esc(t.text)}</span>
                   </div>
-                  <button type="button" style="background:none;border:none;color:#9CA3AF;cursor:pointer;font-size:13px;" onclick="removeTimelineEntry('${f.id}', ${tIdx})">✕</button>
+                  <button type="button" style="background:none;border:none;color:#9CA3AF;cursor:pointer;font-size:1.1rem;padding:0 4px;" onclick="removeTimelineEntry('${f.id}', ${tIdx})">✕</button>
                 </div>
               `).join('')}
             </div>
@@ -1648,7 +1672,6 @@
       }
     }
 
-    // 1-Tap Quick Stamp Handler (Zero Typing!)
     function applyQuickStamp(friendId, stampIdx) {
       const f = friends.find(x => x.id === friendId);
       const st = QUICK_STAMPS[stampIdx];
@@ -1660,9 +1683,7 @@
         text: st.label
       });
 
-      if (st.status) {
-        f.status = st.status;
-      }
+      if (st.status) f.status = st.status;
       if (st.check) {
         const set = new Set(Array.isArray(f.checklist) ? f.checklist : []);
         set.add(st.check);
@@ -1691,11 +1712,10 @@
       saveData('ลบรายการไทม์ไลน์แล้ว');
     }
 
-    // Voice-to-Text (Speech Recognition in Thai)
     function startVoiceLog(friendId) {
       const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRec) {
-        const txt = prompt('🎙️ พิมพ์หรือกดปุ่มไมโครโฟนบนคีย์บอร์ดมือถือเพื่อพูดบันทึกได้เลยครับ:');
+        const txt = prompt('🎙️ กดรูปไมโครโฟนบนคีย์บอร์ดมือถือเพื่อพูดบันทึกได้เลยครับ:');
         if (txt && txt.trim()) {
           const f = friends.find(x => x.id === friendId);
           if (f) {
@@ -1725,7 +1745,6 @@
       rec.start();
     }
 
-    // Quick Link Prompt
     function quickPromptLink(friendId, linkType, title) {
       const f = friends.find(x => x.id === friendId);
       if (!f) return;
@@ -1736,7 +1755,6 @@
       saveData('🔗 บันทึกลิงก์งานของเพื่อนเรียบร้อยแล้ว!');
     }
 
-    // Direct File Attachment (PDF / Word / Images)
     function triggerFileUpload(friendId) {
       pendingFileFriendId = friendId;
       const picker = document.getElementById('hidden-file-picker');
@@ -1909,7 +1927,6 @@
       saveData(`ลบรายชื่อ ${f.name} แล้ว`);
     }
 
-    // 4-Mode Message Generator
     function openMsgModal(id) {
       activeMsgFriendId = id;
       currentMsgMode = 1;
