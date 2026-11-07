@@ -58,8 +58,9 @@
 
     html {
       font-size: calc(17px * var(--font-scale));
-      overflow-x: hidden;
+      overflow-x: clip;
       width: 100%;
+      max-width: 100vw;
     }
 
     body {
@@ -70,11 +71,12 @@
       background-size: 32px 32px;
       background-position: 0 0, 16px 16px;
       color: var(--text-main);
-      line-height: 1.5;
+      line-height: 1.55;
       padding: 10px 10px 90px 10px;
       min-height: 100vh;
-      overflow-x: hidden;
+      overflow-x: clip;
       width: 100%;
+      max-width: 100vw;
     }
 
     .app-shell {
@@ -84,6 +86,13 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .app-shell {
+        max-width: 780px;
+        gap: 14px;
+      }
     }
 
     /* 1. Top Header — สมดุล ไม่ล้นขอบ 100% */
@@ -125,8 +134,9 @@
     .brand-title {
       font-size: 1.25rem;
       color: var(--text-main);
-      line-height: 1.25;
-      word-break: break-word;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+      min-width: 0;
     }
 
     .brand-sub {
@@ -148,9 +158,10 @@
       }
     }
 
-    /* ปุ่มกดสมดุล ไม่ทะลุกรอบ */
+    /* ปุ่มกดสมดุล ไม่ทะลุกรอบ + Touch Target >= 44px */
     .btn {
       font-size: 0.96rem;
+      min-height: 44px;
       padding: 9px 10px;
       border-radius: 999px;
       border: 2px solid #FFFFFF;
@@ -161,11 +172,20 @@
       gap: 5px;
       text-decoration: none;
       text-align: center;
-      line-height: 1.25;
+      line-height: 1.35;
       min-width: 0;
       max-width: 100%;
-      transition: transform 0.1s ease;
+      transition: transform 0.1s ease, filter 0.15s ease;
       box-shadow: 0 3px 0 rgba(0, 0, 0, 0.12);
+    }
+
+    .btn:hover {
+      filter: brightness(1.03);
+    }
+
+    .btn:focus-visible, .tab-chip:focus-visible, .rank-mode-tab:focus-visible, .input-cute:focus-visible {
+      outline: 3px solid var(--pink-primary);
+      outline-offset: 2px;
     }
 
     .btn:active {
@@ -829,7 +849,7 @@
 
     .chk-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: 7px;
     }
 
@@ -932,7 +952,7 @@
 
     .msg-mode-tabs {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: 6px;
     }
 
