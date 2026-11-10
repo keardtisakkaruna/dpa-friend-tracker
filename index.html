@@ -1184,15 +1184,56 @@
 
           <div>
             <label class="form-label">🌈 ระดับวิทยฐานะที่จะทำ * (แยกเข้าแท็บ ค.ศ.2 / ค.ศ.3)</label>
-            <select id="f-rank" class="input-cute">
+            <select id="f-rank" class="input-cute" onchange="onCareerDateCalcChange('rank')">
               <option value="ค.ศ.2">📘 ค.ศ.2 (ครูชำนาญการ)</option>
               <option value="ค.ศ.3">👑 ค.ศ.3 (ครูชำนาญการพิเศษ)</option>
             </select>
           </div>
 
-          <div>
-            <label class="form-label">📅 วันที่ครบกำหนดยื่นได้ *</label>
-            <input type="date" id="f-date" required class="input-cute" />
+          <!-- 🧮 กล่องบันทึกวัน ค.ศ.1 / ค.ศ.2 และคำนวณวันควรส่ง DPA อัตโนมัติ -->
+          <div style="background:#FFFDF5;border:2.5px solid #F59E0B;border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:10px;">
+            <div style="font-size:1.02rem;color:#B45309;display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;border-bottom:2px dashed #FDE68A;padding-bottom:6px;">
+              <strong>🧮 คำนวณวันครบกำหนดส่งจากวันได้ ค.ศ.1 / ค.ศ.2</strong>
+              <span class="pill" style="background:#FEF3C7;color:#92400E;border:1px solid #F59E0B;">คำนวณให้อัตโนมัติ ✨</span>
+            </div>
+
+            <div>
+              <label class="form-label" style="color:#047857;">🌱 1. วันที่เริ่มดำรงตำแหน่ง ค.ศ.1 (ครู)</label>
+              <input type="date" id="f-ks1-date" class="input-cute" style="border-color:#6EE7B7;" onchange="onCareerDateCalcChange('ks1')" />
+              <div id="badge-ks1-thai" style="font-size:0.9rem;color:#047857;margin-top:4px;"></div>
+            </div>
+
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px;">
+                <label class="form-label" style="color:#0369A1;margin-bottom:0;">📘 2. วันที่เริ่มดำรงตำแหน่ง ค.ศ.2 (ชำนาญการ)</label>
+                <button type="button" onclick="fillKs2FromKs1()" style="background:#E0F2FE;color:#0369A1;border:1.5px solid #7DD3FC;border-radius:99px;padding:2px 9px;font-size:0.82rem;cursor:pointer;">
+                  ⚡ คิดจากวัน ค.ศ.1 +4 ปี
+                </button>
+              </div>
+              <input type="date" id="f-ks2-date" class="input-cute" style="border-color:#7DD3FC;" onchange="onCareerDateCalcChange('ks2')" />
+              <div id="badge-ks2-thai" style="font-size:0.9rem;color:#0369A1;margin-top:4px;"></div>
+            </div>
+
+            <div>
+              <label class="form-label" style="color:#92400E;">⏳ เกณฑ์ระยะเวลาครองตำแหน่งก่อนยื่น (ว9/2564 DPA)</label>
+              <select id="f-req-years" class="input-cute" style="border-color:#FCD34D;" onchange="onCareerDateCalcChange('years')">
+                <option value="4">⏳ ครบ 4 ปีเต็ม (เกณฑ์ปกติ ว9/2564)</option>
+                <option value="3">⚡ ครบ 3 ปีเต็ม (เกณฑ์ลดเวลา: ป.โท-เอก / ภาษา / พื้นที่พิเศษ)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label" style="color:#BE185D;">📅 3. วันที่ครบกำหนดยื่นได้ (วันที่ควรส่งในระบบ DPA) *</label>
+              <input type="date" id="f-date" required class="input-cute" onchange="onCareerDateCalcChange('target')" />
+              <div id="badge-target-thai" style="font-size:0.95rem;color:#BE185D;margin-top:4px;"></div>
+            </div>
+
+            <!-- กล่องสรุปผลคำนวณว่าจะแจ้งเพื่อนว่าควรเตรียมวันไหน & ควรส่งวันไหน -->
+            <div id="calc-advice-box" style="background:#ECFDF5;border:2px solid #34D399;border-radius:14px;padding:10px 12px;font-size:0.94rem;color:#065F46;line-height:1.45;"></div>
+
+            <button type="button" class="btn btn-mint btn-sm" style="width:100%;" onclick="copyModalCalcAdvice()">
+              📋 ก๊อปปี้ผลคำนวณวันส่งนี้ไปแจ้งเพื่อนในแชท
+            </button>
           </div>
 
           <div>
@@ -1279,19 +1320,20 @@
     </div>
   </div>
 
-  <!-- 4-Mode Message Generator Modal -->
+  <!-- 5-Mode Message Generator Modal -->
   <div id="msg-modal" class="modal-overlay">
     <div class="modal-box" style="max-width:480px;border-color:var(--amber-border);">
       <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed var(--amber-border);padding-bottom:8px;">
-        <h3 style="font-size:1.15rem;color:#B45309;">💌 สร้างข้อความทักแชทเพื่อน (4 แบบ)</h3>
+        <h3 style="font-size:1.15rem;color:#B45309;">💌 สร้างข้อความทักแชทเพื่อน (5 แบบ)</h3>
         <button type="button" class="btn btn-amber btn-sm" onclick="closeMsgModal()">✕ ปิด</button>
       </div>
 
       <div class="msg-mode-tabs">
-        <button type="button" class="msg-mode-btn active" id="mm-1" onclick="setMsgMode(1)">👋 1. ทักถามหัวข้อ / ชั้นเรียน / นวัตกรรม</button>
-        <button type="button" class="msg-mode-btn" id="mm-2" onclick="setMsgMode(2)">📋 2. ทักตามงาน / ถามความคืบหน้า</button>
-        <button type="button" class="msg-mode-btn" id="mm-3" onclick="setMsgMode(3)">🔍 3. ส่งผลช่วยตรวจ 6 จุดตาย DPA</button>
-        <button type="button" class="msg-mode-btn" id="mm-4" onclick="setMsgMode(4)">🍀 4. ส่งกำลังใจวันยื่น / ลุ้นป้ายเขียว</button>
+        <button type="button" class="msg-mode-btn active" id="mm-1" onclick="setMsgMode(1)">🗓️ 1. แจ้งผลคำนวณวันส่ง DPA (จากวัน ค.ศ.1 / ค.ศ.2)</button>
+        <button type="button" class="msg-mode-btn" id="mm-2" onclick="setMsgMode(2)">👋 2. ทักถามหัวข้อ / ชั้นเรียน / นวัตกรรม</button>
+        <button type="button" class="msg-mode-btn" id="mm-3" onclick="setMsgMode(3)">📋 3. ทักตามงาน / ถามความคืบหน้า</button>
+        <button type="button" class="msg-mode-btn" id="mm-4" onclick="setMsgMode(4)">🔍 4. ส่งผลช่วยตรวจ 6 จุดตาย DPA</button>
+        <button type="button" class="msg-mode-btn" id="mm-5" onclick="setMsgMode(5)">🍀 5. ส่งกำลังใจวันยื่น / ลุ้นป้ายเขียว</button>
       </div>
 
       <div id="msg-box" style="background:#FFFBEB;border:2px solid var(--amber-border);border-radius:16px;padding:13px;font-size:0.98rem;white-space:pre-wrap;line-height:1.6;"></div>
@@ -1403,6 +1445,9 @@
         colorSeed: 0,
         school: 'รร.วัดคลองห้า (สพป.สระบุรี เขต 2)',
         rank: 'ค.ศ.2',
+        ks1Date: '2022-11-25',
+        ks2Date: '',
+        reqYears: 4,
         targetDate: '2026-11-25',
         contact: 'Line: may_kru',
         status: 'ถึงเวลาทักถามข้อมูล',
@@ -1426,6 +1471,9 @@
         colorSeed: 3,
         school: 'รร.บ้านหนองยาว',
         rank: 'ค.ศ.3',
+        ks1Date: '2018-12-10',
+        ks2Date: '2022-12-10',
+        reqYears: 4,
         targetDate: '2026-12-10',
         contact: 'FB: Anucha Boy',
         status: 'ถึงเวลาทักถามข้อมูล',
@@ -1449,6 +1497,9 @@
         colorSeed: 2,
         school: 'รร.ชุมชนวัดไทยงาม',
         rank: 'ค.ศ.2',
+        ks1Date: '2022-11-18',
+        ks2Date: '',
+        reqYears: 4,
         targetDate: '2026-11-18',
         contact: 'Line: som_patcharee',
         status: 'กำลังทำเอกสาร/อัดคลิป',
@@ -1473,6 +1524,9 @@
         colorSeed: 4,
         school: 'รร.อนุบาลสระบุรี',
         rank: 'ค.ศ.3',
+        ks1Date: '2019-03-15',
+        ks2Date: '2023-03-15',
+        reqYears: 4,
         targetDate: '2027-03-15',
         contact: 'FB: Weeraphat Ton',
         status: 'รอถึงกำหนด',
@@ -1566,6 +1620,56 @@
       });
     }
 
+    function addYearsToDateStr(dateStr, yearsToAdd) {
+      if (!dateStr) return '';
+      const p = dateStr.split('-');
+      if (p.length !== 3) return '';
+      const y = parseInt(p[0], 10) + (parseInt(yearsToAdd, 10) || 0);
+      return `${String(y).padStart(4, '0')}-${p[1]}-${p[2]}`;
+    }
+
+    function addDaysToDateStr(dateStr, daysToAdd) {
+      if (!dateStr) return '';
+      const p = dateStr.split('-');
+      if (p.length !== 3) return '';
+      const d = new Date(Date.UTC(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10)));
+      d.setUTCDate(d.getUTCDate() + (parseInt(daysToAdd, 10) || 0));
+      const yy = d.getUTCFullYear();
+      const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+      const dd = String(d.getUTCDate()).padStart(2, '0');
+      return `${yy}-${mm}-${dd}`;
+    }
+
+    function getFriendCareerTimeline(f) {
+      const reqYears = parseInt(f.reqYears, 10) === 3 ? 3 : 4;
+      let ks1Date = f.ks1Date || '';
+      let ks2Date = f.ks2Date || '';
+      const targetDate = f.targetDate || '';
+
+      if (f.rank === 'ค.ศ.2' && !ks1Date && targetDate) {
+        ks1Date = addYearsToDateStr(targetDate, -reqYears);
+      }
+      if (f.rank === 'ค.ศ.3' && !ks2Date && targetDate) {
+        ks2Date = addYearsToDateStr(targetDate, -reqYears);
+      }
+      const calcKs2Date = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, reqYears) : '');
+      const calcKs3Date = f.rank === 'ค.ศ.3'
+        ? (targetDate || (calcKs2Date ? addYearsToDateStr(calcKs2Date, reqYears) : ''))
+        : (calcKs2Date ? addYearsToDateStr(calcKs2Date, reqYears) : '');
+      const prepStartDate = targetDate ? addDaysToDateStr(targetDate, -90) : '';
+
+      return {
+        reqYears,
+        ks1Date,
+        ks2Date: calcKs2Date,
+        rawKs2Date: ks2Date,
+        targetDate,
+        calcKs2Date,
+        calcKs3Date,
+        prepStartDate
+      };
+    }
+
     function loadData() {
       const savedScale = parseFloat(localStorage.getItem(SCALE_KEY) || '1.0');
       applyFontScale(isNaN(savedScale) ? 1.0 : savedScale);
@@ -1577,7 +1681,7 @@
         friends = DEFAULT_FRIENDS;
       }
 
-      // จัดสรรสีอัตโนมัติไม่ให้ซ้ำกันสำหรับรายชื่อทั้งหมด
+      // จัดสรรสีอัตโนมัติไม่ให้ซ้ำกัน และเติมค่าเริ่มต้นวัน ค.ศ.1 / ค.ศ.2 กรณีข้อมูลเดิมยังไม่มี
       const used = new Set();
       friends.forEach((f, idx) => {
         if (typeof f.colorSeed !== 'number' || used.has(f.colorSeed)) {
@@ -1586,6 +1690,13 @@
           f.colorSeed = s;
         }
         used.add(f.colorSeed);
+        if (!f.reqYears) f.reqYears = 4;
+        if (f.rank === 'ค.ศ.2' && !f.ks1Date && f.targetDate) {
+          f.ks1Date = addYearsToDateStr(f.targetDate, -f.reqYears);
+        }
+        if (f.rank === 'ค.ศ.3' && !f.ks2Date && f.targetDate) {
+          f.ks2Date = addYearsToDateStr(f.targetDate, -f.reqYears);
+        }
       });
       renderApp();
     }
@@ -1808,6 +1919,7 @@
       const cd = getCountdownBadge(f);
       const chk = Array.isArray(f.checklist) ? f.checklist : [];
       const th = getFriendTheme(f, idx);
+      const ct = getFriendCareerTimeline(f);
       return `
         <div class="friend-row-item" style="background:${th.pageBg};border:2.5px solid ${th.border};border-left:7px solid ${th.strong};" onclick="selectTab('${f.id}')">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
@@ -1822,8 +1934,12 @@
               เอกสาร ${chk.length}/4 👉
             </span>
           </div>
-          <div style="font-size:0.96rem;color:var(--text-main);">
-            📅 ยื่นได้: <strong>${formatThaiDate(f.targetDate)}</strong> (${cd.text})
+          <div style="font-size:0.93rem;color:var(--text-sub);display:flex;flex-wrap:wrap;gap:8px;">
+            ${ct.ks1Date ? `<span>🌱 ค.ศ.1: <strong>${formatThaiDate(ct.ks1Date)}</strong></span>` : ''}
+            ${ct.ks2Date ? `<span>📘 ค.ศ.2: <strong>${formatThaiDate(ct.ks2Date)}</strong></span>` : ''}
+          </div>
+          <div style="font-size:0.98rem;color:var(--text-main);">
+            🚀 ควรส่ง DPA (${esc(f.rank)}): <strong style="color:#BE185D;">${formatThaiDate(f.targetDate)}</strong> (${cd.text})
           </div>
           <div style="font-size:0.95rem;color:var(--text-sub);">
             📚 ${esc(f.subject || 'ยังไม่ระบุวิชา')} ${f.grade ? `(ชั้น ${esc(f.grade)})` : ''} &bull;
@@ -1993,6 +2109,7 @@
       const nextSameRank = rIdx < sameRankList.length - 1 ? sameRankList[rIdx + 1] : null;
 
       const cd = getCountdownBadge(f);
+      const ct = getFriendCareerTimeline(f);
       const chk = Array.isArray(f.checklist) ? f.checklist : [];
       const pct = Math.round((chk.length / 4) * 100);
       const pitfalls = Array.isArray(f.pitfalls) ? f.pitfalls : [];
@@ -2038,7 +2155,7 @@
 
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
               <span class="pill" style="background:#FFFFFF;color:${th.strong};border:1.5px solid ${th.border};">
-                ${f.rank === 'ค.ศ.3' ? '👑 หมวด: ค.ศ.3 ชำนาญการพิเศษ' : '📘 หมวด: ค.ศ.2 ชำนาญการ'}
+                ${f.rank === 'ค.ศ.3' ? '👑 หมวด: ค.ศ.3 ชำนาญการพิเศษ' : '📘 หมวด: ค.ศ.2 ชำนาญการ'} (เกณฑ์ ${ct.reqYears} ปี)
               </span>
               <span class="pill" style="background:${th.activeGrad};color:#FFFFFF;">
                 ✨ ${esc(f.status || 'รอถึงกำหนด')}
@@ -2046,16 +2163,44 @@
             </div>
           </div>
 
-          <!-- แถบนับถอยหลังวันครบกำหนดยื่น -->
-          <div class="countdown-banner" style="border:2.5px solid ${th.border};color:${th.strong};">
-            <div>📅 วันที่ครบกำหนดยื่นได้: <strong>${formatThaiDate(f.targetDate)}</strong></div>
-            <div style="font-size:1.08rem;"><strong>${cd.text}</strong></div>
+          <!-- 🧮 การ์ดคำนวณวันดำรงตำแหน่ง ค.ศ.1 ➔ ค.ศ.2 ➔ วันควรส่ง DPA -->
+          <div style="background:#FFFFFF;border:2.5px solid ${th.border};border-radius:20px;padding:13px 14px;display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;border-bottom:2px dashed ${th.border};padding-bottom:6px;">
+              <strong style="font-size:1.05rem;color:${th.strong};">🗓️ ไทม์ไลน์คำนวณวันยื่น (ค.ศ.1 ➔ ค.ศ.2 ➔ วันส่ง DPA)</strong>
+              <button type="button" class="tag-btn" style="background:${th.chipBg};color:${th.strong};border-color:${th.border};" onclick="openFriendModal('${f.id}')">
+                ✏️ แก้ไขวันที่ ค.ศ.1 / ค.ศ.2
+              </button>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;">
+              <div style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:14px;padding:8px 10px;">
+                <div style="font-size:0.86rem;color:#047857;">🌱 วันที่ได้ ค.ศ.1 (ครู)</div>
+                <strong style="font-size:1rem;color:#065F46;">${ct.ks1Date ? formatThaiDate(ct.ks1Date) : 'ยังไม่ระบุ (กดแก้ไข)'}</strong>
+              </div>
+              <div style="background:#F0F9FF;border:1.5px solid #7DD3FC;border-radius:14px;padding:8px 10px;">
+                <div style="font-size:0.86rem;color:#0369A1;">📘 วันที่ได้/ครบยื่น ค.ศ.2</div>
+                <strong style="font-size:1rem;color:#075985;">${ct.calcKs2Date ? formatThaiDate(ct.calcKs2Date) : 'ยังไม่ระบุ (กดแก้ไข)'}</strong>
+              </div>
+            </div>
+
+            <div class="countdown-banner" style="border:2px solid ${th.border};color:${th.strong};margin-top:2px;">
+              <div>🚀 วันที่ควรส่งในระบบ DPA (${esc(f.rank)}): <strong style="color:#BE185D;">${formatThaiDate(f.targetDate)}</strong></div>
+              <div style="font-size:1.06rem;"><strong>${cd.text}</strong></div>
+            </div>
+
+            <div style="background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:14px;padding:9px 12px;font-size:0.94rem;color:#92400E;line-height:1.45;">
+              💡 <strong>คำแนะนำแจ้งเพื่อน:</strong> ควรเริ่มเตรียมแผนและอัดคลิป 60 นาทีตั้งแต่วันที่ <strong>${ct.prepStartDate ? formatThaiDate(ct.prepStartDate) : '-'}</strong> (ล่วงหน้า 3 เดือน) เพื่อจะได้กดส่งระบบ DPA ได้ทันทีตั้งแต่วันที่ <strong>${formatThaiDate(f.targetDate)}</strong> ครับ!
+            </div>
+
+            <button type="button" class="btn btn-mint btn-sm" onclick="copyFriendTimelineAdvice('${f.id}')">
+              📢 ก๊อปปี้ผลคำนวณวันส่งนี้ไปแจ้ง ${esc(shortName(f.name))} ในแชท
+            </button>
           </div>
 
           <!-- ปุ่มลัด ทักแชท & แก้ไขข้อมูล -->
           <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;">
             <button type="button" class="btn btn-amber" onclick="openMsgModal('${f.id}')">
-              💌 ทักแชทเพื่อน
+              💌 ทักแชทเพื่อน (5 แบบ)
             </button>
             <button type="button" class="btn" style="background:${th.activeGrad};color:#FFFFFF;box-shadow:0 3px 0 ${th.strong};" onclick="openFriendModal('${f.id}')">
               ✏️ แก้ไขข้อมูลเพื่อน
@@ -2228,19 +2373,19 @@
       { num: '1', icon: '🎀', title: 'ชื่อ-นามสกุล และชื่อเล่น', desc: 'ไว้ตั้งชื่อหน้าสมุดประจำตัวเพื่อน (เช่น ครูเมย์ ธนพร)' },
       { num: '2', icon: '🏫', title: 'โรงเรียน / สังกัด', desc: 'ชื่อโรงเรียนและเขตพื้นที่ฯ ของเพื่อน' },
       { num: '3', icon: '🌈', title: 'ระดับวิทยฐานะที่จะยื่น', desc: 'ทำ ค.ศ.2 (ชำนาญการ) หรือ ค.ศ.3 (ชำนาญการพิเศษ)' },
-      { num: '4', icon: '📅', title: 'วันที่ครบกำหนดยื่นได้', desc: 'วัน/เดือน/ปี พ.ศ. ที่อายุงานครบเกณฑ์ (ไว้ตั้งเรดาร์นับถอยหลัง)' },
-      { num: '5', icon: '📚', title: 'วิชา / กลุ่มสาระการเรียนรู้', desc: 'วิชาที่เลือกใช้ทำแผนและอัดคลิปส่ง DPA' },
-      { num: '6', icon: '🎒', title: 'ระดับชั้นที่เลือกอัดคลิป', desc: 'เช่น ป.4, ป.5, ม.1 (ชั้นที่ถนัดและเด็กพร้อมที่สุด)' },
-      { num: '7', icon: '🎯', title: 'เรื่องที่จะทำ / หน่วยการเรียนรู้', desc: 'หัวข้อแผนการสอนที่จะใช้อัดคลิป 60 นาที' },
-      { num: '8', icon: '💡', title: 'นวัตกรรม / วิธีการสอนที่ใช้', desc: 'เช่น Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม, 5E' }
+      { num: '4', icon: '🌱', title: 'วันที่ได้ ค.ศ.1 และ/หรือ ค.ศ.2', desc: 'ใส่วันบรรจุ ค.ศ.1 หรือวันได้ ค.ศ.2 ระบบจะคำนวณวันครบกำหนดส่ง DPA (+4 ปี / +3 ปี) ให้อัตโนมัติ!' },
+      { num: '5', icon: '📅', title: 'วันที่ครบกำหนดส่ง DPA', desc: 'ระบบคำนวณให้อัตโนมัติจากวันได้ ค.ศ.1 / ค.ศ.2 พร้อมบอกช่วงวันที่ควรเริ่มอัดคลิป' },
+      { num: '6', icon: '📚', title: 'วิชา / กลุ่มสาระการเรียนรู้', desc: 'วิชาที่เลือกใช้ทำแผนและอัดคลิปส่ง DPA' },
+      { num: '7', icon: '🎒', title: 'ระดับชั้นที่เลือกอัดคลิป', desc: 'เช่น ป.4, ป.5, ม.1 (ชั้นที่ถนัดและเด็กพร้อมที่สุด)' },
+      { num: '8', icon: '🎯', title: 'เรื่องที่จะทำ & นวัตกรรมที่ใช้', desc: 'หัวข้อแผนการสอน 60 นาที และวิธีสอน (Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม)' }
     ];
 
     const ASK_TEMPLATES = [
-      { id: 1, label: '📝 แบบที่ 1: แบบฟอร์มมาตรฐาน 8 ข้อ (ให้เพื่อนก๊อปเติมส่งกลับได้เลย)', badge: 'ฮิตสุด ⭐' },
+      { id: 1, label: '📝 แบบที่ 1: แบบฟอร์มมาตรฐาน (ถามวัน ค.ศ.1 / ค.ศ.2 เพื่อคำนวณวันส่งให้เพื่อน)', badge: 'ฮิตสุด ⭐' },
       { id: 2, label: '😊 แบบที่ 2: แบบกันเอง (ทักเพื่อนสนิท / รุ่นเดียวกัน ถามสบายๆ)', badge: 'เพื่อนสนิท' },
       { id: 3, label: '🙏 แบบที่ 3: แบบสุภาพ (ทักพี่ครู / น้องครู / ต่างโรงเรียน)', badge: 'สุภาพ' },
-      { id: 4, label: '📘 แบบที่ 4: ขอข้อมูลเพื่อนทำ ค.ศ.2 (เน้นจุด "แก้ไขปัญหาผู้เรียน")', badge: 'เฉพาะ ค.ศ.2' },
-      { id: 5, label: '👑 แบบที่ 5: ขอข้อมูลเพื่อนทำ ค.ศ.3 (เน้นจุด "ริเริ่มคิดค้นนวัตกรรม")', badge: 'เฉพาะ ค.ศ.3' }
+      { id: 4, label: '📘 แบบที่ 4: ขอข้อมูลเพื่อนทำ ค.ศ.2 (ถามวันได้ ค.ศ.1 + แผนแก้ปัญหาผู้เรียน)', badge: 'เฉพาะ ค.ศ.2' },
+      { id: 5, label: '👑 แบบที่ 5: ขอข้อมูลเพื่อนทำ ค.ศ.3 (ถามวันได้ ค.ศ.2 + แผนริเริ่มนวัตกรรม)', badge: 'เฉพาะ ค.ศ.3' }
     ];
 
     function buildAskPromptText(tplId, customName) {
@@ -2248,22 +2393,22 @@
       const politeName = (customName && customName.trim()) ? customName.trim() : 'คุณครู';
 
       if (tplId === 1) {
-        return `สวัสดีจ้า ${callName}! 😊🌸\nตอนนี้เราทำ "สมุดที่ปรึกษาวิทยฐานะ (ค.ศ.2 - ค.ศ.3)" ไว้ช่วยจำคิวและช่วยดูแผน/ดูคลิปให้เพื่อนๆ จะได้คอยแจ้งเตือนวันยื่นและช่วยเช็ก 6 จุดตาย DPA ให้จนขึ้นป้ายเขียวเลย! 🟢✨\n\nรบกวนก๊อปปี้ข้อความด้านล่างนี้ แล้วพิมพ์ข้อมูลส่งกลับมาให้หน่อยน้า 👇🏻\n-------------------------\n1. ชื่อ-นามสกุล (ชื่อเล่น): \n2. โรงเรียน: \n3. วิทยฐานะที่จะยื่น (ค.ศ.2 หรือ ค.ศ.3): \n4. วันที่ครบกำหนดยื่นได้ (ว/ด/ป): \n5. วิชา / กลุ่มสาระฯ: \n6. ระดับชั้นที่จะอัดคลิปสอน: \n7. เรื่อง / หน่วยการเรียนรู้ที่เล็งไว้: \n8. นวัตกรรม / วิธีสอนที่ใช้ (เช่น Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม): \n9. เบอร์โทร / ID Line: \n-------------------------\n(ถ้าข้อ 7-8 ยังไม่ชัวร์ เว้นว่างไว้ก่อนได้นะ เดี๋ยวเราช่วยวางแผนจ้า! ✌🏻💖)`;
+        return `สวัสดีจ้า ${callName}! 😊🌸\nตอนนี้เราทำ "สมุดที่ปรึกษาวิทยฐานะ (ค.ศ.2 - ค.ศ.3)" ไว้ช่วยคำนวณวันครบกำหนดส่ง DPA แจ้งเตือนช่วงที่ควรเริ่มอัดคลิป และช่วยเช็ก 6 จุดตาย DPA ให้จนขึ้นป้ายเขียวเลย! 🟢✨\n\nรบกวนก๊อปปี้ข้อความด้านล่างนี้ แล้วพิมพ์ข้อมูลส่งกลับมาให้หน่อยน้า 👇🏻\n-------------------------\n1. ชื่อ-นามสกุล (ชื่อเล่น): \n2. โรงเรียน: \n3. วิทยฐานะที่จะยื่น (ค.ศ.2 หรือ ค.ศ.3): \n4. วันที่เริ่มได้ ค.ศ.1 (ว/ด/ป พ.ศ.): \n5. วันที่เริ่มได้ ค.ศ.2 (ถ้าจะทำ ค.ศ.3): \n6. ใช้เกณฑ์กี่ปี (4 ปีปกติ หรือ 3 ปีลดเวลา): \n7. วิชา / กลุ่มสาระฯ และระดับชั้นที่จะอัดคลิป: \n8. เรื่อง / หน่วยการเรียนรู้ที่เล็งไว้: \n9. นวัตกรรม / วิธีสอนที่ใช้ (เช่น Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม): \n10. เบอร์โทร / ID Line: \n-------------------------\n(ส่งวันได้ ค.ศ.1 หรือ ค.ศ.2 มาได้เลย เดี๋ยวเราคำนวณให้เลยว่าควรเริ่มเตรียมวันไหน และควรส่ง DPA วันไหนจ้า! ✌🏻💖)`;
       }
 
       if (tplId === 2) {
-        return `ทักทายจ้า ${callName}! 🥳🌸\nไหนๆ เราก็เพิ่งผ่านสนาม ค.ศ.3 มาหมาดๆ เลยทำสมุดจดคิวเพื่อนที่จะทำ ค.ศ.2 กับ ค.ศ.3 เอาไว้ จะได้ไม่ลืมวันครบกำหนดของเพื่อน และช่วยสแกนแผน-สแกนคลิปให้ก่อนยื่นจริง!\n\nส่งข้อมูลสั้นๆ มาให้เราบันทึกเข้าสมุดหน่อยสิ:\n✅ จะยื่น ค.ศ.2 หรือ ค.ศ.3 นะ?\n✅ ครบกำหนดยื่นได้วันที่เท่าไหร่?\n✅ สอนวิชาอะไร ชั้นไหน?\n✅ เล็งไว้หรือยังว่าจะทำเรื่องอะไร ใช้นวัตกรรม/สื่อแบบไหน?\n\nพิมพ์ตอบมาได้เลย เดี๋ยวเราล็อกคิวขึ้นสมุดประจำตัวไว้ให้จ้า! ✌🏻✨🟢`;
+        return `ทักทายจ้า ${callName}! 🥳🌸\nไหนๆ เราก็เพิ่งผ่านสนาม ค.ศ.3 มาหมาดๆ เลยทำสมุดจดคิวเพื่อนที่จะทำ ค.ศ.2 กับ ค.ศ.3 เอาไว้ เดี๋ยวช่วยคำนวณวันครบกำหนดส่ง DPA ให้ด้วย!\n\nส่งข้อมูลสั้นๆ มาให้เราบันทึกเข้าสมุดหน่อยสิ:\n✅ จะยื่น ค.ศ.2 หรือ ค.ศ.3 นะ?\n✅ ได้ ค.ศ.1 วันไหน? และได้ ค.ศ.2 วันไหน? (เดี๋ยวเราคำนวณวันส่งให้!)\n✅ สอนวิชาอะไร ชั้นไหน?\n✅ เล็งไว้หรือยังว่าจะทำเรื่องอะไร ใช้นวัตกรรม/สื่อแบบไหน?\n\nพิมพ์ตอบมาได้เลย เดี๋ยวเราคำนวณวันส่งและล็อกคิวขึ้นสมุดประจำตัวไว้ให้จ้า! ✌🏻✨🟢`;
       }
 
       if (tplId === 3) {
-        return `สวัสดีครับ ${politeName} 😊🙏🏻\nตอนนี้เกียรติศักดิ์ได้จัดทำระบบสมุดบันทึกให้คำปรึกษาการทำวิทยฐานะ (ค.ศ.2 - ค.ศ.3) เพื่อช่วยวางแผนไทม์ไลน์ แจ้งเตือนวันครบกำหนด และช่วยตรวจทานแผนการสอน/คลิปการสอนตามเกณฑ์ ว9/2564 (DPA) ครับ\n\nหาก ${politeName} สะดวก รบกวนแจ้งข้อมูลเบื้องต้นเพื่อบันทึกในระบบดังนี้ครับ:\n1. ชื่อ-นามสกุล และโรงเรียน\n2. ระดับวิทยฐานะที่จะยื่น (ค.ศ.2 หรือ ค.ศ.3)\n3. วันที่ครบกำหนดยื่นขอมี/เลื่อนวิทยฐานะ\n4. วิชาและระดับชั้นที่เลือกจัดทำผลงาน\n5. หัวข้อเรื่อง / หน่วยการเรียนรู้ และนวัตกรรมที่สนใจใช้\n\nยินดีช่วยดูแลและให้คำปรึกษาจนผ่านป้ายเขียวเลยครับ! 🟢✨`;
+        return `สวัสดีครับ ${politeName} 😊🙏🏻\nตอนนี้เกียรติศักดิ์ได้จัดทำระบบสมุดบันทึกให้คำปรึกษาการทำวิทยฐานะ (ค.ศ.2 - ค.ศ.3) เพื่อช่วยคำนวณวันครบกำหนดยื่น แจ้งเตือนไทม์ไลน์ และช่วยตรวจทานแผนการสอน/คลิปการสอนตามเกณฑ์ ว9/2564 (DPA) ครับ\n\nหาก ${politeName} สะดวก รบกวนแจ้งข้อมูลเบื้องต้นเพื่อบันทึกและคำนวณวันส่งในระบบดังนี้ครับ:\n1. ชื่อ-นามสกุล และโรงเรียน\n2. ระดับวิทยฐานะที่จะยื่น (ค.ศ.2 หรือ ค.ศ.3)\n3. วันที่ได้รับแต่งตั้ง ค.ศ.1 และ/หรือ ค.ศ.2 (เพื่อคำนวณวันครบกำหนดส่ง DPA)\n4. วิชาและระดับชั้นที่เลือกจัดทำผลงาน\n5. หัวข้อเรื่อง / หน่วยการเรียนรู้ และนวัตกรรมที่สนใจใช้\n\nยินดีช่วยคำนวณวันส่งและดูแลให้คำปรึกษาจนผ่านป้ายเขียวเลยครับ! 🟢✨`;
       }
 
       if (tplId === 4) {
-        return `สวัสดีจ้า ${callName}! 📘✨\nแวะมาชวนเตรียมตัวทำ "ค.ศ.2 (ครูชำนาญการ)" ด้วยกัน! หัวใจสำคัญของ ค.ศ.2 คือการเน้นระดับ "แก้ไขปัญหาผู้เรียน" ให้เห็นชัดเจนในคลิป 60 นาทีและผลลัพธ์ผู้เรียน\n\nส่งข้อมูลมาให้เราบันทึกลงสมุดที่ปรึกษาหน่อยน้า:\n1. ชื่อเล่น / โรงเรียน: \n2. วันที่ครบกำหนดยื่น ค.ศ.2: \n3. วิชาและระดับชั้นที่จะอัดคลิป: \n4. ปัญหาของเด็กในห้องที่อยากหยิบมาแก้ (เรื่องที่จะสอน): \n5. วิธีสอน/สื่อนวัตกรรมที่จะใช้แก้ปัญหา (เช่น Active Learning, บอร์ดเกม, ชุดฝึกทักษะ): \n\nส่งมาได้เลย เดี๋ยวช่วยวางโครงแผนการสอนให้ตรงเกณฑ์เป๊ะๆ จ้า! ✌🏻📘`;
+        return `สวัสดีจ้า ${callName}! 📘✨\nแวะมาชวนเตรียมตัวทำ "ค.ศ.2 (ครูชำนาญการ)" ด้วยกัน! ส่งข้อมูลมาให้เราช่วยคำนวณวันส่งและบันทึกลงสมุดที่ปรึกษาหน่อยน้า:\n1. ชื่อเล่น / โรงเรียน: \n2. วันที่เริ่มได้ ค.ศ.1 (ครู): \n3. ใช้เกณฑ์ 4 ปีปกติ หรือ 3 ปีลดเวลา: \n4. วิชาและระดับชั้นที่จะอัดคลิป: \n5. ปัญหาของเด็กในห้องที่อยากหยิบมาแก้ (เรื่องที่จะสอน): \n6. วิธีสอน/สื่อนวัตกรรมที่จะใช้แก้ปัญหา (เช่น Active Learning, บอร์ดเกม, ชุดฝึกทักษะ): \n\nส่งมาได้เลย เดี๋ยวคำนวณให้เลยว่าควรเริ่มอัดคลิปวันไหน และควรส่ง DPA วันไหนจ้า! ✌🏻📘`;
       }
 
-      return `สวัสดีจ้า ${callName}! 👑✨\nแวะมาชวนวางแผนลุย "ค.ศ.3 (ครูชำนาญการพิเศษ)" ด้วยกัน! หัวใจสำคัญของ ค.ศ.3 คือต้องเห็นระดับ "ริเริ่ม พัฒนา คิดค้นนวัตกรรมใหม่" และเด็กได้ลงมือสร้างชิ้นงานด้วยตัวเอง (Active Learning)\n\nส่งข้อมูลมาให้เราบันทึกเข้าสมุดที่ปรึกษา ค.ศ.3 หน่อยน้า:\n1. ชื่อเล่น / โรงเรียน: \n2. วันที่ครบกำหนดยื่น ค.ศ.3: \n3. วิชาและระดับชั้นที่จะอัดคลิป: \n4. หน่วยการเรียนรู้ / เรื่องที่จะทำ: \n5. นวัตกรรมหรือกระบวนการสอนที่จะริเริ่มพัฒนา (เช่น GPAS 5 Steps, PBL, บอร์ดเกมสร้างสรรค์, สืบเสาะ 5E): \n\nว่างแล้วพิมพ์ส่งมาได้เลย เดี๋ยวเราช่วยดูจุดตาย DPA 6 ข้อให้ครบก่อนยื่นจ้า! ✌🏻👑🟢`;
+      return `สวัสดีจ้า ${callName}! 👑✨\nแวะมาชวนวางแผนลุย "ค.ศ.3 (ครูชำนาญการพิเศษ)" ด้วยกัน! ส่งข้อมูลมาให้เราช่วยคำนวณวันส่งและบันทึกเข้าสมุดที่ปรึกษา ค.ศ.3 หน่อยน้า:\n1. ชื่อเล่น / โรงเรียน: \n2. วันที่เริ่มได้ ค.ศ.1 และวันที่เริ่มได้ ค.ศ.2: \n3. ใช้เกณฑ์ 4 ปีปกติ หรือ 3 ปีลดเวลา: \n4. วิชาและระดับชั้นที่จะอัดคลิป: \n5. หน่วยการเรียนรู้ / เรื่องที่จะทำ: \n6. นวัตกรรมหรือกระบวนการสอนที่จะริเริ่มพัฒนา (เช่น GPAS 5 Steps, PBL, บอร์ดเกมสร้างสรรค์, สืบเสาะ 5E): \n\nว่างแล้วพิมพ์ส่งมาได้เลย เดี๋ยวคำนวณวันส่ง DPA และช่วยดูจุดตาย 6 ข้อให้ครบก่อนยื่นจ้า! ✌🏻👑🟢`;
     }
 
     function selectAskTemplate(tplId) {
@@ -2323,11 +2468,11 @@
       const schoolVal = getLineVal(['โรงเรียน', 'สังกัด', '2.']);
       const rankRaw = getLineVal(['วิทยฐานะที่จะยื่น', 'วิทยฐานะ', '3.']) || raw;
       const rankVal = rankRaw.includes('3') || rankRaw.includes('พิเศษ') ? 'ค.ศ.3' : 'ค.ศ.2';
-      const subjectVal = getLineVal(['วิชา / กลุ่มสาระฯ', 'วิชา', 'กลุ่มสาระ', '5.']);
+      const subjectVal = getLineVal(['วิชา / กลุ่มสาระฯ', 'วิชา', 'กลุ่มสาระ', '7.', '5.']);
       const gradeVal = getLineVal(['ระดับชั้นที่จะอัดคลิปสอน', 'ระดับชั้น', 'ชั้น', '6.']);
-      const topicVal = getLineVal(['เรื่อง / หน่วยการเรียนรู้ที่เล็งไว้', 'หน่วยการเรียนรู้', 'เรื่องที่จะทำ', 'เรื่อง', '7.']);
-      const innoVal = getLineVal(['นวัตกรรม / วิธีสอนที่ใช้', 'นวัตกรรม', 'วิธีสอน', '8.']);
-      const contactVal = getLineVal(['เบอร์โทร / ID Line', 'เบอร์โทร', 'Line', '9.']);
+      const topicVal = getLineVal(['เรื่อง / หน่วยการเรียนรู้ที่เล็งไว้', 'หน่วยการเรียนรู้', 'เรื่องที่จะทำ', 'เรื่อง', '8.']);
+      const innoVal = getLineVal(['นวัตกรรม / วิธีสอนที่ใช้', 'นวัตกรรม', 'วิธีสอน', '9.']);
+      const contactVal = getLineVal(['เบอร์โทร / ID Line', 'เบอร์โทร', 'Line', '10.']);
 
       openFriendModal(null, rankVal);
       if (nameVal) document.getElementById('f-name').value = nameVal;
@@ -2339,8 +2484,9 @@
       if (innoVal) document.getElementById('f-innovation').value = innoVal;
       if (contactVal) document.getElementById('f-contact').value = contactVal;
       document.getElementById('f-notes').value = `ข้อความจากเพื่อน:\n${raw}`;
+      onCareerDateCalcChange('rank');
 
-      showToast('✨ ดึงข้อมูลเข้าฟอร์มให้แล้ว! ตรวจสอบวันที่แล้วกดบันทึกได้เลยจ้า');
+      showToast('✨ ดึงข้อมูลเข้าฟอร์มให้แล้ว! เลือกวันที่ ค.ศ.1 / ค.ศ.2 เพื่อคำนวณวันส่งได้เลยจ้า');
     }
 
     function renderCopyPromptsTab() {
@@ -2648,6 +2794,141 @@
       `;
     }
 
+    function fillKs2FromKs1() {
+      const ks1 = document.getElementById('f-ks1-date').value;
+      const reqYears = parseInt(document.getElementById('f-req-years').value, 10) || 4;
+      if (!ks1) {
+        showToast('⚠️ กรุณาเลือก "วันที่เริ่มดำรงตำแหน่ง ค.ศ.1" ก่อนนะครับ');
+        return;
+      }
+      const calcKs2 = addYearsToDateStr(ks1, reqYears);
+      document.getElementById('f-ks2-date').value = calcKs2;
+      onCareerDateCalcChange('ks2');
+      showToast(`⚡ คำนวณวันได้ ค.ศ.2 (${formatThaiDate(calcKs2)}) ให้เรียบร้อยจ้า!`);
+    }
+
+    function onCareerDateCalcChange(source) {
+      const rank = document.getElementById('f-rank').value || 'ค.ศ.2';
+      const reqYears = parseInt(document.getElementById('f-req-years').value, 10) === 3 ? 3 : 4;
+      let ks1Date = document.getElementById('f-ks1-date').value;
+      let ks2Date = document.getElementById('f-ks2-date').value;
+      let targetDate = document.getElementById('f-date').value;
+
+      if (source === 'ks1' && ks1Date) {
+        if (rank === 'ค.ศ.2') {
+          targetDate = addYearsToDateStr(ks1Date, reqYears);
+          document.getElementById('f-date').value = targetDate;
+        } else if (rank === 'ค.ศ.3') {
+          if (!ks2Date) {
+            ks2Date = addYearsToDateStr(ks1Date, reqYears);
+            document.getElementById('f-ks2-date').value = ks2Date;
+          }
+          targetDate = addYearsToDateStr(ks2Date, reqYears);
+          document.getElementById('f-date').value = targetDate;
+        }
+      } else if (source === 'ks2' && ks2Date) {
+        if (rank === 'ค.ศ.3') {
+          targetDate = addYearsToDateStr(ks2Date, reqYears);
+          document.getElementById('f-date').value = targetDate;
+        }
+      } else if (source === 'rank' || source === 'years') {
+        if (rank === 'ค.ศ.2' && ks1Date) {
+          targetDate = addYearsToDateStr(ks1Date, reqYears);
+          document.getElementById('f-date').value = targetDate;
+        } else if (rank === 'ค.ศ.3') {
+          if (ks2Date) {
+            targetDate = addYearsToDateStr(ks2Date, reqYears);
+            document.getElementById('f-date').value = targetDate;
+          } else if (ks1Date) {
+            ks2Date = addYearsToDateStr(ks1Date, reqYears);
+            document.getElementById('f-ks2-date').value = ks2Date;
+            targetDate = addYearsToDateStr(ks2Date, reqYears);
+            document.getElementById('f-date').value = targetDate;
+          }
+        }
+      }
+
+      const bKs1 = document.getElementById('badge-ks1-thai');
+      const bKs2 = document.getElementById('badge-ks2-thai');
+      const bTarget = document.getElementById('badge-target-thai');
+      const adviceBox = document.getElementById('calc-advice-box');
+
+      if (bKs1) {
+        bKs1.innerHTML = ks1Date
+          ? `🇹🇭 ตรงกับวันที่ไทย: <strong>${formatThaiDate(ks1Date)}</strong>`
+          : `💡 ใส่วันที่เริ่มเป็น ค.ศ.1 ระบบจะบวก +${reqYears} ปีเป็นวันส่ง ค.ศ.2 ให้อัตโนมัติ`;
+      }
+      if (bKs2) {
+        const estKs2 = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, reqYears) : '');
+        bKs2.innerHTML = ks2Date
+          ? `🇹🇭 ตรงกับวันที่ไทย: <strong>${formatThaiDate(ks2Date)}</strong>`
+          : (estKs2
+              ? `💡 คำนวณจากวัน ค.ศ.1 (+${reqYears} ปี) = ครบ ค.ศ.2 วันที่ <strong>${formatThaiDate(estKs2)}</strong>`
+              : `💡 ใส่วันที่เริ่มเป็น ค.ศ.2 ระบบจะบวก +${reqYears} ปีเป็นวันส่ง ค.ศ.3 ให้อัตโนมัติ`);
+      }
+      if (bTarget) {
+        bTarget.innerHTML = targetDate
+          ? `🇹🇭 ตรงกับวันที่ไทย: <strong>${formatThaiDate(targetDate)}</strong> (${getDaysUntil(targetDate) < 0 ? 'ครบกำหนดยื่นได้แล้ว!' : `อีก ${getDaysUntil(targetDate)} วัน`})`
+          : '';
+      }
+
+      if (adviceBox) {
+        const calcKs2 = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, reqYears) : '');
+        const calcKs3 = rank === 'ค.ศ.3'
+          ? (targetDate || (calcKs2 ? addYearsToDateStr(calcKs2, reqYears) : ''))
+          : (calcKs2 ? addYearsToDateStr(calcKs2, reqYears) : '');
+        const prepDate = targetDate ? addDaysToDateStr(targetDate, -90) : '';
+
+        adviceBox.innerHTML = `
+          <div style="font-size:0.98rem;margin-bottom:4px;"><strong>📣 สรุปไทม์ไลน์เพื่อแจ้งเพื่อน (เกณฑ์ ${reqYears} ปี):</strong></div>
+          <div>🌱 <strong>วันที่เริ่ม ค.ศ.1:</strong> ${ks1Date ? formatThaiDate(ks1Date) : 'ยังไม่ระบุ'}</div>
+          <div>📘 <strong>วันที่เริ่ม/ครบยื่น ค.ศ.2:</strong> ${calcKs2 ? formatThaiDate(calcKs2) : 'ยังไม่ระบุ'}</div>
+          <div>👑 <strong>วันที่ครบยื่น ค.ศ.3:</strong> ${calcKs3 ? formatThaiDate(calcKs3) : 'ยังไม่ระบุ'}</div>
+          <div style="margin-top:6px;padding-top:6px;border-top:1.5px dashed #6EE7B7;color:#047857;">
+            🎬 <strong>ควรเริ่มอัดคลิป/ทำแผน (ล่วงหน้า 3 เดือน):</strong> <strong>${prepDate ? formatThaiDate(prepDate) : '-'}</strong><br/>
+            🚀 <strong>วันที่ควรส่งระบบ DPA (${esc(rank)}):</strong> <strong style="color:#BE185D;font-size:1.05rem;">${targetDate ? formatThaiDate(targetDate) : '-'}</strong>
+          </div>
+        `;
+      }
+    }
+
+    function buildTimelineAdviceText(nameStr, rank, ks1Date, ks2Date, reqYears, targetDate) {
+      const callName = (nameStr && nameStr.trim()) ? nameStr.trim() : 'เพื่อนครู';
+      const yrs = parseInt(reqYears, 10) === 3 ? 3 : 4;
+      const calcKs2 = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, yrs) : '');
+      const calcKs3 = rank === 'ค.ศ.3'
+        ? (targetDate || (calcKs2 ? addYearsToDateStr(calcKs2, yrs) : ''))
+        : (calcKs2 ? addYearsToDateStr(calcKs2, yrs) : '');
+      const prepDate = targetDate ? addDaysToDateStr(targetDate, -90) : '';
+      const d = getDaysUntil(targetDate);
+      const countdownTxt = d < 0 ? `(ตอนนี้ครบกำหนดยื่นได้แล้วนะ!)` : `(นับถอยหลังอีก ${d} วัน)`;
+
+      return `สวัสดีจ้า ${callName}! 😊🌸\nเราช่วยคำนวณวันครบกำหนดส่งวิทยฐานะ (${rank} - เกณฑ์ ${yrs} ปี) ลงในสมุดที่ปรึกษาไว้ให้แล้วนะจ๊ะ:\n\n🌱 วันที่เริ่ม ค.ศ.1 (ครู): ${ks1Date ? formatThaiDate(ks1Date) : '-'}\n📘 วันที่เริ่ม/ครบยื่น ค.ศ.2 (ชำนาญการ): ${calcKs2 ? formatThaiDate(calcKs2) : '-'}\n👑 วันที่ครบยื่น ค.ศ.3 (ชำนาญการพิเศษ): ${calcKs3 ? formatThaiDate(calcKs3) : '-'}\n-------------------------\n🎬 ช่วงที่แนะนำให้เริ่มเตรียมแผน & อัดคลิป 60 นาที (ล่วงหน้า 3 เดือน):\n👉 ตั้งแต่วันที่ ${prepDate ? formatThaiDate(prepDate) : '-'}\n\n🚀 วันที่ควรส่งงานในระบบ DPA (${rank}):\n👉 ส่งได้ตั้งแต่วันที่ ${targetDate ? formatThaiDate(targetDate) : '-'} เป็นต้นไปจ้า! ${countdownTxt}\n-------------------------\nเตรียมแผนหรืออัดคลิปเมื่อไหร่ ส่งมาให้เราช่วยสแกน 6 จุดตาย DPA ก่อนยื่นได้เลยน้า สู้ๆ จ้า! ✌🏻✨🟢`;
+    }
+
+    function copyModalCalcAdvice() {
+      const nameStr = document.getElementById('f-name').value || 'ตัวเอง';
+      const rank = document.getElementById('f-rank').value || 'ค.ศ.2';
+      const ks1Date = document.getElementById('f-ks1-date').value;
+      const ks2Date = document.getElementById('f-ks2-date').value;
+      const reqYears = document.getElementById('f-req-years').value || '4';
+      const targetDate = document.getElementById('f-date').value;
+      const txt = buildTimelineAdviceText(nameStr, rank, ks1Date, ks2Date, reqYears, targetDate);
+      navigator.clipboard.writeText(txt)
+        .then(() => showToast('📋 คัดลอกผลคำนวณวันส่ง DPA แล้ว! กดวางส่งให้เพื่อนในแชทได้เลยจ้า'))
+        .catch(() => showToast('📋 คัดลอกผลคำนวณวันส่งเรียบร้อยจ้า!'));
+    }
+
+    function copyFriendTimelineAdvice(friendId) {
+      const f = friends.find(x => x.id === friendId);
+      if (!f) return;
+      const ct = getFriendCareerTimeline(f);
+      const txt = buildTimelineAdviceText(f.name, f.rank, ct.ks1Date, ct.calcKs2Date, ct.reqYears, f.targetDate);
+      navigator.clipboard.writeText(txt)
+        .then(() => showToast(`📋 คัดลอกผลคำนวณวันส่งของ ${shortName(f.name)} ไปส่งแชทได้เลยจ้า!`))
+        .catch(() => showToast('📋 คัดลอกผลคำนวณวันส่งเรียบร้อยจ้า!'));
+    }
+
     function openFriendModal(id, presetRank) {
       const f = id ? friends.find(x => x.id === id) : null;
       const defaultRank = presetRank || (rankShelfMode === 'ค.ศ.3' ? 'ค.ศ.3' : 'ค.ศ.2');
@@ -2658,7 +2939,15 @@
       document.getElementById('f-name').value = f ? f.name : '';
       document.getElementById('f-school').value = f ? (f.school || '') : '';
       document.getElementById('f-rank').value = f ? (f.rank || 'ค.ศ.2') : defaultRank;
-      document.getElementById('f-date').value = f ? (f.targetDate || '') : new Date().toISOString().slice(0, 10);
+
+      const todayStr = new Date().toISOString().slice(0, 10);
+      const defaultKs1 = addYearsToDateStr(todayStr, -4);
+      const ct = f ? getFriendCareerTimeline(f) : null;
+      document.getElementById('f-req-years').value = f ? String(ct.reqYears) : '4';
+      document.getElementById('f-ks1-date').value = f ? (ct.ks1Date || '') : (defaultRank === 'ค.ศ.2' ? defaultKs1 : '');
+      document.getElementById('f-ks2-date').value = f ? (f.ks2Date || (f.rank === 'ค.ศ.3' ? ct.calcKs2Date : '')) : (defaultRank === 'ค.ศ.3' ? defaultKs1 : '');
+      document.getElementById('f-date').value = f ? (f.targetDate || todayStr) : todayStr;
+
       document.getElementById('f-contact').value = f ? (f.contact || '') : '';
       document.getElementById('f-status').value = f ? (f.status || 'รอถึงกำหนด') : 'รอถึงกำหนด';
       document.getElementById('f-subject').value = f ? (f.subject || '') : '';
@@ -2669,6 +2958,7 @@
 
       const seedToUse = (f && typeof f.colorSeed === 'number') ? f.colorSeed : getNextUniqueColorSeed();
       updateModalAutoThemeBanner(seedToUse);
+      onCareerDateCalcChange('init');
 
       const links = (f && f.links) ? f.links : { drive: '', plan: '', video: '' };
       document.getElementById('f-link-drive').value = links.drive || '';
@@ -2705,6 +2995,9 @@
         colorSeed: pendingColorSeed,
         school: document.getElementById('f-school').value.trim(),
         rank: document.getElementById('f-rank').value,
+        ks1Date: document.getElementById('f-ks1-date').value,
+        ks2Date: document.getElementById('f-ks2-date').value,
+        reqYears: parseInt(document.getElementById('f-req-years').value, 10) === 3 ? 3 : 4,
         targetDate: document.getElementById('f-date').value,
         contact: document.getElementById('f-contact').value.trim(),
         status: document.getElementById('f-status').value,
@@ -2731,7 +3024,7 @@
       activeTab = item.id;
       closeFriendModal();
       const th = getFriendTheme(item);
-      saveData(`${th.emoji} บันทึก "${shortName(item.name)}" (โทน${th.name}) เรียบร้อยจ้า!`);
+      saveData(`${th.emoji} บันทึก "${shortName(item.name)}" พร้อมคำนวณวันส่ง DPA เรียบร้อยจ้า!`);
     }
 
     function deleteCurrentFriend() {
@@ -2748,14 +3041,15 @@
     function openMsgModal(id) {
       activeMsgFriendId = id;
       currentMsgMode = 1;
-      updateMsgPreview();
+      setMsgMode(1);
       document.getElementById('msg-modal').classList.add('open');
     }
 
     function setMsgMode(mode) {
       currentMsgMode = mode;
-      [1, 2, 3, 4].forEach(m => {
+      [1, 2, 3, 4, 5].forEach(m => {
         const btn = document.getElementById(`mm-${m}`);
+        if (!btn) return;
         if (m === mode) btn.classList.add('active'); else btn.classList.remove('active');
       });
       updateMsgPreview();
@@ -2769,21 +3063,24 @@
       const rankTxt = f.rank === 'ค.ศ.3' ? 'ค.ศ.3 (ชำนาญการพิเศษ)' : 'ค.ศ.2 (ชำนาญการ)';
       const chk = Array.isArray(f.checklist) ? f.checklist : [];
       const pitfalls = Array.isArray(f.pitfalls) ? f.pitfalls : [];
+      const ct = getFriendCareerTimeline(f);
 
       let text = '';
       if (currentMsgMode === 1) {
+        text = buildTimelineAdviceText(f.name, f.rank, ct.ks1Date, ct.calcKs2Date, ct.reqYears, f.targetDate);
+      } else if (currentMsgMode === 2) {
         const timeTxt = d < 0
           ? `เห็นว่าครบกำหนดยื่น ${rankTxt} ตั้งแต่วันที่ ${tDate} แล้วนะ!`
-          : `เห็นที่คุยกันไว้ว่าจะครบกำหนดยื่น ${rankTxt} วันที่ ${tDate} (อีก ${d} วัน) นี้แล้ว!`;
-        text = `สวัสดีครับ ${f.name}! 😊🌸\n${timeTxt}\n\nเลยแวะมาทักถามความคืบหน้าหน่อยครับ จะได้ช่วยกันวางแผนถูก:\n1️⃣ เล็งไว้หรือยังว่าจะทำเรื่องอะไร / หน่วยการเรียนรู้ไหน?\n2️⃣ เลือกอัดคลิปสอนนักเรียนระดับชั้นไหน?\n3️⃣ กะว่าจะใช้นวัตกรรม สื่อ หรือวิธีการสอนแบบไหนเป็นตัวชูโรง? (เช่น Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม ฯลฯ)\n\nว่างแล้วพิมพ์บอกไว้ได้เลยนะ เดี๋ยวจดไว้ในสมุดที่ปรึกษาให้ครับ! ✌🏻✨🟢`;
-      } else if (currentMsgMode === 2) {
-        const missingDocs = CHECKLIST_OPTS.filter(c => !chk.includes(c.key)).map(c => c.label).join(', ');
-        text = `สวัสดีครับ ${f.name}! 😊✨\nแวะมาอัปเดตความคืบหน้าเรื่องทำ ${rankTxt} ${f.topic ? `เรื่อง "${f.topic}"` : ''} ${f.grade ? `(ชั้น ${f.grade})` : ''} ครับ!\n\nตอนนี้รายการที่กำลังลุยต่อคือ: ${missingDocs || 'เตรียมความพร้อมขั้นสุดท้าย'}\nถ้าทำไฟล์แผนการสอนหรืออัดคลิปเสร็จแล้ว ส่งลิงก์ Google Drive หรือส่งไฟล์มาให้ช่วยสแกนดูได้เลยนะครับ สู้ๆ ครับ! ✌🏻🌸`;
+          : `จากที่คำนวณอายุงานไว้ จะครบกำหนดส่ง ${rankTxt} ได้ตั้งแต่วันที่ ${tDate} (อีก ${d} วัน) นี้แล้ว!`;
+        text = `สวัสดีครับ ${f.name}! 😊🌸\n${timeTxt}\n(แนะนำให้เริ่มเตรียมแผนและอัดคลิปช่วงวันที่ ${ct.prepStartDate ? formatThaiDate(ct.prepStartDate) : '-'} นะครับ)\n\nเลยแวะมาทักถามความคืบหน้าหน่อยครับ จะได้ช่วยกันวางแผนถูก:\n1️⃣ เล็งไว้หรือยังว่าจะทำเรื่องอะไร / หน่วยการเรียนรู้ไหน?\n2️⃣ เลือกอัดคลิปสอนนักเรียนระดับชั้นไหน?\n3️⃣ กะว่าจะใช้นวัตกรรม สื่อ หรือวิธีการสอนแบบไหนเป็นตัวชูโรง? (เช่น Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม ฯลฯ)\n\nว่างแล้วพิมพ์บอกไว้ได้เลยนะ เดี๋ยวจดไว้ในสมุดที่ปรึกษาให้ครับ! ✌🏻✨🟢`;
       } else if (currentMsgMode === 3) {
+        const missingDocs = CHECKLIST_OPTS.filter(c => !chk.includes(c.key)).map(c => c.label).join(', ');
+        text = `สวัสดีครับ ${f.name}! 😊✨\nแวะมาอัปเดตความคืบหน้าเรื่องทำ ${rankTxt} ${f.topic ? `เรื่อง "${f.topic}"` : ''} ${f.grade ? `(ชั้น ${f.grade})` : ''} (กำหนดส่ง DPA ได้ตั้งแต่วันที่ ${tDate}) ครับ!\n\nตอนนี้รายการที่กำลังลุยต่อคือ: ${missingDocs || 'เตรียมความพร้อมขั้นสุดท้าย'}\nถ้าทำไฟล์แผนการสอนหรืออัดคลิปเสร็จแล้ว ส่งลิงก์ Google Drive หรือส่งไฟล์มาให้ช่วยสแกนดูได้เลยนะครับ สู้ๆ ครับ! ✌🏻🌸`;
+      } else if (currentMsgMode === 4) {
         const uncheckedPitfalls = DPA_PITFALLS.filter(p => !pitfalls.includes(p.key)).map(p => `• ${p.label}`).join('\n');
         text = `สวัสดีครับ ${f.name}! 🔍✨\nผมช่วยเช็กงานสำหรับยื่น ${rankTxt} ให้เบื้องต้นแล้วนะครับ (${pitfalls.length}/6 จุดสำคัญ)\n\n${uncheckedPitfalls ? `จุดที่อยากให้ลองเช็กเพิ่มอีกนิดก่อนยื่นครับ:\n${uncheckedPitfalls}` : '🎉 เช็กครบทั้ง 6 จุดสำคัญของ DPA แล้ว ผ่านฉลุยเลยครับ!'}\n\n${f.notes ? `หมายเหตุเพิ่มเติม: ${f.notes}\n` : ''}ปรับเสร็จแล้วส่งมาให้ดูอีกรอบได้ตลอดเลยนะครับ! ✌🏻🟢`;
       } else {
-        text = `สวัสดีครับ ${f.name}! 🎉🍀\nขอส่งกำลังใจให้สำหรับการยื่นขอ ${rankTxt} ในระบบ DPA นะครับ! เตรียมงานมาตั้งใจขนาดนี้ ขอให้กรรมการอ่านแผนดูคลิปแล้วประทับใจ ได้ขึ้น "ป้ายเขียวอนุมัติ" ไวๆ เลยนะครับ ลุ้นไปด้วยกันครับ! 🟢✨🎉✌🏻`;
+        text = `สวัสดีครับ ${f.name}! 🎉🍀\nขอส่งกำลังใจให้สำหรับการยื่นขอ ${rankTxt} ในระบบ DPA (ส่งได้ตั้งแต่วันที่ ${tDate}) นะครับ! เตรียมงานมาตั้งใจขนาดนี้ ขอให้กรรมการอ่านแผนดูคลิปแล้วประทับใจ ได้ขึ้น "ป้ายเขียวอนุมัติ" ไวๆ เลยนะครับ ลุ้นไปด้วยกันครับ! 🟢✨🎉✌🏻`;
       }
 
       document.getElementById('msg-box').textContent = text;
