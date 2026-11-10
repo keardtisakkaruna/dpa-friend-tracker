@@ -1438,113 +1438,8 @@
       { label: '🟢 อนุมัติผ่านแล้ว (ป้ายเขียว!) 🎉', status: 'ผ่านแล้ว 🎉' }
     ];
 
-    const DEFAULT_FRIENDS = [
-      {
-        id: 'friend_1',
-        name: 'ครูเมย์ (ธนพร)',
-        colorSeed: 0,
-        school: 'รร.วัดคลองห้า (สพป.สระบุรี เขต 2)',
-        rank: 'ค.ศ.2',
-        ks1Date: '2022-11-25',
-        ks2Date: '',
-        reqYears: 4,
-        targetDate: '2026-11-25',
-        contact: 'Line: may_kru',
-        status: 'ถึงเวลาทักถามข้อมูล',
-        subject: 'ภาษาไทย',
-        grade: '',
-        topic: '',
-        innovation: '',
-        checklist: ['แผนการสอน'],
-        pitfalls: ['p4'],
-        links: { drive: '', plan: '', video: '' },
-        files: [],
-        timeline: [
-          { date: '5 พ.ย. 2569', text: '💬 คุยกันตอนงานเขตว่าครบกำหนดปลายเดือน พ.ย. 69' }
-        ],
-        notes: 'เคยคุยกันตอนงานเขตว่าครบกำหนดปลายเดือน พ.ย. 69 ต้องทักไปถามว่าจะทำเรื่องอะไร สอนชั้นไหน และใช้นวัตกรรมอะไร',
-        isSample: true
-      },
-      {
-        id: 'friend_2',
-        name: 'ครูบอย (อนุชา)',
-        colorSeed: 3,
-        school: 'รร.บ้านหนองยาว',
-        rank: 'ค.ศ.3',
-        ks1Date: '2018-12-10',
-        ks2Date: '2022-12-10',
-        reqYears: 4,
-        targetDate: '2026-12-10',
-        contact: 'FB: Anucha Boy',
-        status: 'ถึงเวลาทักถามข้อมูล',
-        subject: 'คณิตศาสตร์',
-        grade: 'ป.5',
-        topic: '',
-        innovation: '',
-        checklist: ['แผนการสอน'],
-        pitfalls: [],
-        links: { drive: '', plan: '', video: '' },
-        files: [],
-        timeline: [
-          { date: '5 พ.ย. 2569', text: '🎯 เลือกชั้น ป.5 ไว้แล้ว รอสรุปเรื่องที่จะทำ' }
-        ],
-        notes: 'เลือกชั้น ป.5 ไว้แล้ว แต่ยังลังเลเรื่องเศษส่วนกับทศนิยม รอทักถามสรุปหัวข้อและวิธีสอน',
-        isSample: true
-      },
-      {
-        id: 'friend_3',
-        name: 'ครูส้ม (พัชรี)',
-        colorSeed: 2,
-        school: 'รร.ชุมชนวัดไทยงาม',
-        rank: 'ค.ศ.2',
-        ks1Date: '2022-11-18',
-        ks2Date: '',
-        reqYears: 4,
-        targetDate: '2026-11-18',
-        contact: 'Line: som_patcharee',
-        status: 'กำลังทำเอกสาร/อัดคลิป',
-        subject: 'วิทยาศาสตร์และเทคโนโลยี',
-        grade: 'ป.4',
-        topic: 'หน้าที่ของส่วนต่างๆ ของพืชดอก',
-        innovation: 'สืบเสาะ 5E + ชุดกิจกรรมการเรียนรู้',
-        checklist: ['แผนการสอน', 'คลิปการสอน', 'ผลลัพธ์ผู้เรียน'],
-        pitfalls: ['p1', 'p2', 'p3', 'p4', 'p5'],
-        links: { drive: '', plan: '', video: '' },
-        files: [],
-        timeline: [
-          { date: '4 พ.ย. 2569', text: '🎬 ส่งคลิปสอนมาให้ช่วยดูแล้ว' },
-          { date: '5 พ.ย. 2569', text: '🌟 ตรวจครบผ่านฉลุย พร้อมยื่น!' }
-        ],
-        notes: 'ปรึกษาเรื่องตัดต่อต้นคลิปและตรวจแผนการสอนเรียบร้อย เหลืออัปโหลดเข้าระบบ DPA',
-        isSample: true
-      },
-      {
-        id: 'friend_4',
-        name: 'ครูต้น (วีรภัทร)',
-        colorSeed: 4,
-        school: 'รร.อนุบาลสระบุรี',
-        rank: 'ค.ศ.3',
-        ks1Date: '2019-03-15',
-        ks2Date: '2023-03-15',
-        reqYears: 4,
-        targetDate: '2027-03-15',
-        contact: 'FB: Weeraphat Ton',
-        status: 'รอถึงกำหนด',
-        subject: 'สังคมศึกษาฯ',
-        grade: 'ป.6',
-        topic: 'เศรษฐศาสตร์ในชีวิตประจำวัน',
-        innovation: 'Active Learning + บอร์ดเกม / Gamification',
-        checklist: ['แผนการสอน'],
-        pitfalls: ['p4'],
-        links: { drive: '', plan: '', video: '' },
-        files: [],
-        timeline: [
-          { date: '5 พ.ย. 2569', text: '🎯 สรุปเรื่องและชั้นเรียนแล้ว' }
-        ],
-        notes: 'ครบกำหนดมีนาคมปีหน้า เริ่มวางโครงบอร์ดเกมและวิจัยในชั้นเรียนล่วงหน้าแล้ว',
-        isSample: true
-      }
-    ];
+    /* ล้างข้อมูลตัวอย่างออกถาวร เพื่อให้พร้อมลงข้อมูลเพื่อนครูตัวจริงทันที! */
+    const DEFAULT_FRIENDS = [];
 
     let friends = [];
     let activeTab = 'overview';
@@ -1676,9 +1571,16 @@
 
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        friends = raw ? JSON.parse(raw) : DEFAULT_FRIENDS;
+        friends = raw ? JSON.parse(raw) : [];
       } catch (e) {
-        friends = DEFAULT_FRIENDS;
+        friends = [];
+      }
+
+      // ล้างรายชื่อตัวอย่าง 4 คน (friend_1..friend_4 / isSample) ออกอัตโนมัติถาวร คงไว้เฉพาะรายชื่อเพื่อนจริง!
+      const beforeLen = friends.length;
+      friends = friends.filter(f => !f.isSample && !['friend_1', 'friend_2', 'friend_3', 'friend_4'].includes(f.id));
+      if (friends.length !== beforeLen) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(friends));
       }
 
       // จัดสรรสีอัตโนมัติไม่ให้ซ้ำกัน และเติมค่าเริ่มต้นวัน ค.ศ.1 / ค.ศ.2 กรณีข้อมูลเดิมยังไม่มี
@@ -1795,7 +1697,6 @@
     }
 
     function clearSampleFriends() {
-      if (!confirm('🧹 ต้องการล้างรายชื่อตัวอย่างทั้ง 4 คนออก เพื่อเริ่มใส่รายชื่อเพื่อนจริงของคุณครูใช่ไหมครับ?')) return;
       friends = friends.filter(f => !f.isSample && !['friend_1','friend_2','friend_3','friend_4'].includes(f.id));
       activeTab = 'overview';
       saveData('🧹 ล้างข้อมูลตัวอย่างออกเรียบร้อย! กด + เพิ่มเพื่อนจริงได้เลยจ้า');
@@ -3031,11 +2932,10 @@
       const id = document.getElementById('f-id').value;
       const f = friends.find(x => x.id === id);
       if (!f) return;
-      if (!confirm(`ต้องการลบรายชื่อ "${f.name}" ใช่ไหมครับ?`)) return;
       friends = friends.filter(x => x.id !== id);
       activeTab = 'overview';
       closeFriendModal();
-      saveData(`ลบรายชื่อ ${f.name} แล้ว`);
+      saveData(`🗑️ ลบรายชื่อ "${f.name}" เรียบร้อยแล้วจ้า`);
     }
 
     function openMsgModal(id) {
