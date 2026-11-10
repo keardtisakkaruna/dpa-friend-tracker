@@ -1190,15 +1190,42 @@
             </select>
           </div>
 
-          <!-- 🧮 กล่องบันทึกวัน ค.ศ.1 / ค.ศ.2 และคำนวณวันควรส่ง DPA อัตโนมัติ -->
+          <!-- 🧮 กล่องบันทึกวัน ค.ศ.1 ⇄ ค.ศ.2 ⇄ ค.ศ.3 + ตรวจวุฒิ ป.โท ลดเวลา 4 ปี เหลือ 3 ปี -->
           <div style="background:#FFFDF5;border:2.5px solid #F59E0B;border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:10px;">
             <div style="font-size:1.02rem;color:#B45309;display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;border-bottom:2px dashed #FDE68A;padding-bottom:6px;">
-              <strong>🧮 คำนวณวันครบกำหนดส่งจากวันได้ ค.ศ.1 / ค.ศ.2</strong>
-              <span class="pill" style="background:#FEF3C7;color:#92400E;border:1px solid #F59E0B;">คำนวณให้อัตโนมัติ ✨</span>
+              <strong>🧮 คำนวณไป-กลับ ค.ศ.1 ⇄ ค.ศ.2 ⇄ ค.ศ.3 &amp; สิทธิ์ ป.โท</strong>
+              <span class="pill" style="background:#FEF3C7;color:#92400E;border:1px solid #F59E0B;">คำนวณอัตโนมัติ ✨</span>
+            </div>
+
+            <!-- 🎓 ส่วนเช็กวุฒิ ป.โท (ลดเวลา 4 ปี ➔ 3 ปี / ดักจับ "การบริหารการศึกษา") -->
+            <div style="background:#F5F3FF;border:2px solid #C4B5FD;border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px;">
+              <label class="form-label" style="color:#5B21B6;margin-bottom:0;">🎓 ข้อมูลวุฒิ ป.โท / สิทธิ์ลดระยะเวลา (จาก 4 ปี เหลือ 3 ปี)</label>
+              <select id="f-master-status" class="input-cute" style="border-color:#C4B5FD;background:#FFFFFF;" onchange="onMasterDegreeChange('select')">
+                <option value="none">⏳ ไม่มีวุฒิ ป.โท ที่ใช้ลดเวลา (ใช้เกณฑ์ปกติ 4 ปีเต็ม)</option>
+                <option value="edu_valid">✅ จบ ป.โท เกี่ยวกับการศึกษา/การสอน/ตรงวิชาเอก (ลดเหลือ 3 ปีได้! ⚡)</option>
+                <option value="edu_admin">⛔ จบ ป.โท สาขาการบริหารการศึกษา (❌ ลดเวลาสายครูไม่ได้! ต้องใช้ 4 ปี)</option>
+                <option value="other_3yr">🌟 ลดเวลาด้วยเงื่อนไขอื่น (ทักษะภาษาต่างประเทศ / พื้นที่พิเศษ ➔ 3 ปี)</option>
+              </select>
+
+              <input
+                type="text"
+                id="f-master-major"
+                class="input-cute"
+                style="border-color:#C4B5FD;background:#FFFFFF;"
+                placeholder="📖 ระบุสาขา ป.โท (ถ้ามี) เช่น หลักสูตรและการสอน, การบริหารการศึกษา..."
+                oninput="onMasterDegreeChange('input')"
+              />
+
+              <div id="master-rule-alert" style="font-size:0.9rem;border-radius:12px;padding:8px 10px;line-height:1.4;"></div>
             </div>
 
             <div>
-              <label class="form-label" style="color:#047857;">🌱 1. วันที่เริ่มดำรงตำแหน่ง ค.ศ.1 (ครู)</label>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px;">
+                <label class="form-label" style="color:#047857;margin-bottom:0;">🌱 1. วันที่เริ่มดำรงตำแหน่ง ค.ศ.1 (ครู)</label>
+                <button type="button" onclick="fillKs1FromKs2()" style="background:#DCFCE7;color:#047857;border:1.5px solid #6EE7B7;border-radius:99px;padding:2px 9px;font-size:0.82rem;cursor:pointer;">
+                  ⏪ คิดย้อนจากวัน ค.ศ.2 (-4 ปี)
+                </button>
+              </div>
               <input type="date" id="f-ks1-date" class="input-cute" style="border-color:#6EE7B7;" onchange="onCareerDateCalcChange('ks1')" />
               <div id="badge-ks1-thai" style="font-size:0.9rem;color:#047857;margin-top:4px;"></div>
             </div>
@@ -1207,7 +1234,7 @@
               <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px;">
                 <label class="form-label" style="color:#0369A1;margin-bottom:0;">📘 2. วันที่เริ่มดำรงตำแหน่ง ค.ศ.2 (ชำนาญการ)</label>
                 <button type="button" onclick="fillKs2FromKs1()" style="background:#E0F2FE;color:#0369A1;border:1.5px solid #7DD3FC;border-radius:99px;padding:2px 9px;font-size:0.82rem;cursor:pointer;">
-                  ⚡ คิดจากวัน ค.ศ.1 +4 ปี
+                  ⏩ คิดต่อจากวัน ค.ศ.1 (+4/3 ปี)
                 </button>
               </div>
               <input type="date" id="f-ks2-date" class="input-cute" style="border-color:#7DD3FC;" onchange="onCareerDateCalcChange('ks2')" />
@@ -1215,10 +1242,10 @@
             </div>
 
             <div>
-              <label class="form-label" style="color:#92400E;">⏳ เกณฑ์ระยะเวลาครองตำแหน่งก่อนยื่น (ว9/2564 DPA)</label>
+              <label class="form-label" style="color:#92400E;">⏳ เกณฑ์ระยะเวลาครองตำแหน่งรอบที่จะยื่นนี้ (ว9/2564 DPA)</label>
               <select id="f-req-years" class="input-cute" style="border-color:#FCD34D;" onchange="onCareerDateCalcChange('years')">
-                <option value="4">⏳ ครบ 4 ปีเต็ม (เกณฑ์ปกติ ว9/2564)</option>
-                <option value="3">⚡ ครบ 3 ปีเต็ม (เกณฑ์ลดเวลา: ป.โท-เอก / ภาษา / พื้นที่พิเศษ)</option>
+                <option value="4">⏳ ครบ 4 ปีเต็ม (เกณฑ์ปกติ ว9/2564 หรือจบ ป.โท บริหารการศึกษา)</option>
+                <option value="3">⚡ ครบ 3 ปีเต็ม (จบ ป.โท การศึกษา/การสอน/ตรงวิชาเอก หรือภาษา/พื้นที่พิเศษ)</option>
               </select>
             </div>
 
@@ -1228,7 +1255,7 @@
               <div id="badge-target-thai" style="font-size:0.95rem;color:#BE185D;margin-top:4px;"></div>
             </div>
 
-            <!-- กล่องสรุปผลคำนวณว่าจะแจ้งเพื่อนว่าควรเตรียมวันไหน & ควรส่งวันไหน -->
+            <!-- กล่องสรุปผลคำนวณทั้ง ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3 และวันที่ควรส่ง -->
             <div id="calc-advice-box" style="background:#ECFDF5;border:2px solid #34D399;border-radius:14px;padding:10px 12px;font-size:0.94rem;color:#065F46;line-height:1.45;"></div>
 
             <button type="button" class="btn btn-mint btn-sm" style="width:100%;" onclick="copyModalCalcAdvice()">
@@ -1535,27 +1562,60 @@
       return `${yy}-${mm}-${dd}`;
     }
 
+    function getMasterDegreeLabel(status, major) {
+      const m = major ? ` (${major})` : '';
+      if (status === 'edu_valid') return `🎓 จบ ป.โท การศึกษา/การสอน${m} (ลดเวลา 4 ปี ➔ 3 ปีได้ ✅)`;
+      if (status === 'edu_admin') return `⚠️ จบ ป.โท บริหารการศึกษา${m} (ลดเวลาสายการสอนไม่ได้ ต้องครบ 4 ปี ❌)`;
+      if (status === 'other_3yr') return `🌟 ลดเวลาตามเกณฑ์ ก.ค.ศ. อื่นๆ${m} (4 ปี ➔ 3 ปี ✅)`;
+      return `📘 วุฒิปกติ / ยังไม่ใช้สิทธิ์ลดเวลา${m} (เกณฑ์ 4 ปี)`;
+    }
+
     function getFriendCareerTimeline(f) {
-      const reqYears = parseInt(f.reqYears, 10) === 3 ? 3 : 4;
+      const masterStatus = f.masterStatus || 'none';
+      const masterMajor = f.masterMajor || '';
+      // กฎเหล็ก ก.ค.ศ.: ถ้าจบ ป.โท การบริหารการศึกษา (edu_admin) ลดเวลาสายงานครูไม่ได้ ต้อง 4 ปีเท่านั้น
+      const reqYears = (masterStatus === 'edu_admin')
+        ? 4
+        : (parseInt(f.reqYears, 10) === 3 || masterStatus === 'edu_valid' || masterStatus === 'other_3yr' ? 3 : 4);
+
       let ks1Date = f.ks1Date || '';
       let ks2Date = f.ks2Date || '';
       const targetDate = f.targetDate || '';
+      let ks1BackCalculated = false;
+
+      // กรณีรู้วัน ค.ศ.2 แล้ว -> คำนวณย้อนกลับไปหาวัน ค.ศ.1 (-4 ปี) ให้อัตโนมัติทันที!
+      if (ks2Date && !ks1Date) {
+        ks1Date = addYearsToDateStr(ks2Date, -4);
+        ks1BackCalculated = true;
+      }
 
       if (f.rank === 'ค.ศ.2' && !ks1Date && targetDate) {
         ks1Date = addYearsToDateStr(targetDate, -reqYears);
       }
       if (f.rank === 'ค.ศ.3' && !ks2Date && targetDate) {
         ks2Date = addYearsToDateStr(targetDate, -reqYears);
+        if (ks2Date && !ks1Date) {
+          ks1Date = addYearsToDateStr(ks2Date, -4);
+          ks1BackCalculated = true;
+        }
       }
-      const calcKs2Date = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, reqYears) : '');
-      const calcKs3Date = f.rank === 'ค.ศ.3'
-        ? (targetDate || (calcKs2Date ? addYearsToDateStr(calcKs2Date, reqYears) : ''))
-        : (calcKs2Date ? addYearsToDateStr(calcKs2Date, reqYears) : '');
+
+      const calcKs2Date = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, f.rank === 'ค.ศ.2' ? reqYears : 4) : '');
+      // ถ้ายังไม่รู้วัน ค.ศ.1 แต่มี calcKs2Date ให้คิดย้อนกลับไปเป็น ค.ศ.1 (-4 ปี) ด้วย
+      if (!ks1Date && calcKs2Date) {
+        ks1Date = addYearsToDateStr(calcKs2Date, -4);
+        ks1BackCalculated = true;
+      }
+      const calcKs3Date = calcKs2Date ? addYearsToDateStr(calcKs2Date, reqYears) : (f.rank === 'ค.ศ.3' ? targetDate : '');
       const prepStartDate = targetDate ? addDaysToDateStr(targetDate, -90) : '';
 
       return {
         reqYears,
+        masterStatus,
+        masterMajor,
+        masterLabel: getMasterDegreeLabel(masterStatus, masterMajor),
         ks1Date,
+        ks1BackCalculated,
         ks2Date: calcKs2Date,
         rawKs2Date: ks2Date,
         targetDate,
@@ -1583,7 +1643,7 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(friends));
       }
 
-      // จัดสรรสีอัตโนมัติไม่ให้ซ้ำกัน และเติมค่าเริ่มต้นวัน ค.ศ.1 / ค.ศ.2 กรณีข้อมูลเดิมยังไม่มี
+      // จัดสรรสีอัตโนมัติไม่ให้ซ้ำกัน และคำนวณย้อนกลับ/ไปหน้า ค.ศ.1 <-> ค.ศ.2 <-> ค.ศ.3 อัตโนมัติ
       const used = new Set();
       friends.forEach((f, idx) => {
         if (typeof f.colorSeed !== 'number' || used.has(f.colorSeed)) {
@@ -1592,12 +1652,21 @@
           f.colorSeed = s;
         }
         used.add(f.colorSeed);
-        if (!f.reqYears) f.reqYears = 4;
+        if (!f.masterStatus) f.masterStatus = 'none';
+        if (!f.masterMajor) f.masterMajor = '';
+        if (f.masterStatus === 'edu_admin') f.reqYears = 4;
+        if (!f.reqYears) f.reqYears = (f.masterStatus === 'edu_valid' || f.masterStatus === 'other_3yr') ? 3 : 4;
+        if (f.ks2Date && !f.ks1Date) {
+          f.ks1Date = addYearsToDateStr(f.ks2Date, -4);
+        }
         if (f.rank === 'ค.ศ.2' && !f.ks1Date && f.targetDate) {
           f.ks1Date = addYearsToDateStr(f.targetDate, -f.reqYears);
         }
         if (f.rank === 'ค.ศ.3' && !f.ks2Date && f.targetDate) {
           f.ks2Date = addYearsToDateStr(f.targetDate, -f.reqYears);
+          if (f.ks2Date && !f.ks1Date) {
+            f.ks1Date = addYearsToDateStr(f.ks2Date, -4);
+          }
         }
       });
       renderApp();
@@ -1828,16 +1897,20 @@
               <span>${th.emoji}</span>
               <strong>${esc(f.name)}</strong>
               <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">
-                ${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3' : '📘 ค.ศ.2'}
+                ${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3' : '📘 ค.ศ.2'} (เกณฑ์ ${ct.reqYears} ปี)
               </span>
             </div>
             <span class="pill" style="background:#FFFFFF;color:${th.strong};border:1.5px solid ${th.border};">
               เอกสาร ${chk.length}/4 👉
             </span>
           </div>
+          <div style="font-size:0.9rem;color:#6B21A8;background:#FAF5FF;border:1.5px solid #D8B4FE;border-radius:10px;padding:3px 9px;display:inline-block;">
+            ${esc(ct.masterLabel)}
+          </div>
           <div style="font-size:0.93rem;color:var(--text-sub);display:flex;flex-wrap:wrap;gap:8px;">
-            ${ct.ks1Date ? `<span>🌱 ค.ศ.1: <strong>${formatThaiDate(ct.ks1Date)}</strong></span>` : ''}
-            ${ct.ks2Date ? `<span>📘 ค.ศ.2: <strong>${formatThaiDate(ct.ks2Date)}</strong></span>` : ''}
+            ${ct.ks1Date ? `<span>🌱 ค.ศ.1: <strong>${formatThaiDate(ct.ks1Date)}</strong>${ct.ks1BackCalculated ? ' <em>(คิดย้อนจาก ค.ศ.2)</em>' : ''}</span>` : ''}
+            ${ct.calcKs2Date ? `<span>📘 ค.ศ.2: <strong>${formatThaiDate(ct.calcKs2Date)}</strong></span>` : ''}
+            ${ct.calcKs3Date ? `<span>👑 ค.ศ.3: <strong>${formatThaiDate(ct.calcKs3Date)}</strong></span>` : ''}
           </div>
           <div style="font-size:0.98rem;color:var(--text-main);">
             🚀 ควรส่ง DPA (${esc(f.rank)}): <strong style="color:#BE185D;">${formatThaiDate(f.targetDate)}</strong> (${cd.text})
@@ -2064,23 +2137,35 @@
             </div>
           </div>
 
-          <!-- 🧮 การ์ดคำนวณวันดำรงตำแหน่ง ค.ศ.1 ➔ ค.ศ.2 ➔ วันควรส่ง DPA -->
+          <!-- 🧮 การ์ดคำนวณวันดำรงตำแหน่ง ค.ศ.1 ⇄ ค.ศ.2 ⇄ ค.ศ.3 + วุฒิ ป.โท -->
           <div style="background:#FFFFFF;border:2.5px solid ${th.border};border-radius:20px;padding:13px 14px;display:flex;flex-direction:column;gap:8px;">
             <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;border-bottom:2px dashed ${th.border};padding-bottom:6px;">
-              <strong style="font-size:1.05rem;color:${th.strong};">🗓️ ไทม์ไลน์คำนวณวันยื่น (ค.ศ.1 ➔ ค.ศ.2 ➔ วันส่ง DPA)</strong>
+              <strong style="font-size:1.05rem;color:${th.strong};">🗓️ ไทม์ไลน์คำนวณ (ค.ศ.1 ⇄ ค.ศ.2 ⇄ ค.ศ.3 &amp; วุฒิ ป.โท)</strong>
               <button type="button" class="tag-btn" style="background:${th.chipBg};color:${th.strong};border-color:${th.border};" onclick="openFriendModal('${f.id}')">
-                ✏️ แก้ไขวันที่ ค.ศ.1 / ค.ศ.2
+                ✏️ แก้ไขวันที่ / วุฒิ ป.โท
               </button>
             </div>
 
-            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;">
-              <div style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:14px;padding:8px 10px;">
-                <div style="font-size:0.86rem;color:#047857;">🌱 วันที่ได้ ค.ศ.1 (ครู)</div>
-                <strong style="font-size:1rem;color:#065F46;">${ct.ks1Date ? formatThaiDate(ct.ks1Date) : 'ยังไม่ระบุ (กดแก้ไข)'}</strong>
+            <!-- ป้ายแสดงสถานะวุฒิ ป.โท และการลดเวลา -->
+            <div style="background:${ct.masterStatus === 'edu_admin' ? '#FEF2F2' : ct.masterStatus === 'edu_valid' || ct.masterStatus === 'other_3yr' ? '#ECFDF5' : '#FAF5FF'};border:1.5px solid ${ct.masterStatus === 'edu_admin' ? '#FCA5A5' : ct.masterStatus === 'edu_valid' || ct.masterStatus === 'other_3yr' ? '#6EE7B7' : '#D8B4FE'};border-radius:14px;padding:8px 11px;font-size:0.93rem;color:${ct.masterStatus === 'edu_admin' ? '#B91C1C' : ct.masterStatus === 'edu_valid' || ct.masterStatus === 'other_3yr' ? '#047857' : '#6B21A8'};">
+              <strong>${esc(ct.masterLabel)}</strong>
+              ${ct.masterStatus === 'edu_admin' ? `<div style="font-size:0.86rem;margin-top:2px;">💡 หมายเหตุ ก.ค.ศ.: ป.โท สาขาการบริหารการศึกษา เป็นวุฒิสายบริหาร ไม่สามารถนำมาลดระยะเวลาของสายงานครูผู้สอนได้ ต้องครองตำแหน่งครบ 4 ปีเต็มครับ</div>` : ''}
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;">
+              <div style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:14px;padding:8px 9px;">
+                <div style="font-size:0.84rem;color:#047857;">🌱 1. วันได้ ค.ศ.1</div>
+                <strong style="font-size:0.95rem;color:#065F46;display:block;margin-top:2px;">${ct.ks1Date ? formatThaiDate(ct.ks1Date) : 'ยังไม่ระบุ'}</strong>
+                ${ct.ks1BackCalculated ? `<div style="font-size:0.78rem;color:#059669;">(คิดย้อนจาก ค.ศ.2 -4 ปี)</div>` : ''}
               </div>
-              <div style="background:#F0F9FF;border:1.5px solid #7DD3FC;border-radius:14px;padding:8px 10px;">
-                <div style="font-size:0.86rem;color:#0369A1;">📘 วันที่ได้/ครบยื่น ค.ศ.2</div>
-                <strong style="font-size:1rem;color:#075985;">${ct.calcKs2Date ? formatThaiDate(ct.calcKs2Date) : 'ยังไม่ระบุ (กดแก้ไข)'}</strong>
+              <div style="background:#F0F9FF;border:1.5px solid #7DD3FC;border-radius:14px;padding:8px 9px;">
+                <div style="font-size:0.84rem;color:#0369A1;">📘 2. วันได้/ครบ ค.ศ.2</div>
+                <strong style="font-size:0.95rem;color:#075985;display:block;margin-top:2px;">${ct.calcKs2Date ? formatThaiDate(ct.calcKs2Date) : 'ยังไม่ระบุ'}</strong>
+              </div>
+              <div style="background:#FFF7ED;border:1.5px solid #FDBA74;border-radius:14px;padding:8px 9px;">
+                <div style="font-size:0.84rem;color:#C2410C;">👑 3. วันครบยื่น ค.ศ.3</div>
+                <strong style="font-size:0.95rem;color:#9A3412;display:block;margin-top:2px;">${ct.calcKs3Date ? formatThaiDate(ct.calcKs3Date) : 'ยังไม่ระบุ'}</strong>
+                <div style="font-size:0.78rem;color:#C2410C;">(ค.ศ.2 +${ct.reqYears} ปี)</div>
               </div>
             </div>
 
@@ -2094,7 +2179,7 @@
             </div>
 
             <button type="button" class="btn btn-mint btn-sm" onclick="copyFriendTimelineAdvice('${f.id}')">
-              📢 ก๊อปปี้ผลคำนวณวันส่งนี้ไปแจ้ง ${esc(shortName(f.name))} ในแชท
+              📢 ก๊อปปี้ผลคำนวณ (ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3) ไปแจ้ง ${esc(shortName(f.name))} ในแชท
             </button>
           </div>
 
@@ -2274,19 +2359,19 @@
       { num: '1', icon: '🎀', title: 'ชื่อ-นามสกุล และชื่อเล่น', desc: 'ไว้ตั้งชื่อหน้าสมุดประจำตัวเพื่อน (เช่น ครูเมย์ ธนพร)' },
       { num: '2', icon: '🏫', title: 'โรงเรียน / สังกัด', desc: 'ชื่อโรงเรียนและเขตพื้นที่ฯ ของเพื่อน' },
       { num: '3', icon: '🌈', title: 'ระดับวิทยฐานะที่จะยื่น', desc: 'ทำ ค.ศ.2 (ชำนาญการ) หรือ ค.ศ.3 (ชำนาญการพิเศษ)' },
-      { num: '4', icon: '🌱', title: 'วันที่ได้ ค.ศ.1 และ/หรือ ค.ศ.2', desc: 'ใส่วันบรรจุ ค.ศ.1 หรือวันได้ ค.ศ.2 ระบบจะคำนวณวันครบกำหนดส่ง DPA (+4 ปี / +3 ปี) ให้อัตโนมัติ!' },
-      { num: '5', icon: '📅', title: 'วันที่ครบกำหนดส่ง DPA', desc: 'ระบบคำนวณให้อัตโนมัติจากวันได้ ค.ศ.1 / ค.ศ.2 พร้อมบอกช่วงวันที่ควรเริ่มอัดคลิป' },
+      { num: '4', icon: '🌱', title: 'วันที่ได้ ค.ศ.1 หรือ ค.ศ.2 (บอกแค่วัน ค.ศ.2 ก็ได้!)', desc: 'ถ้ารู้แค่วัน ค.ศ.2 ระบบจะคำนวณย้อนกลับไปเป็นวัน ค.ศ.1 (-4 ปี) และคิดต่อไปเป็นวันครบ ค.ศ.3 (+4/3 ปี) ให้ครบอัตโนมัติ!' },
+      { num: '5', icon: '🎓', title: 'วุฒิปริญญาโท (ลดเวลา 4 ปี ➔ 3 ปี)', desc: 'ป.โท การศึกษา/การสอน ลดเหลือ 3 ปีได้ ✅ แต่ ป.โท การบริหารการศึกษา ลดเวลาสายครูไม่ได้ (ต้องครบ 4 ปี) ❌' },
       { num: '6', icon: '📚', title: 'วิชา / กลุ่มสาระการเรียนรู้', desc: 'วิชาที่เลือกใช้ทำแผนและอัดคลิปส่ง DPA' },
       { num: '7', icon: '🎒', title: 'ระดับชั้นที่เลือกอัดคลิป', desc: 'เช่น ป.4, ป.5, ม.1 (ชั้นที่ถนัดและเด็กพร้อมที่สุด)' },
       { num: '8', icon: '🎯', title: 'เรื่องที่จะทำ & นวัตกรรมที่ใช้', desc: 'หัวข้อแผนการสอน 60 นาที และวิธีสอน (Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม)' }
     ];
 
     const ASK_TEMPLATES = [
-      { id: 1, label: '📝 แบบที่ 1: แบบฟอร์มมาตรฐาน (ถามวัน ค.ศ.1 / ค.ศ.2 เพื่อคำนวณวันส่งให้เพื่อน)', badge: 'ฮิตสุด ⭐' },
+      { id: 1, label: '📝 แบบที่ 1: แบบฟอร์มมาตรฐาน (ถามวัน ค.ศ.1/ค.ศ.2 + เช็กวุฒิ ป.โท ลดเวลา 3 ปี)', badge: 'ฮิตสุด ⭐' },
       { id: 2, label: '😊 แบบที่ 2: แบบกันเอง (ทักเพื่อนสนิท / รุ่นเดียวกัน ถามสบายๆ)', badge: 'เพื่อนสนิท' },
       { id: 3, label: '🙏 แบบที่ 3: แบบสุภาพ (ทักพี่ครู / น้องครู / ต่างโรงเรียน)', badge: 'สุภาพ' },
-      { id: 4, label: '📘 แบบที่ 4: ขอข้อมูลเพื่อนทำ ค.ศ.2 (ถามวันได้ ค.ศ.1 + แผนแก้ปัญหาผู้เรียน)', badge: 'เฉพาะ ค.ศ.2' },
-      { id: 5, label: '👑 แบบที่ 5: ขอข้อมูลเพื่อนทำ ค.ศ.3 (ถามวันได้ ค.ศ.2 + แผนริเริ่มนวัตกรรม)', badge: 'เฉพาะ ค.ศ.3' }
+      { id: 4, label: '📘 แบบที่ 4: ขอข้อมูลเพื่อนทำ ค.ศ.2 (ถามวันได้ ค.ศ.1 + วุฒิ ป.โท + แผนแก้ปัญหา)', badge: 'เฉพาะ ค.ศ.2' },
+      { id: 5, label: '👑 แบบที่ 5: ขอข้อมูลเพื่อนทำ ค.ศ.3 (รู้แค่วัน ค.ศ.2 ก็คิดย้อน ค.ศ.1 & คิดต่อ ค.ศ.3 ได้!)', badge: 'เฉพาะ ค.ศ.3' }
     ];
 
     function buildAskPromptText(tplId, customName) {
@@ -2294,22 +2379,22 @@
       const politeName = (customName && customName.trim()) ? customName.trim() : 'คุณครู';
 
       if (tplId === 1) {
-        return `สวัสดีจ้า ${callName}! 😊🌸\nตอนนี้เราทำ "สมุดที่ปรึกษาวิทยฐานะ (ค.ศ.2 - ค.ศ.3)" ไว้ช่วยคำนวณวันครบกำหนดส่ง DPA แจ้งเตือนช่วงที่ควรเริ่มอัดคลิป และช่วยเช็ก 6 จุดตาย DPA ให้จนขึ้นป้ายเขียวเลย! 🟢✨\n\nรบกวนก๊อปปี้ข้อความด้านล่างนี้ แล้วพิมพ์ข้อมูลส่งกลับมาให้หน่อยน้า 👇🏻\n-------------------------\n1. ชื่อ-นามสกุล (ชื่อเล่น): \n2. โรงเรียน: \n3. วิทยฐานะที่จะยื่น (ค.ศ.2 หรือ ค.ศ.3): \n4. วันที่เริ่มได้ ค.ศ.1 (ว/ด/ป พ.ศ.): \n5. วันที่เริ่มได้ ค.ศ.2 (ถ้าจะทำ ค.ศ.3): \n6. ใช้เกณฑ์กี่ปี (4 ปีปกติ หรือ 3 ปีลดเวลา): \n7. วิชา / กลุ่มสาระฯ และระดับชั้นที่จะอัดคลิป: \n8. เรื่อง / หน่วยการเรียนรู้ที่เล็งไว้: \n9. นวัตกรรม / วิธีสอนที่ใช้ (เช่น Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม): \n10. เบอร์โทร / ID Line: \n-------------------------\n(ส่งวันได้ ค.ศ.1 หรือ ค.ศ.2 มาได้เลย เดี๋ยวเราคำนวณให้เลยว่าควรเริ่มเตรียมวันไหน และควรส่ง DPA วันไหนจ้า! ✌🏻💖)`;
+        return `สวัสดีจ้า ${callName}! 😊🌸\nตอนนี้เราทำ "สมุดที่ปรึกษาวิทยฐานะ (ค.ศ.2 - ค.ศ.3)" ไว้ช่วยคำนวณวันครบกำหนดส่ง DPA (ทั้ง ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3) เช็กสิทธิ์วุฒิ ป.โท ลดเวลาเหลือ 3 ปี และช่วยเช็ก 6 จุดตาย DPA ให้จนขึ้นป้ายเขียวเลย! 🟢✨\n\nรบกวนก๊อปปี้ข้อความด้านล่างนี้ แล้วพิมพ์ข้อมูลส่งกลับมาให้หน่อยน้า 👇🏻\n-------------------------\n1. ชื่อ-นามสกุล (ชื่อเล่น): \n2. โรงเรียน: \n3. วิทยฐานะที่จะยื่น (ค.ศ.2 หรือ ค.ศ.3): \n4. วันที่เริ่มได้ ค.ศ.1 (ว/ด/ป พ.ศ.): \n5. วันที่เริ่มได้ ค.ศ.2 (ถ้ารู้แค่วัน ค.ศ.2 บอกแค่อันนี้ได้เลย เดี๋ยวระบบคิดย้อนวัน ค.ศ.1 และคิดต่อวัน ค.ศ.3 ให้ครบเลย!): \n6. จบ ป.โท หรือยัง / สาขาอะไร (ถ้าจบ ป.โท ทางศึกษาศาสตร์/การสอน ลดจาก 4 ปี เหลือ 3 ปีได้ ✅ *แต่ถ้าเป็นสาขาการบริหารการศึกษา จะนำมาลดเวลาสายการสอนไม่ได้ ต้องครบ 4 ปีจ้า*): \n7. วิชา / กลุ่มสาระฯ และระดับชั้นที่จะอัดคลิป: \n8. เรื่อง / หน่วยการเรียนรู้ที่เล็งไว้: \n9. นวัตกรรม / วิธีสอนที่ใช้ (เช่น Active Learning, GPAS 5 Steps, PBL, บอร์ดเกม): \n10. เบอร์โทร / ID Line: \n-------------------------\n(ส่งมาได้เลยน้า เดี๋ยวเราคำนวณไทม์ไลน์ ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3 และวันควรส่ง DPA ส่งกลับไปให้ดูเลยจ้า! ✌🏻💖)`;
       }
 
       if (tplId === 2) {
-        return `ทักทายจ้า ${callName}! 🥳🌸\nไหนๆ เราก็เพิ่งผ่านสนาม ค.ศ.3 มาหมาดๆ เลยทำสมุดจดคิวเพื่อนที่จะทำ ค.ศ.2 กับ ค.ศ.3 เอาไว้ เดี๋ยวช่วยคำนวณวันครบกำหนดส่ง DPA ให้ด้วย!\n\nส่งข้อมูลสั้นๆ มาให้เราบันทึกเข้าสมุดหน่อยสิ:\n✅ จะยื่น ค.ศ.2 หรือ ค.ศ.3 นะ?\n✅ ได้ ค.ศ.1 วันไหน? และได้ ค.ศ.2 วันไหน? (เดี๋ยวเราคำนวณวันส่งให้!)\n✅ สอนวิชาอะไร ชั้นไหน?\n✅ เล็งไว้หรือยังว่าจะทำเรื่องอะไร ใช้นวัตกรรม/สื่อแบบไหน?\n\nพิมพ์ตอบมาได้เลย เดี๋ยวเราคำนวณวันส่งและล็อกคิวขึ้นสมุดประจำตัวไว้ให้จ้า! ✌🏻✨🟢`;
+        return `ทักทายจ้า ${callName}! 🥳🌸\nไหนๆ เราก็เพิ่งผ่านสนาม ค.ศ.3 มาหมาดๆ เลยทำสมุดจดคิวเพื่อนที่จะทำ ค.ศ.2 กับ ค.ศ.3 เอาไว้ เดี๋ยวช่วยคำนวณวันครบกำหนดส่ง DPA ให้ครบทั้ง ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3 เลย!\n\nส่งข้อมูลสั้นๆ มาให้เราบันทึกเข้าสมุดหน่อยสิ:\n✅ จะยื่น ค.ศ.2 หรือ ค.ศ.3 นะ?\n✅ ได้ ค.ศ.1 หรือ ค.ศ.2 วันไหน? (บอกแค่วัน ค.ศ.2 อย่างเดียวก็ได้ เดี๋ยวระบบเราคิดย้อนกลับไป ค.ศ.1 และคิดต่อไป ค.ศ.3 ให้อัตโนมัติ!)\n✅ จบ ป.โท สาขาอะไรไหม? (ถ้าจบ ป.โท การศึกษา/การสอน ลดจาก 4 ปี เหลือ 3 ปีได้นะ แต่ถ้าจบ บริหารการศึกษา ลดเวลาสายการสอนไม่ได้จ้า)\n✅ สอนวิชาอะไร ชั้นไหน เรื่องอะไร?\n\nพิมพ์ตอบมาได้เลย เดี๋ยวเราคำนวณวันส่งและล็อกคิวขึ้นสมุดประจำตัวไว้ให้จ้า! ✌🏻✨🟢`;
       }
 
       if (tplId === 3) {
-        return `สวัสดีครับ ${politeName} 😊🙏🏻\nตอนนี้เกียรติศักดิ์ได้จัดทำระบบสมุดบันทึกให้คำปรึกษาการทำวิทยฐานะ (ค.ศ.2 - ค.ศ.3) เพื่อช่วยคำนวณวันครบกำหนดยื่น แจ้งเตือนไทม์ไลน์ และช่วยตรวจทานแผนการสอน/คลิปการสอนตามเกณฑ์ ว9/2564 (DPA) ครับ\n\nหาก ${politeName} สะดวก รบกวนแจ้งข้อมูลเบื้องต้นเพื่อบันทึกและคำนวณวันส่งในระบบดังนี้ครับ:\n1. ชื่อ-นามสกุล และโรงเรียน\n2. ระดับวิทยฐานะที่จะยื่น (ค.ศ.2 หรือ ค.ศ.3)\n3. วันที่ได้รับแต่งตั้ง ค.ศ.1 และ/หรือ ค.ศ.2 (เพื่อคำนวณวันครบกำหนดส่ง DPA)\n4. วิชาและระดับชั้นที่เลือกจัดทำผลงาน\n5. หัวข้อเรื่อง / หน่วยการเรียนรู้ และนวัตกรรมที่สนใจใช้\n\nยินดีช่วยคำนวณวันส่งและดูแลให้คำปรึกษาจนผ่านป้ายเขียวเลยครับ! 🟢✨`;
+        return `สวัสดีครับ ${politeName} 😊🙏🏻\nตอนนี้เกียรติศักดิ์ได้จัดทำระบบสมุดบันทึกให้คำปรึกษาการทำวิทยฐานะ (ค.ศ.2 - ค.ศ.3) เพื่อช่วยคำนวณวันครบกำหนดยื่น (ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3) ตรวจสอบสิทธิ์ลดระยะเวลาจากวุฒิปริญญาโท และช่วยตรวจทานแผนการสอน/คลิปการสอนตามเกณฑ์ ว9/2564 (DPA) ครับ\n\nหาก ${politeName} สะดวก รบกวนแจ้งข้อมูลเบื้องต้นเพื่อบันทึกและคำนวณวันส่งในระบบดังนี้ครับ:\n1. ชื่อ-นามสกุล และโรงเรียน\n2. ระดับวิทยฐานะที่จะยื่น (ค.ศ.2 หรือ ค.ศ.3)\n3. วันที่ได้รับแต่งตั้ง ค.ศ.1 หรือ ค.ศ.2 (ทราบเพียงวัน ค.ศ.2 ระบบก็คำนวณย้อนกลับ ค.ศ.1 และคำนวณต่อเป็น ค.ศ.3 ให้ได้ครับ)\n4. วุฒิปริญญาโทและสาขาวิชา (ป.โท ทางการศึกษา/การสอน ลดเวลาจาก 4 ปี เหลือ 3 ปีได้ ส่วนสาขาการบริหารการศึกษาไม่สามารถใช้ลดเวลาสายงานการสอนได้ครับ)\n5. วิชา ระดับชั้น และหัวข้อเรื่องที่สนใจจัดทำผลงาน\n\nยินดีช่วยคำนวณวันส่งและดูแลให้คำปรึกษาจนผ่านป้ายเขียวเลยครับ! 🟢✨`;
       }
 
       if (tplId === 4) {
-        return `สวัสดีจ้า ${callName}! 📘✨\nแวะมาชวนเตรียมตัวทำ "ค.ศ.2 (ครูชำนาญการ)" ด้วยกัน! ส่งข้อมูลมาให้เราช่วยคำนวณวันส่งและบันทึกลงสมุดที่ปรึกษาหน่อยน้า:\n1. ชื่อเล่น / โรงเรียน: \n2. วันที่เริ่มได้ ค.ศ.1 (ครู): \n3. ใช้เกณฑ์ 4 ปีปกติ หรือ 3 ปีลดเวลา: \n4. วิชาและระดับชั้นที่จะอัดคลิป: \n5. ปัญหาของเด็กในห้องที่อยากหยิบมาแก้ (เรื่องที่จะสอน): \n6. วิธีสอน/สื่อนวัตกรรมที่จะใช้แก้ปัญหา (เช่น Active Learning, บอร์ดเกม, ชุดฝึกทักษะ): \n\nส่งมาได้เลย เดี๋ยวคำนวณให้เลยว่าควรเริ่มอัดคลิปวันไหน และควรส่ง DPA วันไหนจ้า! ✌🏻📘`;
+        return `สวัสดีจ้า ${callName}! 📘✨\nแวะมาชวนเตรียมตัวทำ "ค.ศ.2 (ครูชำนาญการ)" ด้วยกัน! ส่งข้อมูลมาให้เราช่วยคำนวณวันส่งและบันทึกลงสมุดที่ปรึกษาหน่อยน้า:\n1. ชื่อเล่น / โรงเรียน: \n2. วันที่เริ่มได้ ค.ศ.1 (ครู): \n3. จบ ป.โท สาขาอะไรไหม (ป.โท การศึกษา/การสอน ลดเวลาจาก 4 ปี เหลือ 3 ปีได้ แต่ บริหารการศึกษา ลดไม่ได้จ้า): \n4. วิชาและระดับชั้นที่จะอัดคลิป: \n5. ปัญหาของเด็กในห้องที่อยากหยิบมาแก้ (เรื่องที่จะสอน): \n6. วิธีสอน/สื่อนวัตกรรมที่จะใช้แก้ปัญหา (เช่น Active Learning, บอร์ดเกม, ชุดฝึกทักษะ): \n\nส่งมาได้เลย เดี๋ยวคำนวณทั้งวันครบ ค.ศ.2 และคิดต่อยอดไปถึงวันครบ ค.ศ.3 ไว้ให้ล่วงหน้าเลยจ้า! ✌🏻📘`;
       }
 
-      return `สวัสดีจ้า ${callName}! 👑✨\nแวะมาชวนวางแผนลุย "ค.ศ.3 (ครูชำนาญการพิเศษ)" ด้วยกัน! ส่งข้อมูลมาให้เราช่วยคำนวณวันส่งและบันทึกเข้าสมุดที่ปรึกษา ค.ศ.3 หน่อยน้า:\n1. ชื่อเล่น / โรงเรียน: \n2. วันที่เริ่มได้ ค.ศ.1 และวันที่เริ่มได้ ค.ศ.2: \n3. ใช้เกณฑ์ 4 ปีปกติ หรือ 3 ปีลดเวลา: \n4. วิชาและระดับชั้นที่จะอัดคลิป: \n5. หน่วยการเรียนรู้ / เรื่องที่จะทำ: \n6. นวัตกรรมหรือกระบวนการสอนที่จะริเริ่มพัฒนา (เช่น GPAS 5 Steps, PBL, บอร์ดเกมสร้างสรรค์, สืบเสาะ 5E): \n\nว่างแล้วพิมพ์ส่งมาได้เลย เดี๋ยวคำนวณวันส่ง DPA และช่วยดูจุดตาย 6 ข้อให้ครบก่อนยื่นจ้า! ✌🏻👑🟢`;
+      return `สวัสดีจ้า ${callName}! 👑✨\nแวะมาชวนวางแผนลุย "ค.ศ.3 (ครูชำนาญการพิเศษ)" ด้วยกัน! ส่งข้อมูลมาให้เราช่วยคำนวณวันส่งและบันทึกเข้าสมุดที่ปรึกษา ค.ศ.3 หน่อยน้า:\n1. ชื่อเล่น / โรงเรียน: \n2. วันที่เริ่มได้ ค.ศ.2 (ชำนาญการ): *(บอกแค่วัน ค.ศ.2 ได้เลย เดี๋ยวระบบคิดย้อนกลับไปวัน ค.ศ.1 และคิดต่อไปวันครบ ค.ศ.3 ให้ครบเลย!)*\n3. จบ ป.โท สาขาอะไรไหม (ป.โท การศึกษา/การสอน ลดจาก 4 ปี เหลือ 3 ปีได้ ✅ แต่ถ้า ป.โท บริหารการศึกษา ลดเวลาสายการสอนไม่ได้ ต้อง 4 ปีจ้า ⚠️): \n4. วิชาและระดับชั้นที่จะอัดคลิป: \n5. หน่วยการเรียนรู้ / เรื่องที่จะทำ: \n6. นวัตกรรมหรือกระบวนการสอนที่จะริเริ่มพัฒนา (เช่น GPAS 5 Steps, PBL, บอร์ดเกมสร้างสรรค์, สืบเสาะ 5E): \n\nว่างแล้วพิมพ์ส่งมาได้เลย เดี๋ยวคำนวณวันส่ง DPA และช่วยดูจุดตาย 6 ข้อให้ครบก่อนยื่นจ้า! ✌🏻👑🟢`;
     }
 
     function selectAskTemplate(tplId) {
@@ -2369,6 +2454,7 @@
       const schoolVal = getLineVal(['โรงเรียน', 'สังกัด', '2.']);
       const rankRaw = getLineVal(['วิทยฐานะที่จะยื่น', 'วิทยฐานะ', '3.']) || raw;
       const rankVal = rankRaw.includes('3') || rankRaw.includes('พิเศษ') ? 'ค.ศ.3' : 'ค.ศ.2';
+      const masterRaw = getLineVal(['จบ ป.โท หรือยัง / สาขาอะไร', 'จบ ป.โท สาขาอะไร', 'วุฒิปริญญาโท', 'ป.โท', '6.']);
       const subjectVal = getLineVal(['วิชา / กลุ่มสาระฯ', 'วิชา', 'กลุ่มสาระ', '7.', '5.']);
       const gradeVal = getLineVal(['ระดับชั้นที่จะอัดคลิปสอน', 'ระดับชั้น', 'ชั้น', '6.']);
       const topicVal = getLineVal(['เรื่อง / หน่วยการเรียนรู้ที่เล็งไว้', 'หน่วยการเรียนรู้', 'เรื่องที่จะทำ', 'เรื่อง', '8.']);
@@ -2379,6 +2465,17 @@
       if (nameVal) document.getElementById('f-name').value = nameVal;
       if (schoolVal) document.getElementById('f-school').value = schoolVal;
       document.getElementById('f-rank').value = rankVal;
+      if (masterRaw) {
+        document.getElementById('f-master-major').value = masterRaw;
+        if (masterRaw.includes('บริหาร')) {
+          document.getElementById('f-master-status').value = 'edu_admin';
+        } else if (masterRaw.includes('ไม่') || masterRaw.includes('ยัง')) {
+          document.getElementById('f-master-status').value = 'none';
+        } else {
+          document.getElementById('f-master-status').value = 'edu_valid';
+        }
+        onMasterDegreeChange('select');
+      }
       if (subjectVal) document.getElementById('f-subject').value = subjectVal;
       if (gradeVal) document.getElementById('f-grade').value = gradeVal;
       if (topicVal) document.getElementById('f-topic').value = topicVal;
@@ -2695,6 +2792,18 @@
       `;
     }
 
+    function fillKs1FromKs2() {
+      const ks2 = document.getElementById('f-ks2-date').value;
+      if (!ks2) {
+        showToast('⚠️ กรุณาเลือก "วันที่เริ่มดำรงตำแหน่ง ค.ศ.2" ก่อนนะครับ');
+        return;
+      }
+      const calcKs1 = addYearsToDateStr(ks2, -4);
+      document.getElementById('f-ks1-date').value = calcKs1;
+      onCareerDateCalcChange('ks2');
+      showToast(`⏪ คิดย้อนวันได้ ค.ศ.1 (${formatThaiDate(calcKs1)}) และคิดต่อวัน ค.ศ.3 ให้เรียบร้อยจ้า!`);
+    }
+
     function fillKs2FromKs1() {
       const ks1 = document.getElementById('f-ks1-date').value;
       const reqYears = parseInt(document.getElementById('f-req-years').value, 10) || 4;
@@ -2704,48 +2813,122 @@
       }
       const calcKs2 = addYearsToDateStr(ks1, reqYears);
       document.getElementById('f-ks2-date').value = calcKs2;
-      onCareerDateCalcChange('ks2');
-      showToast(`⚡ คำนวณวันได้ ค.ศ.2 (${formatThaiDate(calcKs2)}) ให้เรียบร้อยจ้า!`);
+      onCareerDateCalcChange('ks1');
+      showToast(`⏩ คำนวณวันได้ ค.ศ.2 (${formatThaiDate(calcKs2)}) และคิดต่อวัน ค.ศ.3 ให้เรียบร้อยจ้า!`);
+    }
+
+    function onMasterDegreeChange(source) {
+      const statusEl = document.getElementById('f-master-status');
+      const majorEl = document.getElementById('f-master-major');
+      const yearsEl = document.getElementById('f-req-years');
+      const alertEl = document.getElementById('master-rule-alert');
+      if (!statusEl || !yearsEl) return;
+
+      const majorTxt = (majorEl ? majorEl.value : '').trim();
+      if (source === 'input' && majorTxt.includes('บริหาร') && statusEl.value !== 'edu_admin') {
+        statusEl.value = 'edu_admin';
+        showToast('⚠️ สาขาการบริหารการศึกษา ลดเวลาสายงานการสอนไม่ได้ ระบบปรับเป็นเกณฑ์ 4 ปีให้อัตโนมัติครับ');
+      }
+
+      const status = statusEl.value;
+      if (status === 'edu_valid' || status === 'other_3yr') {
+        yearsEl.value = '3';
+      } else if (status === 'edu_admin' || status === 'none') {
+        yearsEl.value = '4';
+      }
+
+      if (alertEl) {
+        if (status === 'edu_valid') {
+          alertEl.style.background = '#ECFDF5';
+          alertEl.style.borderColor = '#6EE7B7';
+          alertEl.style.color = '#065F46';
+          alertEl.innerHTML = `✅ <strong>ใช้ลดเวลาจาก 4 ปี ➔ เหลือ 3 ปีได้!</strong> วุฒิ ป.โท ทางศึกษาศาสตร์ / ครุศาสตร์ / การสอน / สาขาวิชาที่สอน${majorTxt ? ` (${esc(majorTxt)})` : ''} สามารถนำมาลดระยะเวลาดำรงตำแหน่งได้ตามเกณฑ์ ก.ค.ศ. ครับ`;
+        } else if (status === 'edu_admin') {
+          alertEl.style.background = '#FEF2F2';
+          alertEl.style.borderColor = '#FCA5A5';
+          alertEl.style.color = '#B91C1C';
+          alertEl.innerHTML = `⚠️ <strong>ข้อควรระวังสำคัญ (ลดเวลาไม่ได้!):</strong> วุฒิ ป.โท สาขา <strong>"การบริหารการศึกษา"</strong>${majorTxt ? ` (${esc(majorTxt)})` : ''} เป็นวุฒิสำหรับสายงานบริหารสถานศึกษา <u>ไม่สามารถนำมาลดระยะเวลาดำรงตำแหน่งของสายงานการสอน (ค.ศ.2 / ค.ศ.3) ได้</u> ต้องครองตำแหน่งครบ <strong>4 ปีเต็ม</strong> จึงจะยื่นได้ครับ!`;
+        } else if (status === 'other_3yr') {
+          alertEl.style.background = '#ECFDF5';
+          alertEl.style.borderColor = '#6EE7B7';
+          alertEl.style.color = '#065F46';
+          alertEl.innerHTML = `🌟 <strong>ใช้เกณฑ์ลดเวลา 4 ปี ➔ เหลือ 3 ปี:</strong> กรณีพื้นที่พิเศษ / ภาษาต่างประเทศ / เงื่อนไขที่ ก.ค.ศ. กำหนด`;
+        } else {
+          alertEl.style.background = '#FFFBEB';
+          alertEl.style.borderColor = '#FCD34D';
+          alertEl.style.color = '#92400E';
+          alertEl.innerHTML = `💡 <strong>กฎเหล็ก ก.ค.ศ. เรื่องวุฒิ ป.โท:</strong> ถ้าเพื่อนจบ ป.โท ทางศึกษาศาสตร์/การสอน นำมาลดเวลาจาก <strong>4 ปี เหลือ 3 ปีได้</strong> ✅ แต่ถ้าจบ ป.โท <strong>"การบริหารการศึกษา"</strong> จะนำมาลดเวลาของสายงานครูผู้สอน<strong>ไม่ได้</strong> (ต้องครบ 4 ปีเต็ม) ❌`;
+        }
+      }
+
+      onCareerDateCalcChange('master');
     }
 
     function onCareerDateCalcChange(source) {
       const rank = document.getElementById('f-rank').value || 'ค.ศ.2';
+      const statusEl = document.getElementById('f-master-status');
+      const majorEl = document.getElementById('f-master-major');
+      const masterStatus = statusEl ? statusEl.value : 'none';
+      const masterMajor = majorEl ? majorEl.value.trim() : '';
+
+      // ป้องกันการเผลอเลือก 3 ปี ถ้าเพื่อนจบ ป.โท การบริหารการศึกษา
+      if (masterStatus === 'edu_admin' && document.getElementById('f-req-years').value === '3') {
+        document.getElementById('f-req-years').value = '4';
+        if (source === 'years') {
+          showToast('⚠️ จบ ป.โท การบริหารการศึกษา ไม่สามารถลดเวลาสายงานการสอนได้ ต้องใช้เกณฑ์ 4 ปีเต็มครับ!');
+        }
+      }
+
       const reqYears = parseInt(document.getElementById('f-req-years').value, 10) === 3 ? 3 : 4;
       let ks1Date = document.getElementById('f-ks1-date').value;
       let ks2Date = document.getElementById('f-ks2-date').value;
       let targetDate = document.getElementById('f-date').value;
 
-      if (source === 'ks1' && ks1Date) {
+      if (source === 'ks2' && ks2Date) {
+        // 1) เมื่อได้ข้อมูลวัน ค.ศ.2 -> คิดคำนวณย้อนกลับไปเป็นวัน ค.ศ.1 (-4 ปี) ให้อัตโนมัติ!
+        ks1Date = addYearsToDateStr(ks2Date, -4);
+        document.getElementById('f-ks1-date').value = ks1Date;
+        // 2) และคิดคำนวณต่อไปเป็นวันครบ ค.ศ.3 (+reqYears) ให้อัตโนมัติ!
+        const calcKs3 = addYearsToDateStr(ks2Date, reqYears);
+        targetDate = (rank === 'ค.ศ.3') ? calcKs3 : ks2Date;
+        document.getElementById('f-date').value = targetDate;
+      } else if (source === 'ks1' && ks1Date) {
+        // เมื่อใส่วัน ค.ศ.1 -> คิดต่อไปเป็นวัน ค.ศ.2 และคิดต่อไปเป็นวัน ค.ศ.3 ให้ครบ!
+        ks2Date = addYearsToDateStr(ks1Date, rank === 'ค.ศ.2' ? reqYears : 4);
+        document.getElementById('f-ks2-date').value = ks2Date;
+        const calcKs3 = addYearsToDateStr(ks2Date, reqYears);
+        targetDate = (rank === 'ค.ศ.3') ? calcKs3 : ks2Date;
+        document.getElementById('f-date').value = targetDate;
+      } else if (source === 'rank' || source === 'years' || source === 'master') {
+        if (ks2Date && !ks1Date) {
+          ks1Date = addYearsToDateStr(ks2Date, -4);
+          document.getElementById('f-ks1-date').value = ks1Date;
+        }
         if (rank === 'ค.ศ.2') {
-          targetDate = addYearsToDateStr(ks1Date, reqYears);
-          document.getElementById('f-date').value = targetDate;
-        } else if (rank === 'ค.ศ.3') {
-          if (!ks2Date) {
+          if (ks1Date) {
             ks2Date = addYearsToDateStr(ks1Date, reqYears);
             document.getElementById('f-ks2-date').value = ks2Date;
+            targetDate = ks2Date;
+            document.getElementById('f-date').value = targetDate;
+          } else if (ks2Date) {
+            targetDate = ks2Date;
+            document.getElementById('f-date').value = targetDate;
           }
-          targetDate = addYearsToDateStr(ks2Date, reqYears);
-          document.getElementById('f-date').value = targetDate;
-        }
-      } else if (source === 'ks2' && ks2Date) {
-        if (rank === 'ค.ศ.3') {
-          targetDate = addYearsToDateStr(ks2Date, reqYears);
-          document.getElementById('f-date').value = targetDate;
-        }
-      } else if (source === 'rank' || source === 'years') {
-        if (rank === 'ค.ศ.2' && ks1Date) {
-          targetDate = addYearsToDateStr(ks1Date, reqYears);
-          document.getElementById('f-date').value = targetDate;
         } else if (rank === 'ค.ศ.3') {
           if (ks2Date) {
             targetDate = addYearsToDateStr(ks2Date, reqYears);
             document.getElementById('f-date').value = targetDate;
           } else if (ks1Date) {
-            ks2Date = addYearsToDateStr(ks1Date, reqYears);
+            ks2Date = addYearsToDateStr(ks1Date, 4);
             document.getElementById('f-ks2-date').value = ks2Date;
             targetDate = addYearsToDateStr(ks2Date, reqYears);
             document.getElementById('f-date').value = targetDate;
           }
+        }
+      } else if (source === 'init') {
+        if (ks2Date && !ks1Date) {
+          ks1Date = addYearsToDateStr(ks2Date, -4);
+          document.getElementById('f-ks1-date').value = ks1Date;
         }
       }
 
@@ -2754,18 +2937,19 @@
       const bTarget = document.getElementById('badge-target-thai');
       const adviceBox = document.getElementById('calc-advice-box');
 
+      const calcKs2 = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, rank === 'ค.ศ.2' ? reqYears : 4) : '');
+      const calcKs1 = ks1Date || (calcKs2 ? addYearsToDateStr(calcKs2, -4) : '');
+      const calcKs3 = calcKs2 ? addYearsToDateStr(calcKs2, reqYears) : (rank === 'ค.ศ.3' ? targetDate : '');
+
       if (bKs1) {
-        bKs1.innerHTML = ks1Date
-          ? `🇹🇭 ตรงกับวันที่ไทย: <strong>${formatThaiDate(ks1Date)}</strong>`
-          : `💡 ใส่วันที่เริ่มเป็น ค.ศ.1 ระบบจะบวก +${reqYears} ปีเป็นวันส่ง ค.ศ.2 ให้อัตโนมัติ`;
+        bKs1.innerHTML = calcKs1
+          ? `🇹🇭 ตรงกับวันที่ไทย: <strong>${formatThaiDate(calcKs1)}</strong> ${(!ks1Date && calcKs2) || source === 'ks2' ? '(คำนวณย้อนจากวัน ค.ศ.2 -4 ปี)' : ''}`
+          : `💡 ใส่วันที่เริ่ม ค.ศ.1 (หรือใส่วัน ค.ศ.2 ด้านล่างเพื่อให้ระบบคิดย้อนกลับ -4 ปีให้อัตโนมัติ)`;
       }
       if (bKs2) {
-        const estKs2 = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, reqYears) : '');
-        bKs2.innerHTML = ks2Date
-          ? `🇹🇭 ตรงกับวันที่ไทย: <strong>${formatThaiDate(ks2Date)}</strong>`
-          : (estKs2
-              ? `💡 คำนวณจากวัน ค.ศ.1 (+${reqYears} ปี) = ครบ ค.ศ.2 วันที่ <strong>${formatThaiDate(estKs2)}</strong>`
-              : `💡 ใส่วันที่เริ่มเป็น ค.ศ.2 ระบบจะบวก +${reqYears} ปีเป็นวันส่ง ค.ศ.3 ให้อัตโนมัติ`);
+        bKs2.innerHTML = calcKs2
+          ? `🇹🇭 ตรงกับวันที่ไทย: <strong>${formatThaiDate(calcKs2)}</strong> (คิดย้อน ค.ศ.1 = <strong>${formatThaiDate(calcKs1)}</strong> | คิดต่อ ค.ศ.3 (+${reqYears} ปี) = <strong>${formatThaiDate(calcKs3)}</strong>)`
+          : `💡 ใส่วันที่เริ่มเป็น ค.ศ.2 ระบบจะคิดย้อนกลับไปเป็นวัน ค.ศ.1 (-4 ปี) และคิดต่อไปเป็นวันส่ง ค.ศ.3 (+${reqYears} ปี) ให้อัตโนมัติ!`;
       }
       if (bTarget) {
         bTarget.innerHTML = targetDate
@@ -2774,17 +2958,15 @@
       }
 
       if (adviceBox) {
-        const calcKs2 = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, reqYears) : '');
-        const calcKs3 = rank === 'ค.ศ.3'
-          ? (targetDate || (calcKs2 ? addYearsToDateStr(calcKs2, reqYears) : ''))
-          : (calcKs2 ? addYearsToDateStr(calcKs2, reqYears) : '');
         const prepDate = targetDate ? addDaysToDateStr(targetDate, -90) : '';
+        const masterSummary = getMasterDegreeLabel(masterStatus, masterMajor);
 
         adviceBox.innerHTML = `
-          <div style="font-size:0.98rem;margin-bottom:4px;"><strong>📣 สรุปไทม์ไลน์เพื่อแจ้งเพื่อน (เกณฑ์ ${reqYears} ปี):</strong></div>
-          <div>🌱 <strong>วันที่เริ่ม ค.ศ.1:</strong> ${ks1Date ? formatThaiDate(ks1Date) : 'ยังไม่ระบุ'}</div>
-          <div>📘 <strong>วันที่เริ่ม/ครบยื่น ค.ศ.2:</strong> ${calcKs2 ? formatThaiDate(calcKs2) : 'ยังไม่ระบุ'}</div>
-          <div>👑 <strong>วันที่ครบยื่น ค.ศ.3:</strong> ${calcKs3 ? formatThaiDate(calcKs3) : 'ยังไม่ระบุ'}</div>
+          <div style="font-size:0.98rem;margin-bottom:4px;"><strong>📣 สรุปไทม์ไลน์ ค.ศ.1 ⇄ ค.ศ.2 ⇄ ค.ศ.3 เพื่อแจ้งเพื่อน (เกณฑ์ ${reqYears} ปี):</strong></div>
+          <div style="color:#6B21A8;">🎓 <strong>สิทธิ์วุฒิ ป.โท:</strong> ${esc(masterSummary)}</div>
+          <div>🌱 <strong>1. วันที่ได้ ค.ศ.1 (ครู):</strong> ${calcKs1 ? formatThaiDate(calcKs1) : 'ยังไม่ระบุ'} ${ks2Date ? '<span style="font-size:0.84rem;color:#059669;">(คิดย้อนจาก ค.ศ.2 -4 ปี)</span>' : ''}</div>
+          <div>📘 <strong>2. วันที่ได้/ครบยื่น ค.ศ.2 (ชำนาญการ):</strong> ${calcKs2 ? formatThaiDate(calcKs2) : 'ยังไม่ระบุ'}</div>
+          <div>👑 <strong>3. วันที่ครบยื่น ค.ศ.3 (ชำนาญการพิเศษ):</strong> <strong style="color:#C2410C;">${calcKs3 ? formatThaiDate(calcKs3) : 'ยังไม่ระบุ'}</strong> <span style="font-size:0.84rem;color:#C2410C;">(ค.ศ.2 +${reqYears} ปี)</span></div>
           <div style="margin-top:6px;padding-top:6px;border-top:1.5px dashed #6EE7B7;color:#047857;">
             🎬 <strong>ควรเริ่มอัดคลิป/ทำแผน (ล่วงหน้า 3 เดือน):</strong> <strong>${prepDate ? formatThaiDate(prepDate) : '-'}</strong><br/>
             🚀 <strong>วันที่ควรส่งระบบ DPA (${esc(rank)}):</strong> <strong style="color:#BE185D;font-size:1.05rem;">${targetDate ? formatThaiDate(targetDate) : '-'}</strong>
@@ -2793,18 +2975,21 @@
       }
     }
 
-    function buildTimelineAdviceText(nameStr, rank, ks1Date, ks2Date, reqYears, targetDate) {
+    function buildTimelineAdviceText(nameStr, rank, ks1Date, ks2Date, reqYears, targetDate, masterStatus, masterMajor) {
       const callName = (nameStr && nameStr.trim()) ? nameStr.trim() : 'เพื่อนครู';
-      const yrs = parseInt(reqYears, 10) === 3 ? 3 : 4;
-      const calcKs2 = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, yrs) : '');
-      const calcKs3 = rank === 'ค.ศ.3'
-        ? (targetDate || (calcKs2 ? addYearsToDateStr(calcKs2, yrs) : ''))
-        : (calcKs2 ? addYearsToDateStr(calcKs2, yrs) : '');
+      const yrs = (masterStatus === 'edu_admin') ? 4 : (parseInt(reqYears, 10) === 3 ? 3 : 4);
+      const calcKs2 = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, rank === 'ค.ศ.2' ? yrs : 4) : '');
+      const calcKs1 = ks1Date || (calcKs2 ? addYearsToDateStr(calcKs2, -4) : '');
+      const calcKs3 = calcKs2 ? addYearsToDateStr(calcKs2, yrs) : (rank === 'ค.ศ.3' ? targetDate : '');
       const prepDate = targetDate ? addDaysToDateStr(targetDate, -90) : '';
       const d = getDaysUntil(targetDate);
       const countdownTxt = d < 0 ? `(ตอนนี้ครบกำหนดยื่นได้แล้วนะ!)` : `(นับถอยหลังอีก ${d} วัน)`;
+      const masterTxt = getMasterDegreeLabel(masterStatus || 'none', masterMajor || '');
+      const adminNote = masterStatus === 'edu_admin'
+        ? `\n⚠️ หมายเหตุสำคัญ: วุฒิ ป.โท สาขาการบริหารการศึกษา เป็นวุฒิสายบริหาร ไม่สามารถนำมาลดระยะเวลาของสายงานครูผู้สอนได้ ต้องครองตำแหน่งครบ 4 ปีเต็มนะจ๊ะ`
+        : '';
 
-      return `สวัสดีจ้า ${callName}! 😊🌸\nเราช่วยคำนวณวันครบกำหนดส่งวิทยฐานะ (${rank} - เกณฑ์ ${yrs} ปี) ลงในสมุดที่ปรึกษาไว้ให้แล้วนะจ๊ะ:\n\n🌱 วันที่เริ่ม ค.ศ.1 (ครู): ${ks1Date ? formatThaiDate(ks1Date) : '-'}\n📘 วันที่เริ่ม/ครบยื่น ค.ศ.2 (ชำนาญการ): ${calcKs2 ? formatThaiDate(calcKs2) : '-'}\n👑 วันที่ครบยื่น ค.ศ.3 (ชำนาญการพิเศษ): ${calcKs3 ? formatThaiDate(calcKs3) : '-'}\n-------------------------\n🎬 ช่วงที่แนะนำให้เริ่มเตรียมแผน & อัดคลิป 60 นาที (ล่วงหน้า 3 เดือน):\n👉 ตั้งแต่วันที่ ${prepDate ? formatThaiDate(prepDate) : '-'}\n\n🚀 วันที่ควรส่งงานในระบบ DPA (${rank}):\n👉 ส่งได้ตั้งแต่วันที่ ${targetDate ? formatThaiDate(targetDate) : '-'} เป็นต้นไปจ้า! ${countdownTxt}\n-------------------------\nเตรียมแผนหรืออัดคลิปเมื่อไหร่ ส่งมาให้เราช่วยสแกน 6 จุดตาย DPA ก่อนยื่นได้เลยน้า สู้ๆ จ้า! ✌🏻✨🟢`;
+      return `สวัสดีจ้า ${callName}! 😊🌸\nเราช่วยคำนวณไทม์ไลน์วิทยฐานะ (ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3) สำหรับยื่น ${rank} (เกณฑ์ ${yrs} ปี) ลงในสมุดที่ปรึกษาไว้ให้แล้วนะจ๊ะ:\n\n🎓 วุฒิ/เกณฑ์ที่ใช้: ${masterTxt}${adminNote}\n🌱 1. วันที่เริ่ม ค.ศ.1 (ครู): ${calcKs1 ? formatThaiDate(calcKs1) : '-'}\n📘 2. วันที่ได้/ครบยื่น ค.ศ.2 (ชำนาญการ): ${calcKs2 ? formatThaiDate(calcKs2) : '-'}\n👑 3. วันที่ครบยื่น ค.ศ.3 (ชำนาญการพิเศษ): ${calcKs3 ? formatThaiDate(calcKs3) : '-'} (ค.ศ.2 +${yrs} ปี)\n-------------------------\n🎬 ช่วงที่แนะนำให้เริ่มเตรียมแผน & อัดคลิป 60 นาที (ล่วงหน้า 3 เดือน):\n👉 ตั้งแต่วันที่ ${prepDate ? formatThaiDate(prepDate) : '-'}\n\n🚀 วันที่ควรส่งงานในระบบ DPA (${rank}):\n👉 ส่งได้ตั้งแต่วันที่ ${targetDate ? formatThaiDate(targetDate) : '-'} เป็นต้นไปจ้า! ${countdownTxt}\n-------------------------\nเตรียมแผนหรืออัดคลิปเมื่อไหร่ ส่งมาให้เราช่วยสแกน 6 จุดตาย DPA ก่อนยื่นได้เลยน้า สู้ๆ จ้า! ✌🏻✨🟢`;
     }
 
     function copyModalCalcAdvice() {
@@ -2814,9 +2999,11 @@
       const ks2Date = document.getElementById('f-ks2-date').value;
       const reqYears = document.getElementById('f-req-years').value || '4';
       const targetDate = document.getElementById('f-date').value;
-      const txt = buildTimelineAdviceText(nameStr, rank, ks1Date, ks2Date, reqYears, targetDate);
+      const masterStatus = document.getElementById('f-master-status') ? document.getElementById('f-master-status').value : 'none';
+      const masterMajor = document.getElementById('f-master-major') ? document.getElementById('f-master-major').value.trim() : '';
+      const txt = buildTimelineAdviceText(nameStr, rank, ks1Date, ks2Date, reqYears, targetDate, masterStatus, masterMajor);
       navigator.clipboard.writeText(txt)
-        .then(() => showToast('📋 คัดลอกผลคำนวณวันส่ง DPA แล้ว! กดวางส่งให้เพื่อนในแชทได้เลยจ้า'))
+        .then(() => showToast('📋 คัดลอกผลคำนวณ (ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3) แล้ว! กดวางส่งให้เพื่อนในแชทได้เลยจ้า'))
         .catch(() => showToast('📋 คัดลอกผลคำนวณวันส่งเรียบร้อยจ้า!'));
     }
 
@@ -2824,7 +3011,7 @@
       const f = friends.find(x => x.id === friendId);
       if (!f) return;
       const ct = getFriendCareerTimeline(f);
-      const txt = buildTimelineAdviceText(f.name, f.rank, ct.ks1Date, ct.calcKs2Date, ct.reqYears, f.targetDate);
+      const txt = buildTimelineAdviceText(f.name, f.rank, ct.ks1Date, ct.calcKs2Date, ct.reqYears, f.targetDate, ct.masterStatus, ct.masterMajor);
       navigator.clipboard.writeText(txt)
         .then(() => showToast(`📋 คัดลอกผลคำนวณวันส่งของ ${shortName(f.name)} ไปส่งแชทได้เลยจ้า!`))
         .catch(() => showToast('📋 คัดลอกผลคำนวณวันส่งเรียบร้อยจ้า!'));
@@ -2842,11 +3029,24 @@
       document.getElementById('f-rank').value = f ? (f.rank || 'ค.ศ.2') : defaultRank;
 
       const todayStr = new Date().toISOString().slice(0, 10);
-      const defaultKs1 = addYearsToDateStr(todayStr, -4);
+      const defaultPast4Yr = addYearsToDateStr(todayStr, -4);
+      const defaultPast8Yr = addYearsToDateStr(todayStr, -8);
       const ct = f ? getFriendCareerTimeline(f) : null;
+
+      if (document.getElementById('f-master-status')) {
+        document.getElementById('f-master-status').value = f ? (ct.masterStatus || 'none') : 'none';
+      }
+      if (document.getElementById('f-master-major')) {
+        document.getElementById('f-master-major').value = f ? (ct.masterMajor || '') : '';
+      }
+
       document.getElementById('f-req-years').value = f ? String(ct.reqYears) : '4';
-      document.getElementById('f-ks1-date').value = f ? (ct.ks1Date || '') : (defaultRank === 'ค.ศ.2' ? defaultKs1 : '');
-      document.getElementById('f-ks2-date').value = f ? (f.ks2Date || (f.rank === 'ค.ศ.3' ? ct.calcKs2Date : '')) : (defaultRank === 'ค.ศ.3' ? defaultKs1 : '');
+      document.getElementById('f-ks1-date').value = f
+        ? (ct.ks1Date || '')
+        : (defaultRank === 'ค.ศ.3' ? defaultPast8Yr : defaultPast4Yr);
+      document.getElementById('f-ks2-date').value = f
+        ? (ct.calcKs2Date || '')
+        : (defaultRank === 'ค.ศ.3' ? defaultPast4Yr : todayStr);
       document.getElementById('f-date').value = f ? (f.targetDate || todayStr) : todayStr;
 
       document.getElementById('f-contact').value = f ? (f.contact || '') : '';
@@ -2859,6 +3059,7 @@
 
       const seedToUse = (f && typeof f.colorSeed === 'number') ? f.colorSeed : getNextUniqueColorSeed();
       updateModalAutoThemeBanner(seedToUse);
+      onMasterDegreeChange('init');
       onCareerDateCalcChange('init');
 
       const links = (f && f.links) ? f.links : { drive: '', plan: '', video: '' };
@@ -2890,15 +3091,30 @@
       if (document.getElementById('c-outcome').checked) checklist.push('ผลลัพธ์ผู้เรียน');
       if (document.getElementById('c-pa').checked) checklist.push('ระบบ PA/DPA');
 
+      const masterStatus = document.getElementById('f-master-status') ? document.getElementById('f-master-status').value : 'none';
+      const masterMajor = document.getElementById('f-master-major') ? document.getElementById('f-master-major').value.trim() : '';
+      const reqYears = (masterStatus === 'edu_admin')
+        ? 4
+        : (parseInt(document.getElementById('f-req-years').value, 10) === 3 ? 3 : 4);
+
+      let ks1Date = document.getElementById('f-ks1-date').value;
+      let ks2Date = document.getElementById('f-ks2-date').value;
+      // ถ้าระบุวัน ค.ศ.2 มา แต่ยังไม่มีวัน ค.ศ.1 ให้คิดย้อนกลับ -4 ปีเก็บไว้ให้อัตโนมัติเลย
+      if (ks2Date && !ks1Date) {
+        ks1Date = addYearsToDateStr(ks2Date, -4);
+      }
+
       const item = {
         id,
         name: document.getElementById('f-name').value.trim(),
         colorSeed: pendingColorSeed,
         school: document.getElementById('f-school').value.trim(),
         rank: document.getElementById('f-rank').value,
-        ks1Date: document.getElementById('f-ks1-date').value,
-        ks2Date: document.getElementById('f-ks2-date').value,
-        reqYears: parseInt(document.getElementById('f-req-years').value, 10) === 3 ? 3 : 4,
+        masterStatus,
+        masterMajor,
+        ks1Date,
+        ks2Date,
+        reqYears,
         targetDate: document.getElementById('f-date').value,
         contact: document.getElementById('f-contact').value.trim(),
         status: document.getElementById('f-status').value,
@@ -2925,7 +3141,7 @@
       activeTab = item.id;
       closeFriendModal();
       const th = getFriendTheme(item);
-      saveData(`${th.emoji} บันทึก "${shortName(item.name)}" พร้อมคำนวณวันส่ง DPA เรียบร้อยจ้า!`);
+      saveData(`${th.emoji} บันทึก "${shortName(item.name)}" พร้อมคำนวณ ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3 เรียบร้อยจ้า!`);
     }
 
     function deleteCurrentFriend() {
