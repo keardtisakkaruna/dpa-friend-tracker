@@ -1183,18 +1183,22 @@
           </div>
 
           <div>
-            <label class="form-label">🌈 ระดับวิทยฐานะที่จะทำ * (แยกเข้าแท็บ ค.ศ.2 / ค.ศ.3)</label>
+            <label class="form-label">🌈 ระดับวิทยฐานะที่จะยื่นรอบต่อไป * (แยกเข้าแท็บ ค.ศ.2 / ค.ศ.3)</label>
             <select id="f-rank" class="input-cute" onchange="onCareerDateCalcChange('rank')">
-              <option value="ค.ศ.2">📘 ค.ศ.2 (ครูชำนาญการ)</option>
-              <option value="ค.ศ.3">👑 ค.ศ.3 (ครูชำนาญการพิเศษ)</option>
+              <option value="ค.ศ.2">📘 ยื่นทำ ค.ศ.2 (ปัจจุบันเป็น ค.ศ.1)</option>
+              <option value="ค.ศ.3">👑 ยื่นทำ ค.ศ.3 (ปัจจุบันได้ ค.ศ.2 แล้ว)</option>
             </select>
           </div>
 
-          <!-- 🧮 กล่องบันทึกวัน ค.ศ.1 ⇄ ค.ศ.2 ⇄ ค.ศ.3 + ตรวจวุฒิ ป.โท ลดเวลา 4 ปี เหลือ 3 ปี -->
+          <!-- 🧮 กล่องคำนวณกำหนดยื่นรอบต่อไป (รองรับคนส่งช้า/ส่งไว + วุฒิ ป.โท ลดเวลา 3 ปี) -->
           <div style="background:#FFFDF5;border:2.5px solid #F59E0B;border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:10px;">
             <div style="font-size:1.02rem;color:#B45309;display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;border-bottom:2px dashed #FDE68A;padding-bottom:6px;">
-              <strong>🧮 คำนวณไป-กลับ ค.ศ.1 ⇄ ค.ศ.2 ⇄ ค.ศ.3 &amp; สิทธิ์ ป.โท</strong>
-              <span class="pill" style="background:#FEF3C7;color:#92400E;border:1px solid #F59E0B;">คำนวณอัตโนมัติ ✨</span>
+              <strong>🧮 คำนวณกำหนดยื่นรอบต่อไป &amp; สิทธิ์วุฒิ ป.โท</strong>
+              <span class="pill" style="background:#FEF3C7;color:#92400E;border:1px solid #F59E0B;">รองรับส่งช้า/ส่งไว ✨</span>
+            </div>
+
+            <div style="background:#FFFBEB;border:1.5px dashed #F59E0B;border-radius:12px;padding:7px 10px;font-size:0.88rem;color:#92400E;line-height:1.4;">
+              💡 <strong>เข้าใจชีวิตครูจริง:</strong> วันได้ ค.ศ.1 และ ค.ศ.2 ของแต่ละคนอาจห่างกันไม่เป๊ะ 4 ปี (บางคนส่งช้า/ส่งไว) <strong>กรอกเฉพาะวันที่ทราบจริงได้เลย</strong> — ถ้ารู้ <strong>วันได้ ค.ศ.2</strong> กรอกช่องที่ 2 ช่องเดียว ระบบจะคำนวณ <strong>กำหนดยื่นรอบต่อไป (ค.ศ.3)</strong> ให้ทันทีครับ!
             </div>
 
             <!-- 🎓 ส่วนเช็กวุฒิ ป.โท (ลดเวลา 4 ปี ➔ 3 ปี / ดักจับ "การบริหารการศึกษา") -->
@@ -1219,47 +1223,62 @@
               <div id="master-rule-alert" style="font-size:0.9rem;border-radius:12px;padding:8px 10px;line-height:1.4;"></div>
             </div>
 
-            <div>
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px;">
-                <label class="form-label" style="color:#047857;margin-bottom:0;">🌱 1. วันที่เริ่มดำรงตำแหน่ง ค.ศ.1 (ครู)</label>
-                <button type="button" onclick="fillKs1FromKs2()" style="background:#DCFCE7;color:#047857;border:1.5px solid #6EE7B7;border-radius:99px;padding:2px 9px;font-size:0.82rem;cursor:pointer;">
-                  ⏪ คิดย้อนจากวัน ค.ศ.2 (-4 ปี)
-                </button>
+            <!-- ช่องที่ 1: วันได้ ค.ศ.1 จริง (ไม่บังคับ) -->
+            <div style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:14px;padding:10px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:5px;">
+                <label class="form-label" style="color:#047857;margin-bottom:0;">🌱 1. วันที่ได้ ค.ศ.1 จริง (เว้นว่างได้ถ้าไม่ทราบ)</label>
+                <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                  <button type="button" onclick="estimateKs1FromKs2()" style="background:#FFFFFF;color:#047857;border:1.5px solid #6EE7B7;border-radius:99px;padding:2px 8px;font-size:0.8rem;cursor:pointer;">
+                    ⏪ กะคร่าวๆ (-4 ปี)
+                  </button>
+                  <button type="button" onclick="clearCareerDateField('ks1')" style="background:#FFFFFF;color:#6B7280;border:1.5px solid #D1D5DB;border-radius:99px;padding:2px 8px;font-size:0.8rem;cursor:pointer;">
+                    ✕ ล้าง
+                  </button>
+                </div>
               </div>
-              <input type="date" id="f-ks1-date" class="input-cute" style="border-color:#6EE7B7;" onchange="onCareerDateCalcChange('ks1')" />
-              <div id="badge-ks1-thai" style="font-size:0.9rem;color:#047857;margin-top:4px;"></div>
+              <input type="date" id="f-ks1-date" class="input-cute" style="border-color:#6EE7B7;background:#FFFFFF;" oninput="onCareerDateCalcChange('ks1')" onchange="onCareerDateCalcChange('ks1')" />
+              <div id="badge-ks1-thai" style="font-size:0.88rem;color:#047857;margin-top:5px;line-height:1.35;"></div>
+            </div>
+
+            <!-- ช่องที่ 2: วันได้ ค.ศ.2 จริง (กรอกปุ๊บ คำนวณกำหนดยื่น ค.ศ.3 ทันที!) -->
+            <div style="background:#F0F9FF;border:2px solid #38BDF8;border-radius:14px;padding:10px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:5px;">
+                <label class="form-label" style="color:#0369A1;margin-bottom:0;">📘 2. วันที่ได้ ค.ศ.2 จริง (กรอกช่องนี้ ➔ ขึ้นกำหนดยื่น ค.ศ.3 ทันที!)</label>
+                <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                  <button type="button" onclick="clearCareerDateField('ks2')" style="background:#FFFFFF;color:#6B7280;border:1.5px solid #D1D5DB;border-radius:99px;padding:2px 8px;font-size:0.8rem;cursor:pointer;">
+                    ✕ ล้าง (ยังไม่ได้ ค.ศ.2)
+                  </button>
+                </div>
+              </div>
+              <input type="date" id="f-ks2-date" class="input-cute" style="border-color:#38BDF8;background:#FFFFFF;" oninput="onCareerDateCalcChange('ks2')" onchange="onCareerDateCalcChange('ks2')" />
+              <div id="badge-ks2-thai" style="font-size:0.9rem;color:#0369A1;margin-top:5px;line-height:1.4;"></div>
             </div>
 
             <div>
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px;">
-                <label class="form-label" style="color:#0369A1;margin-bottom:0;">📘 2. วันที่เริ่มดำรงตำแหน่ง ค.ศ.2 (ชำนาญการ)</label>
-                <button type="button" onclick="fillKs2FromKs1()" style="background:#E0F2FE;color:#0369A1;border:1.5px solid #7DD3FC;border-radius:99px;padding:2px 9px;font-size:0.82rem;cursor:pointer;">
-                  ⏩ คิดต่อจากวัน ค.ศ.1 (+4/3 ปี)
-                </button>
-              </div>
-              <input type="date" id="f-ks2-date" class="input-cute" style="border-color:#7DD3FC;" onchange="onCareerDateCalcChange('ks2')" />
-              <div id="badge-ks2-thai" style="font-size:0.9rem;color:#0369A1;margin-top:4px;"></div>
-            </div>
-
-            <div>
-              <label class="form-label" style="color:#92400E;">⏳ เกณฑ์ระยะเวลาครองตำแหน่งรอบที่จะยื่นนี้ (ว9/2564 DPA)</label>
+              <label class="form-label" style="color:#92400E;">⏳ เกณฑ์ระยะเวลาครองตำแหน่งสำหรับรอบที่จะยื่นต่อไป (ว9/2564 DPA)</label>
               <select id="f-req-years" class="input-cute" style="border-color:#FCD34D;" onchange="onCareerDateCalcChange('years')">
                 <option value="4">⏳ ครบ 4 ปีเต็ม (เกณฑ์ปกติ ว9/2564 หรือจบ ป.โท บริหารการศึกษา)</option>
                 <option value="3">⚡ ครบ 3 ปีเต็ม (จบ ป.โท การศึกษา/การสอน/ตรงวิชาเอก หรือภาษา/พื้นที่พิเศษ)</option>
               </select>
             </div>
 
-            <div>
-              <label class="form-label" style="color:#BE185D;">📅 3. วันที่ครบกำหนดยื่นได้ (วันที่ควรส่งในระบบ DPA) *</label>
-              <input type="date" id="f-date" required class="input-cute" onchange="onCareerDateCalcChange('target')" />
-              <div id="badge-target-thai" style="font-size:0.95rem;color:#BE185D;margin-top:4px;"></div>
+            <!-- ช่องที่ 3: กำหนดยื่นรอบต่อไป (เด่นชัดสุด!) -->
+            <div style="background:linear-gradient(135deg,#FFF1F2 0%,#FCE7F3 100%);border:2.5px solid #F43F5E;border-radius:16px;padding:11px;">
+              <label id="label-next-submit" class="form-label" style="color:#BE185D;font-size:1.02rem;margin-bottom:5px;">
+                🚀 3. กำหนดยื่นรอบต่อไป (วันที่เริ่มมีสิทธิ์ส่งระบบ DPA) *
+              </label>
+              <input type="date" id="f-date" required class="input-cute" style="border-color:#F43F5E;background:#FFFFFF;font-weight:bold;color:#BE185D;" oninput="onCareerDateCalcChange('target')" onchange="onCareerDateCalcChange('target')" />
+              <div id="badge-target-thai" style="font-size:0.95rem;color:#BE185D;margin-top:6px;line-height:1.4;"></div>
+              <div style="font-size:0.84rem;color:#9F1239;margin-top:4px;">
+                📌 ระบบคำนวณ <strong>วันครบกำหนดขั้นต่ำที่เริ่มส่งได้</strong> ให้อัตโนมัติ (หากเพื่อนวางแผนส่งช้ากว่ากำหนด แตะเปลี่ยนวันที่ตามจริงได้เลยครับ)
+              </div>
             </div>
 
-            <!-- กล่องสรุปผลคำนวณทั้ง ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3 และวันที่ควรส่ง -->
+            <!-- กล่องสรุปผลคำนวณแจ้งเพื่อน -->
             <div id="calc-advice-box" style="background:#ECFDF5;border:2px solid #34D399;border-radius:14px;padding:10px 12px;font-size:0.94rem;color:#065F46;line-height:1.45;"></div>
 
             <button type="button" class="btn btn-mint btn-sm" style="width:100%;" onclick="copyModalCalcAdvice()">
-              📋 ก๊อปปี้ผลคำนวณวันส่งนี้ไปแจ้งเพื่อนในแชท
+              📋 ก๊อปปี้ผลคำนวณกำหนดยื่นต่อไปส่งให้เพื่อนในแชท
             </button>
           </div>
 
@@ -1562,6 +1581,21 @@
       return `${yy}-${mm}-${dd}`;
     }
 
+    function formatDurationBetween(startStr, endStr) {
+      if (!startStr || !endStr) return '';
+      const p1 = startStr.split('-').map(Number);
+      const p2 = endStr.split('-').map(Number);
+      if (p1.length !== 3 || p2.length !== 3) return '';
+      let months = (p2[0] - p1[0]) * 12 + (p2[1] - p1[1]);
+      if (p2[2] < p1[2]) months -= 1;
+      if (months < 0) return '';
+      const yrs = Math.floor(months / 12);
+      const mos = months % 12;
+      if (yrs > 0 && mos > 0) return `${yrs} ปี ${mos} เดือน`;
+      if (yrs > 0) return `${yrs} ปีเต็ม`;
+      return `${mos} เดือน`;
+    }
+
     function getMasterDegreeLabel(status, major) {
       const m = major ? ` (${major})` : '';
       if (status === 'edu_valid') return `🎓 จบ ป.โท การศึกษา/การสอน${m} (ลดเวลา 4 ปี ➔ 3 ปีได้ ✅)`;
@@ -1578,35 +1612,27 @@
         ? 4
         : (parseInt(f.reqYears, 10) === 3 || masterStatus === 'edu_valid' || masterStatus === 'other_3yr' ? 3 : 4);
 
-      let ks1Date = f.ks1Date || '';
-      let ks2Date = f.ks2Date || '';
-      const targetDate = f.targetDate || '';
-      let ks1BackCalculated = false;
+      // วันจริงที่กรอกเท่านั้น (ไม่บังคับคิดย้อน -4 ปีมาทับ เพราะแต่ละคนส่งช้า/ส่งไวไม่เท่ากัน)
+      const realKs1Date = f.ks1Date || '';
+      const realKs2Date = f.ks2Date || '';
+      const estKs1FromKs2 = (!realKs1Date && realKs2Date) ? addYearsToDateStr(realKs2Date, -4) : '';
+      const ks1ToKs2Span = (realKs1Date && realKs2Date) ? formatDurationBetween(realKs1Date, realKs2Date) : '';
 
-      // กรณีรู้วัน ค.ศ.2 แล้ว -> คำนวณย้อนกลับไปหาวัน ค.ศ.1 (-4 ปี) ให้อัตโนมัติทันที!
-      if (ks2Date && !ks1Date) {
-        ks1Date = addYearsToDateStr(ks2Date, -4);
-        ks1BackCalculated = true;
-      }
+      // กำหนดยื่นขั้นต่ำของ ค.ศ.2 (กรณีเป็น ค.ศ.1 และยังไม่ได้ ค.ศ.2)
+      const minKs2SubmitDate = realKs2Date
+        ? realKs2Date
+        : (realKs1Date ? addYearsToDateStr(realKs1Date, reqYears) : (f.rank === 'ค.ศ.2' ? (f.targetDate || '') : ''));
 
-      if (f.rank === 'ค.ศ.2' && !ks1Date && targetDate) {
-        ks1Date = addYearsToDateStr(targetDate, -reqYears);
-      }
-      if (f.rank === 'ค.ศ.3' && !ks2Date && targetDate) {
-        ks2Date = addYearsToDateStr(targetDate, -reqYears);
-        if (ks2Date && !ks1Date) {
-          ks1Date = addYearsToDateStr(ks2Date, -4);
-          ks1BackCalculated = true;
-        }
-      }
+      // กำหนดยื่นขั้นต่ำของ ค.ศ.3:
+      // - ถ้ามีวันได้ ค.ศ.2 จริงแล้ว -> นับจากวันได้ ค.ศ.2 จริง + reqYears (4 หรือ 3 ปี) เสมอ!
+      // - ถ้ายังไม่ได้ ค.ศ.2 -> เป็นเพียงการคาดการณ์ล่วงหน้ากรณีส่ง ค.ศ.2 ตรงเวลา
+      const minKs3SubmitDate = realKs2Date
+        ? addYearsToDateStr(realKs2Date, reqYears)
+        : (f.rank === 'ค.ศ.3' && f.targetDate
+            ? f.targetDate
+            : (minKs2SubmitDate ? addYearsToDateStr(minKs2SubmitDate, reqYears) : ''));
 
-      const calcKs2Date = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, f.rank === 'ค.ศ.2' ? reqYears : 4) : '');
-      // ถ้ายังไม่รู้วัน ค.ศ.1 แต่มี calcKs2Date ให้คิดย้อนกลับไปเป็น ค.ศ.1 (-4 ปี) ด้วย
-      if (!ks1Date && calcKs2Date) {
-        ks1Date = addYearsToDateStr(calcKs2Date, -4);
-        ks1BackCalculated = true;
-      }
-      const calcKs3Date = calcKs2Date ? addYearsToDateStr(calcKs2Date, reqYears) : (f.rank === 'ค.ศ.3' ? targetDate : '');
+      const targetDate = f.targetDate || (realKs2Date || f.rank === 'ค.ศ.3' ? minKs3SubmitDate : minKs2SubmitDate);
       const prepStartDate = targetDate ? addDaysToDateStr(targetDate, -90) : '';
 
       return {
@@ -1614,13 +1640,18 @@
         masterStatus,
         masterMajor,
         masterLabel: getMasterDegreeLabel(masterStatus, masterMajor),
-        ks1Date,
-        ks1BackCalculated,
-        ks2Date: calcKs2Date,
-        rawKs2Date: ks2Date,
+        ks1Date: realKs1Date,
+        realKs1Date,
+        realKs2Date,
+        estKs1FromKs2,
+        ks1ToKs2Span,
+        ks2IsReal: Boolean(realKs2Date),
+        ks3IsFromRealKs2: Boolean(realKs2Date),
+        ks2Date: minKs2SubmitDate,
+        rawKs2Date: realKs2Date,
         targetDate,
-        calcKs2Date,
-        calcKs3Date,
+        calcKs2Date: minKs2SubmitDate,
+        calcKs3Date: minKs3SubmitDate,
         prepStartDate
       };
     }
@@ -1636,14 +1667,13 @@
         friends = [];
       }
 
+      let mutated = false;
       // ล้างรายชื่อตัวอย่าง 4 คน (friend_1..friend_4 / isSample) ออกอัตโนมัติถาวร คงไว้เฉพาะรายชื่อเพื่อนจริง!
       const beforeLen = friends.length;
       friends = friends.filter(f => !f.isSample && !['friend_1', 'friend_2', 'friend_3', 'friend_4'].includes(f.id));
-      if (friends.length !== beforeLen) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(friends));
-      }
+      if (friends.length !== beforeLen) mutated = true;
 
-      // จัดสรรสีอัตโนมัติไม่ให้ซ้ำกัน และคำนวณย้อนกลับ/ไปหน้า ค.ศ.1 <-> ค.ศ.2 <-> ค.ศ.3 อัตโนมัติ
+      // จัดสรรสีอัตโนมัติไม่ให้ซ้ำกัน และซ่อมรายการที่เคยติดบั๊กวันกำหนดยื่นค้างเท่ากับวันได้ ค.ศ.2
       const used = new Set();
       friends.forEach((f, idx) => {
         if (typeof f.colorSeed !== 'number' || used.has(f.colorSeed)) {
@@ -1656,19 +1686,21 @@
         if (!f.masterMajor) f.masterMajor = '';
         if (f.masterStatus === 'edu_admin') f.reqYears = 4;
         if (!f.reqYears) f.reqYears = (f.masterStatus === 'edu_valid' || f.masterStatus === 'other_3yr') ? 3 : 4;
-        if (f.ks2Date && !f.ks1Date) {
-          f.ks1Date = addYearsToDateStr(f.ks2Date, -4);
-        }
-        if (f.rank === 'ค.ศ.2' && !f.ks1Date && f.targetDate) {
-          f.ks1Date = addYearsToDateStr(f.targetDate, -f.reqYears);
-        }
-        if (f.rank === 'ค.ศ.3' && !f.ks2Date && f.targetDate) {
-          f.ks2Date = addYearsToDateStr(f.targetDate, -f.reqYears);
-          if (f.ks2Date && !f.ks1Date) {
-            f.ks1Date = addYearsToDateStr(f.ks2Date, -4);
+
+        // ซ่อมอัตโนมัติ: ถ้ามีวันได้ ค.ศ.2 แล้ว แต่ targetDate ดันค้างเป็นวันเดียวกับ ks2Date -> ปรับเป็นยื่น ค.ศ.3 (+4/3 ปี) ทันที!
+        if (f.ks2Date && f.targetDate === f.ks2Date) {
+          f.rank = 'ค.ศ.3';
+          f.targetDate = addYearsToDateStr(f.ks2Date, f.reqYears);
+          if (f.ks1Date === addYearsToDateStr(f.ks2Date, -4)) {
+            f.ks1Date = '';
           }
+          mutated = true;
         }
       });
+
+      if (mutated) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(friends));
+      }
       renderApp();
     }
 
@@ -1897,7 +1929,7 @@
               <span>${th.emoji}</span>
               <strong>${esc(f.name)}</strong>
               <span class="pill ${f.rank === 'ค.ศ.3' ? 'pill-ks3' : 'pill-ks2'}">
-                ${f.rank === 'ค.ศ.3' ? '👑 ค.ศ.3' : '📘 ค.ศ.2'} (เกณฑ์ ${ct.reqYears} ปี)
+                ${f.rank === 'ค.ศ.3' ? '👑 ยื่น ค.ศ.3' : '📘 ยื่น ค.ศ.2'} (เกณฑ์ ${ct.reqYears} ปี)
               </span>
             </div>
             <span class="pill" style="background:#FFFFFF;color:${th.strong};border:1.5px solid ${th.border};">
@@ -1908,12 +1940,12 @@
             ${esc(ct.masterLabel)}
           </div>
           <div style="font-size:0.93rem;color:var(--text-sub);display:flex;flex-wrap:wrap;gap:8px;">
-            ${ct.ks1Date ? `<span>🌱 ค.ศ.1: <strong>${formatThaiDate(ct.ks1Date)}</strong>${ct.ks1BackCalculated ? ' <em>(คิดย้อนจาก ค.ศ.2)</em>' : ''}</span>` : ''}
-            ${ct.calcKs2Date ? `<span>📘 ค.ศ.2: <strong>${formatThaiDate(ct.calcKs2Date)}</strong></span>` : ''}
-            ${ct.calcKs3Date ? `<span>👑 ค.ศ.3: <strong>${formatThaiDate(ct.calcKs3Date)}</strong></span>` : ''}
+            ${ct.realKs1Date ? `<span>🌱 ได้ ค.ศ.1: <strong>${formatThaiDate(ct.realKs1Date)}</strong></span>` : ''}
+            ${ct.realKs2Date ? `<span>📘 ได้ ค.ศ.2: <strong>${formatThaiDate(ct.realKs2Date)}</strong></span>` : (ct.calcKs2Date ? `<span>📘 ครบยื่น ค.ศ.2: <strong>${formatThaiDate(ct.calcKs2Date)}</strong></span>` : '')}
+            ${ct.ks1ToKs2Span ? `<span style="color:#0369A1;">(ครอง ค.ศ.1 จริง ${esc(ct.ks1ToKs2Span)})</span>` : ''}
           </div>
-          <div style="font-size:0.98rem;color:var(--text-main);">
-            🚀 ควรส่ง DPA (${esc(f.rank)}): <strong style="color:#BE185D;">${formatThaiDate(f.targetDate)}</strong> (${cd.text})
+          <div style="font-size:1rem;color:var(--text-main);background:#FFF1F2;border:1.5px solid #FECDD3;border-radius:10px;padding:4px 9px;">
+            🚀 กำหนดยื่นรอบต่อไป (${esc(f.rank)}): <strong style="color:#BE185D;">${formatThaiDate(ct.targetDate)}</strong> (${cd.text})
           </div>
           <div style="font-size:0.95rem;color:var(--text-sub);">
             📚 ${esc(f.subject || 'ยังไม่ระบุวิชา')} ${f.grade ? `(ชั้น ${esc(f.grade)})` : ''} &bull;
@@ -2137,10 +2169,10 @@
             </div>
           </div>
 
-          <!-- 🧮 การ์ดคำนวณวันดำรงตำแหน่ง ค.ศ.1 ⇄ ค.ศ.2 ⇄ ค.ศ.3 + วุฒิ ป.โท -->
+          <!-- 🧮 การ์ดคำนวณวันดำรงตำแหน่งจริง & กำหนดยื่นรอบต่อไป -->
           <div style="background:#FFFFFF;border:2.5px solid ${th.border};border-radius:20px;padding:13px 14px;display:flex;flex-direction:column;gap:8px;">
             <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;border-bottom:2px dashed ${th.border};padding-bottom:6px;">
-              <strong style="font-size:1.05rem;color:${th.strong};">🗓️ ไทม์ไลน์คำนวณ (ค.ศ.1 ⇄ ค.ศ.2 ⇄ ค.ศ.3 &amp; วุฒิ ป.โท)</strong>
+              <strong style="font-size:1.05rem;color:${th.strong};">🗓️ วันได้รับแต่งตั้งจริง &amp; กำหนดยื่นรอบต่อไป</strong>
               <button type="button" class="tag-btn" style="background:${th.chipBg};color:${th.strong};border-color:${th.border};" onclick="openFriendModal('${f.id}')">
                 ✏️ แก้ไขวันที่ / วุฒิ ป.โท
               </button>
@@ -2154,32 +2186,39 @@
 
             <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;">
               <div style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:14px;padding:8px 9px;">
-                <div style="font-size:0.84rem;color:#047857;">🌱 1. วันได้ ค.ศ.1</div>
-                <strong style="font-size:0.95rem;color:#065F46;display:block;margin-top:2px;">${ct.ks1Date ? formatThaiDate(ct.ks1Date) : 'ยังไม่ระบุ'}</strong>
-                ${ct.ks1BackCalculated ? `<div style="font-size:0.78rem;color:#059669;">(คิดย้อนจาก ค.ศ.2 -4 ปี)</div>` : ''}
+                <div style="font-size:0.82rem;color:#047857;">🌱 1. วันได้ ค.ศ.1 จริง</div>
+                <strong style="font-size:0.94rem;color:#065F46;display:block;margin-top:2px;">${ct.realKs1Date ? formatThaiDate(ct.realKs1Date) : 'ยังไม่ระบุ'}</strong>
+                <div style="font-size:0.76rem;color:#059669;line-height:1.25;margin-top:2px;">
+                  ${ct.realKs1Date ? '(วันที่ได้รับจริง)' : (ct.estKs1FromKs2 ? `(อาจส่งช้า/ไว กะคร่าวๆ ~${formatThaiDate(ct.estKs1FromKs2)})` : '(เว้นว่างได้)')}
+                </div>
               </div>
               <div style="background:#F0F9FF;border:1.5px solid #7DD3FC;border-radius:14px;padding:8px 9px;">
-                <div style="font-size:0.84rem;color:#0369A1;">📘 2. วันได้/ครบ ค.ศ.2</div>
-                <strong style="font-size:0.95rem;color:#075985;display:block;margin-top:2px;">${ct.calcKs2Date ? formatThaiDate(ct.calcKs2Date) : 'ยังไม่ระบุ'}</strong>
+                <div style="font-size:0.82rem;color:#0369A1;">${ct.realKs2Date ? '📘 2. วันได้ ค.ศ.2 จริง' : '📘 2. ครบยื่น ค.ศ.2'}</div>
+                <strong style="font-size:0.94rem;color:#075985;display:block;margin-top:2px;">${ct.calcKs2Date ? formatThaiDate(ct.calcKs2Date) : 'ยังไม่ระบุ'}</strong>
+                <div style="font-size:0.76rem;color:#0284C7;line-height:1.25;margin-top:2px;">
+                  ${ct.ks1ToKs2Span ? `ครอง ค.ศ.1 จริง ${esc(ct.ks1ToKs2Span)}` : (ct.realKs2Date ? '(วันที่ได้รับจริง)' : `(ค.ศ.1 +${ct.reqYears} ปี)`)}
+                </div>
               </div>
               <div style="background:#FFF7ED;border:1.5px solid #FDBA74;border-radius:14px;padding:8px 9px;">
-                <div style="font-size:0.84rem;color:#C2410C;">👑 3. วันครบยื่น ค.ศ.3</div>
-                <strong style="font-size:0.95rem;color:#9A3412;display:block;margin-top:2px;">${ct.calcKs3Date ? formatThaiDate(ct.calcKs3Date) : 'ยังไม่ระบุ'}</strong>
-                <div style="font-size:0.78rem;color:#C2410C;">(ค.ศ.2 +${ct.reqYears} ปี)</div>
+                <div style="font-size:0.82rem;color:#C2410C;">👑 3. กำหนดยื่น ค.ศ.3</div>
+                <strong style="font-size:0.94rem;color:#9A3412;display:block;margin-top:2px;">${ct.calcKs3Date ? formatThaiDate(ct.calcKs3Date) : 'ยังไม่ระบุ'}</strong>
+                <div style="font-size:0.76rem;color:#C2410C;line-height:1.25;margin-top:2px;">
+                  ${ct.realKs2Date ? `(วัน ค.ศ.2 จริง +${ct.reqYears} ปี)` : '(รอวันได้ ค.ศ.2 จริง)'}
+                </div>
               </div>
             </div>
 
-            <div class="countdown-banner" style="border:2px solid ${th.border};color:${th.strong};margin-top:2px;">
-              <div>🚀 วันที่ควรส่งในระบบ DPA (${esc(f.rank)}): <strong style="color:#BE185D;">${formatThaiDate(f.targetDate)}</strong></div>
-              <div style="font-size:1.06rem;"><strong>${cd.text}</strong></div>
+            <div class="countdown-banner" style="border:2.5px solid #F43F5E;background:linear-gradient(135deg,#FFF1F2 0%,#FCE7F3 100%);color:#BE185D;margin-top:2px;">
+              <div>🚀 กำหนดยื่นรอบต่อไป (${esc(f.rank)}): <strong style="color:#9F1239;font-size:1.08rem;">${formatThaiDate(ct.targetDate)}</strong></div>
+              <div style="font-size:1.05rem;"><strong>${cd.text}</strong></div>
             </div>
 
             <div style="background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:14px;padding:9px 12px;font-size:0.94rem;color:#92400E;line-height:1.45;">
-              💡 <strong>คำแนะนำแจ้งเพื่อน:</strong> ควรเริ่มเตรียมแผนและอัดคลิป 60 นาทีตั้งแต่วันที่ <strong>${ct.prepStartDate ? formatThaiDate(ct.prepStartDate) : '-'}</strong> (ล่วงหน้า 3 เดือน) เพื่อจะได้กดส่งระบบ DPA ได้ทันทีตั้งแต่วันที่ <strong>${formatThaiDate(f.targetDate)}</strong> ครับ!
+              💡 <strong>คำแนะนำแจ้งเพื่อน:</strong> แนะนำให้เริ่มเตรียมแผนและอัดคลิป 60 นาทีตั้งแต่วันที่ <strong>${ct.prepStartDate ? formatThaiDate(ct.prepStartDate) : '-'}</strong> (ล่วงหน้า 3 เดือน) เพื่อเริ่มยื่นระบบ DPA ได้ตั้งแต่วันที่ <strong>${formatThaiDate(ct.targetDate)}</strong> เป็นต้นไปครับ! <em>(หากส่งช้ากว่ากำหนดก็ยื่นถัดจากวันนี้ได้ตามความพร้อม)</em>
             </div>
 
             <button type="button" class="btn btn-mint btn-sm" onclick="copyFriendTimelineAdvice('${f.id}')">
-              📢 ก๊อปปี้ผลคำนวณ (ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3) ไปแจ้ง ${esc(shortName(f.name))} ในแชท
+              📢 ก๊อปปี้กำหนดยื่นรอบต่อไปแจ้ง ${esc(shortName(f.name))} ในแชท
             </button>
           </div>
 
@@ -2792,29 +2831,31 @@
       `;
     }
 
-    function fillKs1FromKs2() {
-      const ks2 = document.getElementById('f-ks2-date').value;
-      if (!ks2) {
-        showToast('⚠️ กรุณาเลือก "วันที่เริ่มดำรงตำแหน่ง ค.ศ.2" ก่อนนะครับ');
-        return;
+    function clearCareerDateField(which) {
+      if (which === 'ks1') {
+        document.getElementById('f-ks1-date').value = '';
+        onCareerDateCalcChange('ks1');
+        showToast('🧹 ล้างช่องวันได้ ค.ศ.1 แล้วจ้า (เว้นว่างไว้ได้ถ้าไม่ทราบวันจริง)');
+      } else if (which === 'ks2') {
+        document.getElementById('f-ks2-date').value = '';
+        if (document.getElementById('f-ks1-date').value) {
+          document.getElementById('f-rank').value = 'ค.ศ.2';
+        }
+        onCareerDateCalcChange('ks2');
+        showToast('🧹 ล้างช่องวันได้ ค.ศ.2 แล้วจ้า');
       }
-      const calcKs1 = addYearsToDateStr(ks2, -4);
-      document.getElementById('f-ks1-date').value = calcKs1;
-      onCareerDateCalcChange('ks2');
-      showToast(`⏪ คิดย้อนวันได้ ค.ศ.1 (${formatThaiDate(calcKs1)}) และคิดต่อวัน ค.ศ.3 ให้เรียบร้อยจ้า!`);
     }
 
-    function fillKs2FromKs1() {
-      const ks1 = document.getElementById('f-ks1-date').value;
-      const reqYears = parseInt(document.getElementById('f-req-years').value, 10) || 4;
-      if (!ks1) {
-        showToast('⚠️ กรุณาเลือก "วันที่เริ่มดำรงตำแหน่ง ค.ศ.1" ก่อนนะครับ');
+    function estimateKs1FromKs2() {
+      const ks2 = document.getElementById('f-ks2-date').value;
+      if (!ks2) {
+        showToast('⚠️ กรุณาเลือก "วันที่ได้ ค.ศ.2" ก่อนนะครับ');
         return;
       }
-      const calcKs2 = addYearsToDateStr(ks1, reqYears);
-      document.getElementById('f-ks2-date').value = calcKs2;
+      const estKs1 = addYearsToDateStr(ks2, -4);
+      document.getElementById('f-ks1-date').value = estKs1;
       onCareerDateCalcChange('ks1');
-      showToast(`⏩ คำนวณวันได้ ค.ศ.2 (${formatThaiDate(calcKs2)}) และคิดต่อวัน ค.ศ.3 ให้เรียบร้อยจ้า!`);
+      showToast(`⏪ ลองกะวัน ค.ศ.1 คร่าวๆ (~${formatThaiDate(estKs1)}) ให้แล้วจ้า (แก้เป็นวันจริงได้นะ เพราะบางคนส่งช้า/ไว)`);
     }
 
     function onMasterDegreeChange(source) {
@@ -2831,9 +2872,13 @@
       }
 
       const status = statusEl.value;
-      if (status === 'edu_valid' || status === 'other_3yr') {
-        yearsEl.value = '3';
-      } else if (status === 'edu_admin' || status === 'none') {
+      if (source !== 'init') {
+        if (status === 'edu_valid' || status === 'other_3yr') {
+          yearsEl.value = '3';
+        } else if (status === 'edu_admin' || status === 'none') {
+          yearsEl.value = '4';
+        }
+      } else if (status === 'edu_admin') {
         yearsEl.value = '4';
       }
 
@@ -2861,11 +2906,13 @@
         }
       }
 
-      onCareerDateCalcChange('master');
+      if (source !== 'init') {
+        onCareerDateCalcChange('master');
+      }
     }
 
     function onCareerDateCalcChange(source) {
-      const rank = document.getElementById('f-rank').value || 'ค.ศ.2';
+      const rankEl = document.getElementById('f-rank');
       const statusEl = document.getElementById('f-master-status');
       const majorEl = document.getElementById('f-master-major');
       const masterStatus = statusEl ? statusEl.value : 'none';
@@ -2880,81 +2927,117 @@
       }
 
       const reqYears = parseInt(document.getElementById('f-req-years').value, 10) === 3 ? 3 : 4;
-      let ks1Date = document.getElementById('f-ks1-date').value;
-      let ks2Date = document.getElementById('f-ks2-date').value;
+      const ks1Date = document.getElementById('f-ks1-date').value;
+      const ks2Date = document.getElementById('f-ks2-date').value;
+      let rank = rankEl.value || 'ค.ศ.2';
       let targetDate = document.getElementById('f-date').value;
 
-      if (source === 'ks2' && ks2Date) {
-        // 1) เมื่อได้ข้อมูลวัน ค.ศ.2 -> คิดคำนวณย้อนกลับไปเป็นวัน ค.ศ.1 (-4 ปี) ให้อัตโนมัติ!
-        ks1Date = addYearsToDateStr(ks2Date, -4);
-        document.getElementById('f-ks1-date').value = ks1Date;
-        // 2) และคิดคำนวณต่อไปเป็นวันครบ ค.ศ.3 (+reqYears) ให้อัตโนมัติ!
-        const calcKs3 = addYearsToDateStr(ks2Date, reqYears);
-        targetDate = (rank === 'ค.ศ.3') ? calcKs3 : ks2Date;
-        document.getElementById('f-date').value = targetDate;
-      } else if (source === 'ks1' && ks1Date) {
-        // เมื่อใส่วัน ค.ศ.1 -> คิดต่อไปเป็นวัน ค.ศ.2 และคิดต่อไปเป็นวัน ค.ศ.3 ให้ครบ!
-        ks2Date = addYearsToDateStr(ks1Date, rank === 'ค.ศ.2' ? reqYears : 4);
-        document.getElementById('f-ks2-date').value = ks2Date;
-        const calcKs3 = addYearsToDateStr(ks2Date, reqYears);
-        targetDate = (rank === 'ค.ศ.3') ? calcKs3 : ks2Date;
-        document.getElementById('f-date').value = targetDate;
-      } else if (source === 'rank' || source === 'years' || source === 'master') {
-        if (ks2Date && !ks1Date) {
-          ks1Date = addYearsToDateStr(ks2Date, -4);
-          document.getElementById('f-ks1-date').value = ks1Date;
+      // ✅ แก้จุดสำคัญ:
+      // 1) ไม่เขียนทับวัน ค.ศ.1 กับ ค.ศ.2 ข้ามกันเด็ดขาด! (เพราะแต่ละคนส่งช้า/ส่งไวไม่เท่ากัน)
+      // 2) ทันทีที่กรอก "วันได้ ค.ศ.2" -> เพื่อนได้ ค.ศ.2 แล้ว ดังนั้น "กำหนดยื่นรอบต่อไป" ต้องเป็น ค.ศ.3 (วันได้ ค.ศ.2 + 4/3 ปี) เสมอ!
+      if (source === 'ks2') {
+        if (ks2Date) {
+          rank = 'ค.ศ.3';
+          rankEl.value = 'ค.ศ.3';
+          targetDate = addYearsToDateStr(ks2Date, reqYears);
+          document.getElementById('f-date').value = targetDate;
+        } else if (ks1Date) {
+          rank = 'ค.ศ.2';
+          rankEl.value = 'ค.ศ.2';
+          targetDate = addYearsToDateStr(ks1Date, reqYears);
+          document.getElementById('f-date').value = targetDate;
         }
-        if (rank === 'ค.ศ.2') {
-          if (ks1Date) {
-            ks2Date = addYearsToDateStr(ks1Date, reqYears);
-            document.getElementById('f-ks2-date').value = ks2Date;
-            targetDate = ks2Date;
-            document.getElementById('f-date').value = targetDate;
-          } else if (ks2Date) {
-            targetDate = ks2Date;
-            document.getElementById('f-date').value = targetDate;
-          }
-        } else if (rank === 'ค.ศ.3') {
-          if (ks2Date) {
-            targetDate = addYearsToDateStr(ks2Date, reqYears);
-            document.getElementById('f-date').value = targetDate;
-          } else if (ks1Date) {
-            ks2Date = addYearsToDateStr(ks1Date, 4);
-            document.getElementById('f-ks2-date').value = ks2Date;
-            targetDate = addYearsToDateStr(ks2Date, reqYears);
-            document.getElementById('f-date').value = targetDate;
-          }
+      } else if (source === 'ks1') {
+        // กรอกวัน ค.ศ.1: ถ้ายังไม่มีวันได้ ค.ศ.2 แปลว่ากำลังจะยื่น ค.ศ.2 -> คำนวณวันครบยื่น ค.ศ.2 ใส่ช่องที่ 3 ทันที (โดยไม่ไปยุ่งกับช่องวันได้ ค.ศ.2 จริง!)
+        if (!ks2Date && ks1Date) {
+          rank = 'ค.ศ.2';
+          rankEl.value = 'ค.ศ.2';
+          targetDate = addYearsToDateStr(ks1Date, reqYears);
+          document.getElementById('f-date').value = targetDate;
+        } else if (ks2Date) {
+          // ถ้ามีทั้งวัน ค.ศ.1 จริง และวัน ค.ศ.2 จริง -> กำหนดยื่นต่อไปคิดจากวันได้ ค.ศ.2 จริง + reqYears!
+          rank = 'ค.ศ.3';
+          rankEl.value = 'ค.ศ.3';
+          targetDate = addYearsToDateStr(ks2Date, reqYears);
+          document.getElementById('f-date').value = targetDate;
         }
-      } else if (source === 'init') {
-        if (ks2Date && !ks1Date) {
-          ks1Date = addYearsToDateStr(ks2Date, -4);
-          document.getElementById('f-ks1-date').value = ks1Date;
+      } else if (source === 'years' || source === 'master') {
+        if (ks2Date) {
+          rank = 'ค.ศ.3';
+          rankEl.value = 'ค.ศ.3';
+          targetDate = addYearsToDateStr(ks2Date, reqYears);
+          document.getElementById('f-date').value = targetDate;
+        } else if (ks1Date && rank === 'ค.ศ.2') {
+          targetDate = addYearsToDateStr(ks1Date, reqYears);
+          document.getElementById('f-date').value = targetDate;
+        }
+      } else if (source === 'rank') {
+        if (rank === 'ค.ศ.3' && ks2Date) {
+          targetDate = addYearsToDateStr(ks2Date, reqYears);
+          document.getElementById('f-date').value = targetDate;
+        } else if (rank === 'ค.ศ.2' && ks1Date && !ks2Date) {
+          targetDate = addYearsToDateStr(ks1Date, reqYears);
+          document.getElementById('f-date').value = targetDate;
         }
       }
 
+      const nextSubmitLabel = document.getElementById('label-next-submit');
       const bKs1 = document.getElementById('badge-ks1-thai');
       const bKs2 = document.getElementById('badge-ks2-thai');
       const bTarget = document.getElementById('badge-target-thai');
       const adviceBox = document.getElementById('calc-advice-box');
 
-      const calcKs2 = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, rank === 'ค.ศ.2' ? reqYears : 4) : '');
-      const calcKs1 = ks1Date || (calcKs2 ? addYearsToDateStr(calcKs2, -4) : '');
-      const calcKs3 = calcKs2 ? addYearsToDateStr(calcKs2, reqYears) : (rank === 'ค.ศ.3' ? targetDate : '');
+      const spanKs1ToKs2 = (ks1Date && ks2Date) ? formatDurationBetween(ks1Date, ks2Date) : '';
+      const estKs1 = (!ks1Date && ks2Date) ? addYearsToDateStr(ks2Date, -4) : '';
+      const minKs2Submit = ks2Date ? ks2Date : (ks1Date ? addYearsToDateStr(ks1Date, reqYears) : '');
+      const minKs3Submit = ks2Date
+        ? addYearsToDateStr(ks2Date, reqYears)
+        : (minKs2Submit ? addYearsToDateStr(minKs2Submit, reqYears) : '');
+
+      if (nextSubmitLabel) {
+        if (ks2Date || rank === 'ค.ศ.3') {
+          nextSubmitLabel.innerHTML = `🚀 3. กำหนดยื่นรอบต่อไป: <strong>ค.ศ.3 ชำนาญการพิเศษ</strong> (นับจากวัน ค.ศ.2 +${reqYears} ปี) *`;
+        } else {
+          nextSubmitLabel.innerHTML = `🚀 3. กำหนดยื่นรอบต่อไป: <strong>ค.ศ.2 ชำนาญการ</strong> (นับจากวัน ค.ศ.1 +${reqYears} ปี) *`;
+        }
+      }
 
       if (bKs1) {
-        bKs1.innerHTML = calcKs1
-          ? `🇹🇭 ตรงกับวันที่ไทย: <strong>${formatThaiDate(calcKs1)}</strong> ${(!ks1Date && calcKs2) || source === 'ks2' ? '(คำนวณย้อนจากวัน ค.ศ.2 -4 ปี)' : ''}`
-          : `💡 ใส่วันที่เริ่ม ค.ศ.1 (หรือใส่วัน ค.ศ.2 ด้านล่างเพื่อให้ระบบคิดย้อนกลับ -4 ปีให้อัตโนมัติ)`;
+        if (ks1Date) {
+          bKs1.innerHTML = `🇹🇭 วันได้ ค.ศ.1 จริง: <strong>${formatThaiDate(ks1Date)}</strong> ${spanKs1ToKs2 ? `<span style="color:#0369A1;">(ครอง ค.ศ.1 จริง ${esc(spanKs1ToKs2)} ก่อนได้ ค.ศ.2)</span>` : ''}`;
+        } else if (ks2Date) {
+          bKs1.innerHTML = `💡 <em>ยังไม่ระบุวัน ค.ศ.1 จริง (เว้นว่างไว้ได้เลย เพราะแต่ละคนส่งช้า/ส่งไวไม่เท่ากัน — หากส่งตรงเวลา 4 ปีจะอยู่ราวๆ ~${formatThaiDate(estKs1)})</em>`;
+        } else {
+          bKs1.innerHTML = `💡 ถ้าเพื่อนเป็น ค.ศ.1 กำลังจะยื่น ค.ศ.2 ให้กรอกช่องนี้ ระบบจะบวก +${reqYears} ปีเป็นกำหนดยื่น ค.ศ.2 ให้ทันที`;
+        }
       }
+
       if (bKs2) {
-        bKs2.innerHTML = calcKs2
-          ? `🇹🇭 ตรงกับวันที่ไทย: <strong>${formatThaiDate(calcKs2)}</strong> (คิดย้อน ค.ศ.1 = <strong>${formatThaiDate(calcKs1)}</strong> | คิดต่อ ค.ศ.3 (+${reqYears} ปี) = <strong>${formatThaiDate(calcKs3)}</strong>)`
-          : `💡 ใส่วันที่เริ่มเป็น ค.ศ.2 ระบบจะคิดย้อนกลับไปเป็นวัน ค.ศ.1 (-4 ปี) และคิดต่อไปเป็นวันส่ง ค.ศ.3 (+${reqYears} ปี) ให้อัตโนมัติ!`;
+        if (ks2Date) {
+          bKs2.innerHTML = `
+            <div>🇹🇭 วันได้ ค.ศ.2 จริง: <strong>${formatThaiDate(ks2Date)}</strong></div>
+            <div style="margin-top:3px;background:#DCFCE7;border:1.5px solid #34D399;color:#065F46;padding:4px 8px;border-radius:10px;font-weight:bold;">
+              🚀 กำหนดยื่นรอบต่อไป (ค.ศ.3 +${reqYears} ปี) = ยื่นได้ตั้งแต่วันที่ <u>${formatThaiDate(minKs3Submit)}</u>!
+            </div>
+            ${rank === 'ค.ศ.2' ? `<div style="margin-top:3px;color:#B91C1C;font-size:0.84rem;">⚠️ มีวันได้ ค.ศ.2 แล้ว ระบบแนะนำให้ตั้งระดับเป็น "ยื่นทำ ค.ศ.3" (หรือถ้าเพื่อนยังไม่ได้ ค.ศ.2 ให้กดปุ่ม "✕ ล้าง" ด้านบน)</div>` : ''}
+          `;
+        } else if (ks1Date) {
+          bKs2.innerHTML = `💡 <em>เว้นว่างไว้ (เพราะยังไม่ได้ ค.ศ.2) — กำหนดครบยื่น ค.ศ.2 ขั้นต่ำจากวัน ค.ศ.1 (+${reqYears} ปี) คือวันที่ <strong>${formatThaiDate(minKs2Submit)}</strong></em>`;
+        } else {
+          bKs2.innerHTML = `💡 ถ้าเพื่อนได้ ค.ศ.2 แล้ว กรอกวันได้ ค.ศ.2 ช่องนี้ช่องเดียว ระบบจะคำนวณ <strong>กำหนดยื่น ค.ศ.3 (+${reqYears} ปี)</strong> ลงช่องที่ 3 ให้ทันที!`;
+        }
       }
+
       if (bTarget) {
-        bTarget.innerHTML = targetDate
-          ? `🇹🇭 ตรงกับวันที่ไทย: <strong>${formatThaiDate(targetDate)}</strong> (${getDaysUntil(targetDate) < 0 ? 'ครบกำหนดยื่นได้แล้ว!' : `อีก ${getDaysUntil(targetDate)} วัน`})`
-          : '';
+        if (targetDate) {
+          const daysLeft = getDaysUntil(targetDate);
+          const statusTxt = daysLeft < 0
+            ? `✅ ครบกำหนดขั้นต่ำแล้ว! สามารถส่งระบบ DPA ได้เลย (หรือส่งเมื่อพร้อม)`
+            : `⏳ อีก ${daysLeft} วันจะครบกำหนดเริ่มยื่นได้`;
+          bTarget.innerHTML = `🇹🇭 กำหนดยื่น <strong>${esc(rank)}</strong>: <strong style="font-size:1.05rem;">${formatThaiDate(targetDate)}</strong> — ${statusTxt}`;
+        } else {
+          bTarget.innerHTML = '';
+        }
       }
 
       if (adviceBox) {
@@ -2962,34 +3045,44 @@
         const masterSummary = getMasterDegreeLabel(masterStatus, masterMajor);
 
         adviceBox.innerHTML = `
-          <div style="font-size:0.98rem;margin-bottom:4px;"><strong>📣 สรุปไทม์ไลน์ ค.ศ.1 ⇄ ค.ศ.2 ⇄ ค.ศ.3 เพื่อแจ้งเพื่อน (เกณฑ์ ${reqYears} ปี):</strong></div>
+          <div style="font-size:0.98rem;margin-bottom:4px;"><strong>📣 สรุปข้อมูลเพื่อแจ้งเพื่อน (ยื่น ${esc(rank)} — เกณฑ์ ${reqYears} ปี):</strong></div>
           <div style="color:#6B21A8;">🎓 <strong>สิทธิ์วุฒิ ป.โท:</strong> ${esc(masterSummary)}</div>
-          <div>🌱 <strong>1. วันที่ได้ ค.ศ.1 (ครู):</strong> ${calcKs1 ? formatThaiDate(calcKs1) : 'ยังไม่ระบุ'} ${ks2Date ? '<span style="font-size:0.84rem;color:#059669;">(คิดย้อนจาก ค.ศ.2 -4 ปี)</span>' : ''}</div>
-          <div>📘 <strong>2. วันที่ได้/ครบยื่น ค.ศ.2 (ชำนาญการ):</strong> ${calcKs2 ? formatThaiDate(calcKs2) : 'ยังไม่ระบุ'}</div>
-          <div>👑 <strong>3. วันที่ครบยื่น ค.ศ.3 (ชำนาญการพิเศษ):</strong> <strong style="color:#C2410C;">${calcKs3 ? formatThaiDate(calcKs3) : 'ยังไม่ระบุ'}</strong> <span style="font-size:0.84rem;color:#C2410C;">(ค.ศ.2 +${reqYears} ปี)</span></div>
+          <div>🌱 <strong>วันที่ได้ ค.ศ.1 จริง:</strong> ${ks1Date ? formatThaiDate(ks1Date) : `<span style="color:#6B7280;">ไม่ระบุ (แต่ละคนส่งช้า/ไวไม่เท่ากัน)</span>`}</div>
+          <div>📘 <strong>${ks2Date ? 'วันที่ได้ ค.ศ.2 จริง:' : 'กำหนดครบยื่น ค.ศ.2 ขั้นต่ำ:'}</strong> ${minKs2Submit ? `<strong>${formatThaiDate(minKs2Submit)}</strong>` : 'ยังไม่ระบุ'} ${spanKs1ToKs2 ? `<span style="font-size:0.84rem;color:#0369A1;">(ครอง ค.ศ.1 จริง ${esc(spanKs1ToKs2)})</span>` : ''}</div>
+          <div>👑 <strong>${ks2Date ? `กำหนดครบยื่น ค.ศ.3 ขั้นต่ำ (วัน ค.ศ.2 +${reqYears} ปี):` : 'คาดการณ์ยื่น ค.ศ.3 (หากส่ง ค.ศ.2 ตรงกำหนด):'}</strong> <strong style="color:#C2410C;">${minKs3Submit ? formatThaiDate(minKs3Submit) : 'ยังไม่ระบุ'}</strong></div>
           <div style="margin-top:6px;padding-top:6px;border-top:1.5px dashed #6EE7B7;color:#047857;">
-            🎬 <strong>ควรเริ่มอัดคลิป/ทำแผน (ล่วงหน้า 3 เดือน):</strong> <strong>${prepDate ? formatThaiDate(prepDate) : '-'}</strong><br/>
-            🚀 <strong>วันที่ควรส่งระบบ DPA (${esc(rank)}):</strong> <strong style="color:#BE185D;font-size:1.05rem;">${targetDate ? formatThaiDate(targetDate) : '-'}</strong>
+            🎬 <strong>แนะนำเริ่มทำแผน/อัดคลิป (ล่วงหน้า 3 เดือน):</strong> <strong>${prepDate ? formatThaiDate(prepDate) : '-'}</strong><br/>
+            🚀 <strong>กำหนดยื่นรอบต่อไปในระบบ DPA (${esc(rank)}):</strong> <strong style="color:#BE185D;font-size:1.06rem;">${targetDate ? formatThaiDate(targetDate) : '-'}</strong>
           </div>
         `;
       }
     }
 
-    function buildTimelineAdviceText(nameStr, rank, ks1Date, ks2Date, reqYears, targetDate, masterStatus, masterMajor) {
+    function buildTimelineAdviceText(nameStr, rank, realKs1Date, realKs2Date, reqYears, targetDate, masterStatus, masterMajor) {
       const callName = (nameStr && nameStr.trim()) ? nameStr.trim() : 'เพื่อนครู';
       const yrs = (masterStatus === 'edu_admin') ? 4 : (parseInt(reqYears, 10) === 3 ? 3 : 4);
-      const calcKs2 = ks2Date || (ks1Date ? addYearsToDateStr(ks1Date, rank === 'ค.ศ.2' ? yrs : 4) : '');
-      const calcKs1 = ks1Date || (calcKs2 ? addYearsToDateStr(calcKs2, -4) : '');
-      const calcKs3 = calcKs2 ? addYearsToDateStr(calcKs2, yrs) : (rank === 'ค.ศ.3' ? targetDate : '');
+      const minKs2 = realKs2Date ? realKs2Date : (realKs1Date ? addYearsToDateStr(realKs1Date, yrs) : '');
+      const minKs3 = realKs2Date
+        ? addYearsToDateStr(realKs2Date, yrs)
+        : (rank === 'ค.ศ.3' ? targetDate : (minKs2 ? addYearsToDateStr(minKs2, yrs) : ''));
+      const spanTxt = (realKs1Date && realKs2Date) ? ` (ครอง ค.ศ.1 จริง ${formatDurationBetween(realKs1Date, realKs2Date)})` : '';
       const prepDate = targetDate ? addDaysToDateStr(targetDate, -90) : '';
       const d = getDaysUntil(targetDate);
-      const countdownTxt = d < 0 ? `(ตอนนี้ครบกำหนดยื่นได้แล้วนะ!)` : `(นับถอยหลังอีก ${d} วัน)`;
+      const countdownTxt = d < 0 ? `(ตอนนี้ครบกำหนดขั้นต่ำ ยื่นได้แล้วนะ!)` : `(นับถอยหลังอีก ${d} วันจะเริ่มยื่นได้)`;
       const masterTxt = getMasterDegreeLabel(masterStatus || 'none', masterMajor || '');
       const adminNote = masterStatus === 'edu_admin'
         ? `\n⚠️ หมายเหตุสำคัญ: วุฒิ ป.โท สาขาการบริหารการศึกษา เป็นวุฒิสายบริหาร ไม่สามารถนำมาลดระยะเวลาของสายงานครูผู้สอนได้ ต้องครองตำแหน่งครบ 4 ปีเต็มนะจ๊ะ`
         : '';
 
-      return `สวัสดีจ้า ${callName}! 😊🌸\nเราช่วยคำนวณไทม์ไลน์วิทยฐานะ (ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3) สำหรับยื่น ${rank} (เกณฑ์ ${yrs} ปี) ลงในสมุดที่ปรึกษาไว้ให้แล้วนะจ๊ะ:\n\n🎓 วุฒิ/เกณฑ์ที่ใช้: ${masterTxt}${adminNote}\n🌱 1. วันที่เริ่ม ค.ศ.1 (ครู): ${calcKs1 ? formatThaiDate(calcKs1) : '-'}\n📘 2. วันที่ได้/ครบยื่น ค.ศ.2 (ชำนาญการ): ${calcKs2 ? formatThaiDate(calcKs2) : '-'}\n👑 3. วันที่ครบยื่น ค.ศ.3 (ชำนาญการพิเศษ): ${calcKs3 ? formatThaiDate(calcKs3) : '-'} (ค.ศ.2 +${yrs} ปี)\n-------------------------\n🎬 ช่วงที่แนะนำให้เริ่มเตรียมแผน & อัดคลิป 60 นาที (ล่วงหน้า 3 เดือน):\n👉 ตั้งแต่วันที่ ${prepDate ? formatThaiDate(prepDate) : '-'}\n\n🚀 วันที่ควรส่งงานในระบบ DPA (${rank}):\n👉 ส่งได้ตั้งแต่วันที่ ${targetDate ? formatThaiDate(targetDate) : '-'} เป็นต้นไปจ้า! ${countdownTxt}\n-------------------------\nเตรียมแผนหรืออัดคลิปเมื่อไหร่ ส่งมาให้เราช่วยสแกน 6 จุดตาย DPA ก่อนยื่นได้เลยน้า สู้ๆ จ้า! ✌🏻✨🟢`;
+      const ks1Line = realKs1Date ? `\n🌱 วันที่ได้ ค.ศ.1 จริง: ${formatThaiDate(realKs1Date)}` : '';
+      const ks2Line = realKs2Date
+        ? `\n📘 วันที่ได้ ค.ศ.2 จริง: ${formatThaiDate(realKs2Date)}${spanTxt}`
+        : (minKs2 ? `\n📘 กำหนดครบยื่น ค.ศ.2 ขั้นต่ำ: ${formatThaiDate(minKs2)}` : '');
+      const ks3Line = minKs3
+        ? `\n👑 ${realKs2Date ? `กำหนดครบยื่น ค.ศ.3 ขั้นต่ำ (วัน ค.ศ.2 +${yrs} ปี)` : 'คาดการณ์ครบยื่น ค.ศ.3 (หากส่ง ค.ศ.2 ทันที)'}: ${formatThaiDate(minKs3)}`
+        : '';
+
+      return `สวัสดีจ้า ${callName}! 😊🌸\nเราช่วยคำนวณกำหนดยื่นวิทยฐานะรอบต่อไป (${rank} - เกณฑ์ ${yrs} ปี) ลงในสมุดที่ปรึกษาไว้ให้แล้วนะจ๊ะ:\n\n🎓 วุฒิ/เกณฑ์ที่ใช้: ${masterTxt}${adminNote}${ks1Line}${ks2Line}${ks3Line}\n-------------------------\n🎬 ช่วงที่แนะนำให้เริ่มเตรียมแผน & อัดคลิป 60 นาที (ล่วงหน้า 3 เดือน):\n👉 ตั้งแต่วันที่ ${prepDate ? formatThaiDate(prepDate) : '-'}\n\n🚀 กำหนดยื่นรอบต่อไปในระบบ DPA (${rank}):\n👉 เริ่มยื่นได้ตั้งแต่วันที่ ${targetDate ? formatThaiDate(targetDate) : '-'} เป็นต้นไปจ้า! ${countdownTxt}\n-------------------------\nเตรียมแผนหรืออัดคลิปเมื่อไหร่ ส่งมาให้เราช่วยสแกน 6 จุดตาย DPA ก่อนยื่นได้เลยน้า สู้ๆ จ้า! ✌🏻✨🟢`;
     }
 
     function copyModalCalcAdvice() {
@@ -3003,7 +3096,7 @@
       const masterMajor = document.getElementById('f-master-major') ? document.getElementById('f-master-major').value.trim() : '';
       const txt = buildTimelineAdviceText(nameStr, rank, ks1Date, ks2Date, reqYears, targetDate, masterStatus, masterMajor);
       navigator.clipboard.writeText(txt)
-        .then(() => showToast('📋 คัดลอกผลคำนวณ (ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3) แล้ว! กดวางส่งให้เพื่อนในแชทได้เลยจ้า'))
+        .then(() => showToast('📋 คัดลอกกำหนดยื่นรอบต่อไปแล้ว! กดวางส่งให้เพื่อนในแชทได้เลยจ้า'))
         .catch(() => showToast('📋 คัดลอกผลคำนวณวันส่งเรียบร้อยจ้า!'));
     }
 
@@ -3011,9 +3104,9 @@
       const f = friends.find(x => x.id === friendId);
       if (!f) return;
       const ct = getFriendCareerTimeline(f);
-      const txt = buildTimelineAdviceText(f.name, f.rank, ct.ks1Date, ct.calcKs2Date, ct.reqYears, f.targetDate, ct.masterStatus, ct.masterMajor);
+      const txt = buildTimelineAdviceText(f.name, f.rank, ct.realKs1Date, ct.realKs2Date, ct.reqYears, ct.targetDate, ct.masterStatus, ct.masterMajor);
       navigator.clipboard.writeText(txt)
-        .then(() => showToast(`📋 คัดลอกผลคำนวณวันส่งของ ${shortName(f.name)} ไปส่งแชทได้เลยจ้า!`))
+        .then(() => showToast(`📋 คัดลอกกำหนดยื่นรอบต่อไปของ ${shortName(f.name)} ไปส่งแชทได้เลยจ้า!`))
         .catch(() => showToast('📋 คัดลอกผลคำนวณวันส่งเรียบร้อยจ้า!'));
     }
 
@@ -3029,8 +3122,6 @@
       document.getElementById('f-rank').value = f ? (f.rank || 'ค.ศ.2') : defaultRank;
 
       const todayStr = new Date().toISOString().slice(0, 10);
-      const defaultPast4Yr = addYearsToDateStr(todayStr, -4);
-      const defaultPast8Yr = addYearsToDateStr(todayStr, -8);
       const ct = f ? getFriendCareerTimeline(f) : null;
 
       if (document.getElementById('f-master-status')) {
@@ -3040,14 +3131,11 @@
         document.getElementById('f-master-major').value = f ? (ct.masterMajor || '') : '';
       }
 
+      // ✅ ตอนเปิดเพิ่มเพื่อนใหม่ ให้ช่องวันได้ ค.ศ.1 และ ค.ศ.2 ว่างไว้เสมอ! ไม่ใส่วันที่สุ่มมั่วๆ ล่วงหน้า
       document.getElementById('f-req-years').value = f ? String(ct.reqYears) : '4';
-      document.getElementById('f-ks1-date').value = f
-        ? (ct.ks1Date || '')
-        : (defaultRank === 'ค.ศ.3' ? defaultPast8Yr : defaultPast4Yr);
-      document.getElementById('f-ks2-date').value = f
-        ? (ct.calcKs2Date || '')
-        : (defaultRank === 'ค.ศ.3' ? defaultPast4Yr : todayStr);
-      document.getElementById('f-date').value = f ? (f.targetDate || todayStr) : todayStr;
+      document.getElementById('f-ks1-date').value = f ? (f.ks1Date || '') : '';
+      document.getElementById('f-ks2-date').value = f ? (f.ks2Date || '') : '';
+      document.getElementById('f-date').value = f ? (ct.targetDate || todayStr) : todayStr;
 
       document.getElementById('f-contact').value = f ? (f.contact || '') : '';
       document.getElementById('f-status').value = f ? (f.status || 'รอถึงกำหนด') : 'รอถึงกำหนด';
@@ -3097,11 +3185,19 @@
         ? 4
         : (parseInt(document.getElementById('f-req-years').value, 10) === 3 ? 3 : 4);
 
-      let ks1Date = document.getElementById('f-ks1-date').value;
-      let ks2Date = document.getElementById('f-ks2-date').value;
-      // ถ้าระบุวัน ค.ศ.2 มา แต่ยังไม่มีวัน ค.ศ.1 ให้คิดย้อนกลับ -4 ปีเก็บไว้ให้อัตโนมัติเลย
-      if (ks2Date && !ks1Date) {
-        ks1Date = addYearsToDateStr(ks2Date, -4);
+      // บันทึกเฉพาะวันที่กรอกจริงเท่านั้น ไม่บังคับยัดวัน ค.ศ.1 ย้อนหลัง -4 ปี (เพราะบางคนส่งช้า/ส่งไว)
+      const ks1Date = document.getElementById('f-ks1-date').value;
+      const ks2Date = document.getElementById('f-ks2-date').value;
+      let rank = document.getElementById('f-rank').value;
+      let targetDate = document.getElementById('f-date').value;
+
+      // ป้องกันกรณีกรอกวันได้ ค.ศ.2 แล้วกำหนดยื่นต่อไปยังไม่ขยับ
+      if (ks2Date && (!targetDate || targetDate === ks2Date)) {
+        rank = 'ค.ศ.3';
+        targetDate = addYearsToDateStr(ks2Date, reqYears);
+      } else if (!ks2Date && ks1Date && (!targetDate || targetDate === ks1Date)) {
+        rank = 'ค.ศ.2';
+        targetDate = addYearsToDateStr(ks1Date, reqYears);
       }
 
       const item = {
@@ -3109,13 +3205,13 @@
         name: document.getElementById('f-name').value.trim(),
         colorSeed: pendingColorSeed,
         school: document.getElementById('f-school').value.trim(),
-        rank: document.getElementById('f-rank').value,
+        rank,
         masterStatus,
         masterMajor,
         ks1Date,
         ks2Date,
         reqYears,
-        targetDate: document.getElementById('f-date').value,
+        targetDate,
         contact: document.getElementById('f-contact').value.trim(),
         status: document.getElementById('f-status').value,
         subject: document.getElementById('f-subject').value.trim(),
@@ -3141,7 +3237,7 @@
       activeTab = item.id;
       closeFriendModal();
       const th = getFriendTheme(item);
-      saveData(`${th.emoji} บันทึก "${shortName(item.name)}" พร้อมคำนวณ ค.ศ.1 ➔ ค.ศ.2 ➔ ค.ศ.3 เรียบร้อยจ้า!`);
+      saveData(`${th.emoji} บันทึก "${shortName(item.name)}" (กำหนดยื่น ${item.rank}: ${formatThaiDate(item.targetDate)}) เรียบร้อยจ้า!`);
     }
 
     function deleteCurrentFriend() {
