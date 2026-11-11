@@ -1137,8 +1137,8 @@
         <button type="button" class="btn btn-lavender btn-sm" id="btn-font-scale" onclick="cycleFontScale()" title="ปรับขนาดตัวอักษร">
           🔍 ขนาด: พอดี
         </button>
-        <button type="button" class="btn btn-amber btn-sm" onclick="openBackupModal()" title="สำรอง กู้คืน หรือย้ายข้อมูลข้ามเบราว์เซอร์">
-          ☁️ สำรอง/กู้คืน
+        <button type="button" class="btn btn-amber btn-sm" id="btn-cloud-sync" onclick="openBackupModal()" title="ตั้งค่าหลังบ้าน Google Sheets / สำรองและกู้คืนข้อมูล">
+          ☁️ หลังบ้าน/สำรอง
         </button>
         <a href="https://drive.google.com/drive/folders/17TllkHcFq79990hFWVuCbdbWj-4oUy5p" target="_blank" rel="noopener" class="btn btn-sky btn-sm">
           📁 โฟลเดอร์ Drive
@@ -1400,54 +1400,90 @@
     </div>
   </div>
 
-  <!-- ☁️ Backup / Restore / Cross-Browser Transfer Modal -->
+  <!-- ☁️ Cloud Backend (Google Sheets) + Backup / Restore Modal -->
   <div id="backup-modal" class="modal-overlay">
-    <div class="modal-box" style="max-width:500px;border-color:var(--sky-border);">
-      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed var(--sky-border);padding-bottom:8px;">
-        <h3 style="font-size:1.15rem;color:#0369A1;">☁️ สำรอง / กู้คืน / ย้ายข้อมูลข้ามเบราว์เซอร์</h3>
-        <button type="button" class="btn btn-sky btn-sm" onclick="closeBackupModal()">✕ ปิด</button>
+    <div class="modal-box" style="max-width:520px;border-color:var(--mint-border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed var(--mint-border);padding-bottom:8px;">
+        <h3 style="font-size:1.15rem;color:#047857;">🟢 หลังบ้าน Google ชีต &amp; สำรองข้อมูลถาวร</h3>
+        <button type="button" class="btn btn-mint btn-sm" onclick="closeBackupModal()">✕ ปิด</button>
       </div>
 
       <div id="backup-status-box" style="background:#F0F9FF;border:2px solid #7DD3FC;border-radius:14px;padding:10px 12px;font-size:0.92rem;color:#0C4A6E;line-height:1.45;"></div>
+
+      <!-- 🟢 ส่วนเชื่อมหลังบ้าน Google Sheets จริง (บันทึกอัตโนมัติ + ซิงก์ข้ามเครื่องถาวร!) -->
+      <div style="background:#ECFDF5;border:2.5px solid #34D399;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
+          <strong style="color:#065F46;font-size:1.02rem;">🟢 เชื่อมหลังบ้าน Google ชีตอัตโนมัติ (ถาวร 100%)</strong>
+          <span id="cloud-conn-pill" class="pill" style="background:#FEF3C7;color:#92400E;border:1px solid #F59E0B;">รอผูก URL 1 ครั้ง</span>
+        </div>
+        <div style="font-size:0.88rem;color:#065F46;line-height:1.45;">
+          เมื่อวางลิงก์ Web App (`https://script.google.com/macros/s/.../exec`) ของชีตครูด้านล่าง ทุกครั้งที่กดบันทึก ข้อมูลจะวิ่งเข้า <strong>Google Sheets (ทั้งแท็บรวม, แท็บ ค.ศ.2 และ แท็บ ค.ศ.3)</strong> ทันที! เปิดจากคอมหรือมือถือเครื่องไหนก็เห็นข้อมูลชุดเดียวกัน ไม่หายแน่นอนครับ
+        </div>
+        <input
+          type="url"
+          id="cloud-api-url-input"
+          class="input-cute"
+          style="border-color:#34D399;background:#FFFFFF;font-size:0.9rem;"
+          placeholder="วางลิงก์ https://script.google.com/macros/s/.../exec ที่นี่"
+        />
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <button type="button" class="btn btn-mint btn-sm" style="flex:1 1 auto;" onclick="saveCloudApiUrlFromInput()">
+            🔗 บันทึก &amp; ซิงก์ลงหลังบ้านทันที!
+          </button>
+          <button type="button" class="btn btn-sky btn-sm" onclick="manualPullFromCloud()">
+            🔄 ดึงข้อมูลจากหลังบ้าน
+          </button>
+        </div>
+
+        <details style="background:#FFFFFF;border:1.5px dashed #6EE7B7;border-radius:12px;padding:8px 10px;font-size:0.86rem;color:#065F46;">
+          <summary style="cursor:pointer;font-weight:bold;color:#047857;">📌 วิธีเปิดหลังบ้านในชีตครู (ทำครั้งเดียว 1 นาที — กดดูขั้นตอน)</summary>
+          <div style="margin-top:7px;display:flex;flex-direction:column;gap:6px;line-height:1.45;">
+            <div>1️⃣ กดปุ่ม <strong>📋 คัดลอกโค้ดหลังบ้าน</strong> ด้านล่างนี้</div>
+            <div>2️⃣ เปิด <a href="https://docs.google.com/spreadsheets/d/1JW35O0ZLsJ0lxno5jOxTR3A34vGCv4ljdsfo_CylVys/edit" target="_blank" rel="noopener" style="color:#0284C7;font-weight:bold;">Google ชีตของครู</a> (บนคอม) ➔ เมนู <strong>ส่วนขยาย (Extensions)</strong> ➔ <strong>Apps Script</strong></div>
+            <div>3️⃣ ลบโค้ดเก่าออก วางโค้ดที่คัดลอกลงไป กด 💾 บันทึก ➔ กดปุ่มสีน้ำเงิน <strong>การทำให้ใช้งานได้ (Deploy)</strong> ➔ <strong>รายการใหม่ (New deployment)</strong></div>
+            <div>4️⃣ เลือกประเภท <strong>เว็บแอป (Web app)</strong> ➔ ช่องผู้มีสิทธิ์เข้าถึงเลือก <strong>"ทุกคน (Anyone)"</strong> ➔ กดยืนยัน แล้วคัดลอกลิงก์ <code>https://script.google.com/.../exec</code> มาวางช่องด้านบน (หรือส่งลิงก์นั้นมาในแชทให้ผมฝังถาวรให้เลยก็ได้ครับ!)</div>
+            <button type="button" class="btn btn-amber btn-sm" style="margin-top:4px;width:100%;" onclick="copyAppsScriptBackendCode()">
+              📋 คัดลอกโค้ดหลังบ้าน (Google Apps Script)
+            </button>
+          </div>
+        </details>
+      </div>
 
       <!-- กล่องกู้คืนจากความจำสำรองชั้นที่ 2 ในเครื่อง (IndexedDB) -->
       <div id="idb-snapshot-box" style="display:none;background:#ECFDF5;border:2px solid #34D399;border-radius:14px;padding:10px 12px;font-size:0.92rem;color:#065F46;line-height:1.45;"></div>
 
       <!-- ส่วนที่ 1: คัดลอก / ดาวน์โหลดสำรองออก -->
       <div style="background:#FFFBEB;border:2px solid #FCD34D;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px;">
-        <strong style="color:#92400E;font-size:1rem;">📤 1. ส่งออก / สำรองข้อมูลจากเบราว์เซอร์นี้</strong>
-        <div style="font-size:0.88rem;color:#78350F;line-height:1.4;">
-          เปิดหน้านี้ในเบราว์เซอร์ตัวที่เคยกรอกไว้ (เช่น <strong>Safari</strong> บนลิงก์หลัก) แล้วกดปุ่มด้านล่างเพื่อคัดลอกข้อมูลไปวางในอีกแอป หรือวางส่งในแชทให้ช่วยลง Google Sheet ได้เลยครับ
-        </div>
+        <strong style="color:#92400E;font-size:1rem;">📤 สำรองข้อมูลด้วยตนเอง / คัดลอกลงชีต</strong>
         <div style="display:flex;flex-wrap:wrap;gap:7px;">
           <button type="button" class="btn btn-amber btn-sm" style="flex:1 1 auto;" onclick="copyBackupJson()">
-            📋 คัดลอกรหัสข้อมูลทั้งหมด
+            📋 คัดลอกรหัสข้อมูล
           </button>
           <button type="button" class="btn btn-mint btn-sm" style="flex:1 1 auto;" onclick="copyBackupForSheets()">
-            📊 คัดลอกวางลง Google ชีต
+            📊 คัดลอกตารางวางชีต
           </button>
           <button type="button" class="btn btn-sky btn-sm" style="flex:1 1 auto;" onclick="downloadBackupFile()">
-            📥 โหลดไฟล์สำรอง (.json)
+            📥 โหลดไฟล์ (.json)
           </button>
         </div>
       </div>
 
       <!-- ส่วนที่ 2: นำเข้า / วางรหัสข้อมูลกู้คืน -->
       <div style="background:#FDF2F8;border:2px solid #F9A8D4;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px;">
-        <strong style="color:#BE185D;font-size:1rem;">📥 2. กู้คืน / วางรหัสย้ายข้อมูลเข้าเบราว์เซอร์นี้</strong>
+        <strong style="color:#BE185D;font-size:1rem;">📥 วางรหัสย้ายข้อมูลเข้าเครื่องนี้</strong>
         <textarea
           id="backup-json-input"
-          rows="3"
+          rows="2"
           class="input-cute"
           style="border-color:#F9A8D4;background:#FFFFFF;font-size:0.9rem;"
-          placeholder="วางรหัสข้อมูลที่คัดลอกมาจาก Safari / แท็บเดิม ที่นี่..."
+          placeholder="วางรหัสข้อมูล JSON ที่คัดลอกมาจากอีกเครื่องที่นี่..."
         ></textarea>
         <div style="display:flex;flex-wrap:wrap;gap:7px;">
           <button type="button" class="btn btn-pink btn-sm" style="flex:1 1 auto;" onclick="importBackupFromText()">
             🪄 นำเข้าและรวมรายชื่อทันที!
           </button>
           <button type="button" class="btn btn-lavender btn-sm" onclick="document.getElementById('hidden-backup-picker').click()">
-            📂 เลือกไฟล์สำรอง (.json)
+            📂 เลือกไฟล์ (.json)
           </button>
         </div>
       </div>
@@ -1460,6 +1496,9 @@
     const STORAGE_KEY = 'kru_kiattisak_dpa_friends_v1';
     const DRAFT_KEY = 'kru_kiattisak_dpa_draft_v1';
     const SCALE_KEY = 'kru_kiattisak_font_scale_v2';
+    const CLOUD_URL_KEY = 'kru_kiattisak_dpa_cloud_url_v1';
+    const DELETED_IDS_KEY = 'kru_kiattisak_dpa_deleted_ids_v1';
+    const DEFAULT_CLOUD_API_URL = '';
     const THAI_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
 
     /* 🌈 ระบบสร้างโทนสีพาสเทลอัตโนมัติไม่ซ้ำกัน (รองรับเพื่อนครูได้ไม่จำกัดจำนวนคน!) */
@@ -1783,6 +1822,180 @@
       return { cleaned, mutated };
     }
 
+    function getDeletedIds() {
+      try {
+        const raw = localStorage.getItem(DELETED_IDS_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function addDeletedId(id) {
+      if (!id) return;
+      const set = new Set(getDeletedIds());
+      set.add(id);
+      try { localStorage.setItem(DELETED_IDS_KEY, JSON.stringify(Array.from(set))); } catch (e) {}
+    }
+
+    function getCloudApiUrl() {
+      try {
+        const params = new URLSearchParams(window.location.search || '');
+        const fromQuery = (params.get('api') || params.get('sync') || '').trim();
+        if (fromQuery && fromQuery.startsWith('https://script.google.com/')) {
+          localStorage.setItem(CLOUD_URL_KEY, fromQuery);
+          saveKVToDB('cloud_api_url', fromQuery);
+        }
+      } catch (e) {}
+      const stored = (localStorage.getItem(CLOUD_URL_KEY) || '').trim();
+      return stored || DEFAULT_CLOUD_API_URL || '';
+    }
+
+    function updateCloudBadgeUI(customLabel, state) {
+      const url = getCloudApiUrl();
+      const btn = document.getElementById('btn-cloud-sync');
+      const pill = document.getElementById('cloud-conn-pill');
+      if (btn) {
+        if (state === 'syncing') {
+          btn.className = 'btn btn-sky btn-sm';
+          btn.textContent = customLabel || '⏳ กำลังบันทึกหลังบ้าน...';
+        } else if (state === 'error') {
+          btn.className = 'btn btn-amber btn-sm';
+          btn.textContent = customLabel || '⚠️ ซิงก์รอเช็ก';
+        } else if (url) {
+          btn.className = 'btn btn-mint btn-sm';
+          btn.textContent = customLabel || '🟢 ซิงก์ชีตแล้ว';
+        } else {
+          btn.className = 'btn btn-amber btn-sm';
+          btn.textContent = customLabel || '☁️ หลังบ้าน/สำรอง';
+        }
+      }
+      if (pill) {
+        if (url) {
+          pill.style.background = '#DCFCE7';
+          pill.style.color = '#065F46';
+          pill.style.borderColor = '#34D399';
+          pill.textContent = state === 'syncing' ? '⏳ กำลังซิงก์...' : '🟢 เชื่อมหลังบ้านแล้ว!';
+        } else {
+          pill.style.background = '#FEF3C7';
+          pill.style.color = '#92400E';
+          pill.style.borderColor = '#F59E0B';
+          pill.textContent = 'รอผูก URL 1 ครั้ง';
+        }
+      }
+    }
+
+    function buildSheetRowForFriend(f) {
+      const ct = getFriendCareerTimeline(f);
+      const chk = Array.isArray(f.checklist) && f.checklist.length ? f.checklist.join(', ') : 'ยังไม่เช็ก';
+      const extra = [f.school, f.contact, f.notes].filter(Boolean).join(' | ');
+      return [
+        f.name || '',
+        f.rank || '',
+        ct.masterLabel || '',
+        ct.masterMajor || '-',
+        ct.realKs1Date ? formatThaiDate(ct.realKs1Date) : '-',
+        ct.realKs2Date ? formatThaiDate(ct.realKs2Date) : '-',
+        `${ct.reqYears} ปี`,
+        ct.targetDate ? formatThaiDate(ct.targetDate) : '-',
+        ct.prepStartDate ? formatThaiDate(ct.prepStartDate) : '-',
+        f.subject || '-',
+        f.grade || '-',
+        f.topic || '-',
+        f.innovation || '-',
+        f.status || '-',
+        chk,
+        extra || '-'
+      ];
+    }
+
+    async function pushFriendsToCloud(silent = false) {
+      const url = getCloudApiUrl();
+      if (!url) return false;
+      updateCloudBadgeUI('⏳ กำลังลงหลังบ้าน...', 'syncing');
+      const sorted = [...friends].sort((a, b) => getDaysUntil(a.targetDate) - getDaysUntil(b.targetDate));
+      const payload = {
+        action: 'save',
+        updatedAt: nowThaiStamp(),
+        deletedIds: getDeletedIds(),
+        friends: sorted,
+        rowsAll: sorted.map(buildSheetRowForFriend),
+        rowsKs2: sorted.filter(f => f.rank === 'ค.ศ.2').map(buildSheetRowForFriend),
+        rowsKs3: sorted.filter(f => f.rank === 'ค.ศ.3').map(buildSheetRowForFriend)
+      };
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data && data.ok) {
+          updateCloudBadgeUI('🟢 ซิงก์ชีตแล้ว', 'ok');
+          if (!silent) showToast(`🟢 บันทึกเข้าหลังบ้าน Google ชีตครบทั้ง ${friends.length} คนแล้วจ้า!`);
+          return true;
+        }
+        updateCloudBadgeUI('⚠️ ซิงก์รอเช็ก', 'error');
+        return false;
+      } catch (err) {
+        updateCloudBadgeUI('⚠️ ออฟไลน์ (เก็บในเครื่อง)', 'error');
+        return false;
+      }
+    }
+
+    async function pullFriendsFromCloud(showFeedback = false) {
+      const url = getCloudApiUrl();
+      if (!url) return false;
+      updateCloudBadgeUI('⏳ ดึงข้อมูลชีต...', 'syncing');
+      try {
+        const sep = url.includes('?') ? '&' : '?';
+        const res = await fetch(`${url}${sep}action=load&t=${Date.now()}`);
+        const data = await res.json();
+        if (!data || !data.ok) {
+          updateCloudBadgeUI('⚠️ ซิงก์รอเช็ก', 'error');
+          return false;
+        }
+        const cloudFriends = Array.isArray(data.friends) ? normalizeFriendsList(data.friends).cleaned : [];
+        const deletedSet = new Set([...getDeletedIds(), ...(Array.isArray(data.deletedIds) ? data.deletedIds : [])]);
+        try { localStorage.setItem(DELETED_IDS_KEY, JSON.stringify(Array.from(deletedSet))); } catch (e) {}
+
+        // รวมข้อมูลระหว่างในเครื่องกับบนหลังบ้าน Google Sheet โดยไม่ทับของใหม่ทิ้ง
+        const mergedMap = new Map();
+        cloudFriends.forEach(cf => {
+          if (cf && cf.id && !deletedSet.has(cf.id)) mergedMap.set(cf.id, cf);
+        });
+        let localHasUnsynced = false;
+        friends.forEach(lf => {
+          if (!lf || !lf.id || deletedSet.has(lf.id)) return;
+          const cf = mergedMap.get(lf.id);
+          if (!cf) {
+            mergedMap.set(lf.id, lf);
+            localHasUnsynced = true;
+          } else if ((lf.updatedAtMs || 0) > (cf.updatedAtMs || 0)) {
+            mergedMap.set(lf.id, lf);
+            localHasUnsynced = true;
+          }
+        });
+
+        friends = normalizeFriendsList(Array.from(mergedMap.values())).cleaned;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(friends));
+        mirrorFriendsToIDB();
+        renderApp();
+        updateCloudBadgeUI('🟢 ซิงก์ชีตแล้ว', 'ok');
+
+        if (localHasUnsynced && friends.length > 0) {
+          pushFriendsToCloud(true);
+        } else if (showFeedback) {
+          showToast(`🟢 ดึงข้อมูลจากหลังบ้าน Google ชีตสำเร็จ (${friends.length} คน)!`);
+        }
+        return true;
+      } catch (err) {
+        updateCloudBadgeUI('⚠️ ออฟไลน์ (เก็บในเครื่อง)', 'error');
+        if (showFeedback) showToast('⚠️ เชื่อมต่อลิงก์หลังบ้านไม่สำเร็จ กรุณาเช็กว่าตั้งสิทธิ์เป็น "ทุกคน (Anyone)" แล้วครับ');
+        return false;
+      }
+    }
+
     function mirrorFriendsToIDB() {
       saveKVToDB('friends_backup', friends);
       if (friends.length > 0) {
@@ -1813,7 +2026,17 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(friends));
       }
 
+      updateCloudBadgeUI();
       renderApp();
+
+      // กู้คืน URL หลังบ้านจาก IndexedDB กรณีสลับแท็บหรือแคชหาย
+      if (!getCloudApiUrl()) {
+        const savedUrlRec = await getKVFromDB('cloud_api_url');
+        if (savedUrlRec && savedUrlRec.value) {
+          localStorage.setItem(CLOUD_URL_KEY, savedUrlRec.value);
+          updateCloudBadgeUI();
+        }
+      }
 
       // ถ้ามีข้อมูลใน localStorage อยู่แล้ว ให้สำรองลง IndexedDB ชั้นที่ 2 ทันที
       if (friends.length > 0) {
@@ -1831,6 +2054,11 @@
           }
         }
       }
+
+      // ดึงและซิงก์ข้อมูลจากหลังบ้าน Google Sheets อัตโนมัติทันทีที่เปิดเว็บ!
+      if (getCloudApiUrl()) {
+        pullFriendsFromCloud(false);
+      }
     }
 
     function saveData(msg) {
@@ -1838,6 +2066,9 @@
       mirrorFriendsToIDB();
       renderApp();
       if (msg) showToast(msg);
+      if (getCloudApiUrl()) {
+        pushFriendsToCloud(true);
+      }
     }
 
     function showToast(msg) {
@@ -3428,7 +3659,8 @@
           { date: nowThaiStamp(), text: '🌸 เริ่มสร้างสมุดที่ปรึกษาให้เพื่อน' }
         ],
         checklist,
-        notes: document.getElementById('f-notes').value.trim()
+        notes: document.getElementById('f-notes').value.trim(),
+        updatedAtMs: Date.now()
       };
 
       const idx = friends.findIndex(x => x.id === id);
@@ -3444,26 +3676,32 @@
       const id = document.getElementById('f-id').value;
       const f = friends.find(x => x.id === id);
       if (!f) return;
+      addDeletedId(id);
       friends = friends.filter(x => x.id !== id);
       activeTab = 'overview';
       closeFriendModal();
       saveData(`🗑️ ลบรายชื่อ "${f.name}" เรียบร้อยแล้วจ้า`);
     }
 
-    /* ☁️ ระบบสำรอง / กู้คืน / ย้ายข้อมูลข้ามเบราว์เซอร์ & ส่งลง Google Sheets */
+    /* ☁️ ระบบหลังบ้าน Google Sheets อัตโนมัติ + สำรอง / กู้คืนข้อมูล */
     async function openBackupModal() {
       const statusBox = document.getElementById('backup-status-box');
       const idbBox = document.getElementById('idb-snapshot-box');
+      const urlInput = document.getElementById('cloud-api-url-input');
+      const currentCloudUrl = getCloudApiUrl();
+      if (urlInput) urlInput.value = currentCloudUrl;
+      updateCloudBadgeUI();
+
       const hostLabel = (window.location && window.location.hostname)
         ? window.location.hostname
         : 'หน้าพรีวิวชั่วคราว (แนะนำให้เปิดลิงก์หลักบน Safari)';
       if (statusBox) {
         statusBox.innerHTML = `
-          <div>📱 <strong>ช่องทางที่เปิดอยู่ตอนนี้:</strong> <code>${esc(hostLabel)}</code></div>
-          <div>🧸 <strong>รายชื่อเพื่อนในเบราว์เซอร์นี้:</strong> <strong style="color:#BE185D;">${friends.length} คน</strong></div>
-          <div style="font-size:0.84rem;color:#0369A1;margin-top:3px;">
-            💡 <em>หมายเหตุ: ข้อมูลใน Safari, แอป Line และหน้าพรีวิวในแชท จะแยกความจำคนละกล่องกัน — แนะนำให้ใช้ลิงก์หลัก <strong>keardtisakkaruna.github.io/dpa-friend-tracker</strong> บน Safari เป็นหลักครับ</em>
-          </div>
+          <div>📱 <strong>ลิงก์ที่เปิดอยู่:</strong> <code>${esc(hostLabel)}</code></div>
+          <div>🧸 <strong>รายชื่อเพื่อนตอนนี้:</strong> <strong style="color:#BE185D;">${friends.length} คน</strong></div>
+          <div>🗄️ <strong>สถานะหลังบ้าน:</strong> ${currentCloudUrl
+            ? '<strong style="color:#047857;">🟢 เชื่อม Google Sheets อัตโนมัติแล้ว! (ข้อมูลซิงก์ถาวรข้ามเครื่อง)</strong>'
+            : '<strong style="color:#B45309;">💾 เก็บในความจำเบราว์เซอร์เครื่องนี้ (วาง URL ด้านล่างครั้งเดียวเพื่อซิงก์ลง Google ชีตอัตโนมัติ!)</strong>'}</div>
         `;
       }
       if (idbBox) {
@@ -3480,6 +3718,107 @@
         }
       }
       document.getElementById('backup-modal').classList.add('open');
+    }
+
+    async function saveCloudApiUrlFromInput() {
+      const input = document.getElementById('cloud-api-url-input');
+      const val = (input ? input.value : '').trim();
+      if (!val) {
+        localStorage.removeItem(CLOUD_URL_KEY);
+        saveKVToDB('cloud_api_url', '');
+        updateCloudBadgeUI();
+        showToast('ยกเลิกการผูกลิงก์หลังบ้านแล้ว (เก็บข้อมูลไว้ในเครื่องนี้ปกติครับ)');
+        return;
+      }
+      if (!val.startsWith('https://script.google.com/macros/s/')) {
+        showToast('⚠️ ลิงก์ต้องขึ้นต้นด้วย https://script.google.com/macros/s/.../exec นะครับ');
+        return;
+      }
+      localStorage.setItem(CLOUD_URL_KEY, val);
+      saveKVToDB('cloud_api_url', val);
+      updateCloudBadgeUI();
+      const ok = await pullFriendsFromCloud(true);
+      if (ok && friends.length > 0) {
+        await pushFriendsToCloud(false);
+      }
+      openBackupModal();
+    }
+
+    async function manualPullFromCloud() {
+      if (!getCloudApiUrl()) {
+        showToast('⚠️ กรุณาวางลิงก์ https://script.google.com/.../exec ก่อนนะครับ');
+        return;
+      }
+      await pullFriendsFromCloud(true);
+    }
+
+    function copyAppsScriptBackendCode() {
+      const scriptLines = [
+        "// 🌸 โค้ดหลังบ้านเชื่อมเว็บแอปสมุดจำคิวเพื่อนครู <-> Google Sheets ของครูเกียรติศักดิ์อัตโนมัติ",
+        "const SHEET_ID = '1JW35O0ZLsJ0lxno5jOxTR3A34vGCv4ljdsfo_CylVys';",
+        "",
+        "function getOrCreateSheet(ss, name, headers) {",
+        "  let sh = ss.getSheetByName(name);",
+        "  if (!sh) sh = ss.insertSheet(name);",
+        "  if (headers && sh.getLastRow() === 0) {",
+        "    sh.getRange(1, 1, 1, headers.length).setValues([headers]);",
+        "  }",
+        "  return sh;",
+        "}",
+        "",
+        "function writeRowsClean(sh, rows) {",
+        "  const lastRow = sh.getLastRow();",
+        "  if (lastRow > 1) {",
+        "    sh.getRange(2, 1, lastRow - 1, Math.max(16, sh.getLastColumn())).clearContent();",
+        "  }",
+        "  if (rows && rows.length > 0) {",
+        "    sh.getRange(2, 1, rows.length, rows[0].length).setValues(rows);",
+        "  }",
+        "}",
+        "",
+        "function doGet(e) {",
+        "  const ss = SpreadsheetApp.openById(SHEET_ID);",
+        "  const db = getOrCreateSheet(ss, '_DB_JSON', ['updatedAt', 'jsonPayload']);",
+        "  let friends = [];",
+        "  let deletedIds = [];",
+        "  let updatedAt = '';",
+        "  if (db.getLastRow() >= 2) {",
+        "    updatedAt = String(db.getRange(2, 1).getValue() || '');",
+        "    const raw = String(db.getRange(2, 2).getValue() || '');",
+        "    if (raw) {",
+        "      try {",
+        "        const parsed = JSON.parse(raw);",
+        "        friends = Array.isArray(parsed) ? parsed : (parsed.friends || []);",
+        "        deletedIds = parsed.deletedIds || [];",
+        "      } catch (err) {}",
+        "    }",
+        "  }",
+        "  return ContentService.createTextOutput(JSON.stringify({ ok: true, updatedAt, friends, deletedIds }))",
+        "    .setMimeType(ContentService.MimeType.JSON);",
+        "}",
+        "",
+        "function doPost(e) {",
+        "  const ss = SpreadsheetApp.openById(SHEET_ID);",
+        "  const body = JSON.parse((e && e.postData && e.postData.contents) || '{}');",
+        "  const friends = Array.isArray(body.friends) ? body.friends : [];",
+        "  const deletedIds = Array.isArray(body.deletedIds) ? body.deletedIds : [];",
+        "  const updatedAt = body.updatedAt || new Date().toISOString();",
+        "",
+        "  const db = getOrCreateSheet(ss, '_DB_JSON', ['updatedAt', 'jsonPayload']);",
+        "  db.getRange(2, 1, 1, 2).setValues([[updatedAt, JSON.stringify({ friends, deletedIds })]]);",
+        "",
+        "  const headers = ['ชื่อเพื่อนครู','ระดับที่จะยื่น','สิทธิ์วุฒิ ป.โท','สาขา ป.โท','วันได้ ค.ศ.1 จริง','วันได้ ค.ศ.2 จริง','เกณฑ์ระยะเวลา','กำหนดยื่นรอบต่อไป','วันเริ่มเตรียมแผน (-3 เดือน)','วิชา / กลุ่มสาระ','ระดับชั้น','เรื่องที่จะทำ (หน่วยการเรียนรู้)','นวัตกรรม / วิธีการสอน','สถานะปัจจุบัน','เช็กลิสต์เอกสาร DPA','โรงเรียน / ติดต่อ / บันทึกช่วยจำ'];",
+        "  writeRowsClean(getOrCreateSheet(ss, 'รายชื่อเพื่อนครู', headers), body.rowsAll || []);",
+        "  writeRowsClean(getOrCreateSheet(ss, '📘 หมวด ค.ศ.2', headers), body.rowsKs2 || []);",
+        "  writeRowsClean(getOrCreateSheet(ss, '👑 หมวด ค.ศ.3', headers), body.rowsKs3 || []);",
+        "",
+        "  return ContentService.createTextOutput(JSON.stringify({ ok: true, count: friends.length, updatedAt }))",
+        "    .setMimeType(ContentService.MimeType.JSON);",
+        "}"
+      ].join('\n');
+      navigator.clipboard.writeText(scriptLines)
+        .then(() => showToast('📋 คัดลอกโค้ดหลังบ้าน Google Apps Script แล้ว! นำไปวางในชีต -> ส่วนขยาย -> Apps Script ได้เลยจ้า'))
+        .catch(() => showToast('คัดลอกโค้ดแล้ว!'));
     }
 
     function closeBackupModal() {
