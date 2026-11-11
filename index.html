@@ -1137,6 +1137,9 @@
         <button type="button" class="btn btn-lavender btn-sm" id="btn-font-scale" onclick="cycleFontScale()" title="ปรับขนาดตัวอักษร">
           🔍 ขนาด: พอดี
         </button>
+        <button type="button" class="btn btn-amber btn-sm" onclick="openBackupModal()" title="สำรอง กู้คืน หรือย้ายข้อมูลข้ามเบราว์เซอร์">
+          ☁️ สำรอง/กู้คืน
+        </button>
         <a href="https://drive.google.com/drive/folders/17TllkHcFq79990hFWVuCbdbWj-4oUy5p" target="_blank" rel="noopener" class="btn btn-sky btn-sm">
           📁 โฟลเดอร์ Drive
         </a>
@@ -1161,6 +1164,7 @@
 
   <!-- Hidden File Input -->
   <input type="file" id="hidden-file-picker" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,image/*" style="display:none;" onchange="handleFileSelected(event)" />
+  <input type="file" id="hidden-backup-picker" accept=".json,application/json,text/plain" style="display:none;" onchange="handleBackupFileImport(event)" />
 
   <!-- Add / Edit Friend Modal (คลีน ไม่ต้องเลือกสีเอง ระบบจัดสีไม่ซ้ำให้อัตโนมัติ!) -->
   <div id="friend-modal" class="modal-overlay">
@@ -1170,8 +1174,14 @@
         <button type="button" class="btn btn-lavender btn-sm" onclick="closeFriendModal()">✕ ปิด</button>
       </div>
 
-      <form id="friend-form" onsubmit="saveFriendForm(event)" style="display:flex;flex-direction:column;gap:11px;width:100%;min-width:0;">
+      <form id="friend-form" onsubmit="saveFriendForm(event)" oninput="saveModalDraft()" onchange="saveModalDraft()" style="display:flex;flex-direction:column;gap:11px;width:100%;min-width:0;">
         <input type="hidden" id="f-id" />
+
+        <!-- แบนเนอร์กู้คืนร่างอัตโนมัติ (กรณีพิมพ์ค้างไว้แล้วยังไม่ได้กดบันทึก) -->
+        <div id="draft-restore-banner" style="display:none;background:#FFFBEB;border:2px solid #F59E0B;color:#92400E;padding:8px 11px;border-radius:14px;font-size:0.9rem;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+          <span>📝 <strong>กู้คืนข้อมูลที่พิมพ์ค้างไว้ล่าสุดให้อัตโนมัติแล้ว!</strong> (กรอกต่อแล้วกด <strong>💾 บันทึกเลย!</strong> ด้านล่างได้เลยครับ)</span>
+          <button type="button" onclick="discardModalDraft()" style="background:#FFFFFF;color:#B45309;border:1.5px solid #F59E0B;border-radius:99px;padding:2px 9px;font-size:0.82rem;cursor:pointer;">🧹 ล้างร่างเริ่มใหม่</button>
+        </div>
 
         <!-- ป้ายแจ้งเตือนว่าแอปจัดสีไม่ซ้ำให้อัตโนมัติ -->
         <div id="auto-theme-preview" style="padding:9px 12px;border-radius:14px;font-size:0.92rem;display:flex;align-items:center;justify-content:space-between;gap:8px;"></div>
@@ -1390,10 +1400,65 @@
     </div>
   </div>
 
+  <!-- ☁️ Backup / Restore / Cross-Browser Transfer Modal -->
+  <div id="backup-modal" class="modal-overlay">
+    <div class="modal-box" style="max-width:500px;border-color:var(--sky-border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed var(--sky-border);padding-bottom:8px;">
+        <h3 style="font-size:1.15rem;color:#0369A1;">☁️ สำรอง / กู้คืน / ย้ายข้อมูลข้ามเบราว์เซอร์</h3>
+        <button type="button" class="btn btn-sky btn-sm" onclick="closeBackupModal()">✕ ปิด</button>
+      </div>
+
+      <div id="backup-status-box" style="background:#F0F9FF;border:2px solid #7DD3FC;border-radius:14px;padding:10px 12px;font-size:0.92rem;color:#0C4A6E;line-height:1.45;"></div>
+
+      <!-- กล่องกู้คืนจากความจำสำรองชั้นที่ 2 ในเครื่อง (IndexedDB) -->
+      <div id="idb-snapshot-box" style="display:none;background:#ECFDF5;border:2px solid #34D399;border-radius:14px;padding:10px 12px;font-size:0.92rem;color:#065F46;line-height:1.45;"></div>
+
+      <!-- ส่วนที่ 1: คัดลอก / ดาวน์โหลดสำรองออก -->
+      <div style="background:#FFFBEB;border:2px solid #FCD34D;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px;">
+        <strong style="color:#92400E;font-size:1rem;">📤 1. ส่งออก / สำรองข้อมูลจากเบราว์เซอร์นี้</strong>
+        <div style="font-size:0.88rem;color:#78350F;line-height:1.4;">
+          เปิดหน้านี้ในเบราว์เซอร์ตัวที่เคยกรอกไว้ (เช่น <strong>Safari</strong> บนลิงก์หลัก) แล้วกดปุ่มด้านล่างเพื่อคัดลอกข้อมูลไปวางในอีกแอป หรือวางส่งในแชทให้ช่วยลง Google Sheet ได้เลยครับ
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <button type="button" class="btn btn-amber btn-sm" style="flex:1 1 auto;" onclick="copyBackupJson()">
+            📋 คัดลอกรหัสข้อมูลทั้งหมด
+          </button>
+          <button type="button" class="btn btn-mint btn-sm" style="flex:1 1 auto;" onclick="copyBackupForSheets()">
+            📊 คัดลอกวางลง Google ชีต
+          </button>
+          <button type="button" class="btn btn-sky btn-sm" style="flex:1 1 auto;" onclick="downloadBackupFile()">
+            📥 โหลดไฟล์สำรอง (.json)
+          </button>
+        </div>
+      </div>
+
+      <!-- ส่วนที่ 2: นำเข้า / วางรหัสข้อมูลกู้คืน -->
+      <div style="background:#FDF2F8;border:2px solid #F9A8D4;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px;">
+        <strong style="color:#BE185D;font-size:1rem;">📥 2. กู้คืน / วางรหัสย้ายข้อมูลเข้าเบราว์เซอร์นี้</strong>
+        <textarea
+          id="backup-json-input"
+          rows="3"
+          class="input-cute"
+          style="border-color:#F9A8D4;background:#FFFFFF;font-size:0.9rem;"
+          placeholder="วางรหัสข้อมูลที่คัดลอกมาจาก Safari / แท็บเดิม ที่นี่..."
+        ></textarea>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <button type="button" class="btn btn-pink btn-sm" style="flex:1 1 auto;" onclick="importBackupFromText()">
+            🪄 นำเข้าและรวมรายชื่อทันที!
+          </button>
+          <button type="button" class="btn btn-lavender btn-sm" onclick="document.getElementById('hidden-backup-picker').click()">
+            📂 เลือกไฟล์สำรอง (.json)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="toast" class="toast"></div>
 
   <script>
     const STORAGE_KEY = 'kru_kiattisak_dpa_friends_v1';
+    const DRAFT_KEY = 'kru_kiattisak_dpa_draft_v1';
     const SCALE_KEY = 'kru_kiattisak_font_scale_v2';
     const THAI_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
 
@@ -1522,16 +1587,19 @@
       showToast(`ปรับตัวหนังสือเป็น "${next.label}" แล้วจ้า!`);
     }
 
-    // IndexedDB
+    // IndexedDB (เก็บไฟล์แนบ + สำรองรายชื่อซ้อนชั้นที่ 2 กันข้อมูลหายบน iPhone/Safari)
     let dbPromise = null;
     function getDB() {
       if (!dbPromise) {
         dbPromise = new Promise((resolve, reject) => {
-          const req = indexedDB.open('KruKiattisakDPADocsDB', 1);
+          const req = indexedDB.open('KruKiattisakDPADocsDB', 2);
           req.onupgradeneeded = e => {
             const db = e.target.result;
             if (!db.objectStoreNames.contains('files')) {
               db.createObjectStore('files', { keyPath: 'fileId' });
+            }
+            if (!db.objectStoreNames.contains('kv')) {
+              db.createObjectStore('kv', { keyPath: 'key' });
             }
           };
           req.onsuccess = e => resolve(e.target.result);
@@ -1539,6 +1607,34 @@
         });
       }
       return dbPromise;
+    }
+
+    async function saveKVToDB(key, value) {
+      try {
+        const db = await getDB();
+        return new Promise((resolve, reject) => {
+          if (!db.objectStoreNames.contains('kv')) return resolve();
+          const tx = db.transaction('kv', 'readwrite');
+          tx.objectStore('kv').put({ key, value, updatedAt: nowThaiStamp() });
+          tx.oncomplete = () => resolve();
+          tx.onerror = e => reject(e);
+        });
+      } catch (e) { /* ignore private-mode IDB errors */ }
+    }
+
+    async function getKVFromDB(key) {
+      try {
+        const db = await getDB();
+        return new Promise((resolve, reject) => {
+          if (!db.objectStoreNames.contains('kv')) return resolve(null);
+          const tx = db.transaction('kv', 'readonly');
+          const req = tx.objectStore('kv').get(key);
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = e => reject(e);
+        });
+      } catch (e) {
+        return null;
+      }
     }
 
     async function saveBlobToDB(fileId, fileName, mimeType, dataUrl) {
@@ -1656,26 +1752,14 @@
       };
     }
 
-    function loadData() {
-      const savedScale = parseFloat(localStorage.getItem(SCALE_KEY) || '1.0');
-      applyFontScale(isNaN(savedScale) ? 1.0 : savedScale);
-
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        friends = raw ? JSON.parse(raw) : [];
-      } catch (e) {
-        friends = [];
-      }
-
+    function normalizeFriendsList(list) {
+      if (!Array.isArray(list)) return { cleaned: [], mutated: false };
       let mutated = false;
-      // ล้างรายชื่อตัวอย่าง 4 คน (friend_1..friend_4 / isSample) ออกอัตโนมัติถาวร คงไว้เฉพาะรายชื่อเพื่อนจริง!
-      const beforeLen = friends.length;
-      friends = friends.filter(f => !f.isSample && !['friend_1', 'friend_2', 'friend_3', 'friend_4'].includes(f.id));
-      if (friends.length !== beforeLen) mutated = true;
+      const cleaned = list.filter(f => f && !f.isSample && !['friend_1', 'friend_2', 'friend_3', 'friend_4'].includes(f.id));
+      if (cleaned.length !== list.length) mutated = true;
 
-      // จัดสรรสีอัตโนมัติไม่ให้ซ้ำกัน และซ่อมรายการที่เคยติดบั๊กวันกำหนดยื่นค้างเท่ากับวันได้ ค.ศ.2
       const used = new Set();
-      friends.forEach((f, idx) => {
+      cleaned.forEach((f, idx) => {
         if (typeof f.colorSeed !== 'number' || used.has(f.colorSeed)) {
           let s = idx;
           while (used.has(s)) s++;
@@ -1687,7 +1771,6 @@
         if (f.masterStatus === 'edu_admin') f.reqYears = 4;
         if (!f.reqYears) f.reqYears = (f.masterStatus === 'edu_valid' || f.masterStatus === 'other_3yr') ? 3 : 4;
 
-        // ซ่อมอัตโนมัติ: ถ้ามีวันได้ ค.ศ.2 แล้ว แต่ targetDate ดันค้างเป็นวันเดียวกับ ks2Date -> ปรับเป็นยื่น ค.ศ.3 (+4/3 ปี) ทันที!
         if (f.ks2Date && f.targetDate === f.ks2Date) {
           f.rank = 'ค.ศ.3';
           f.targetDate = addYearsToDateStr(f.ks2Date, f.reqYears);
@@ -1697,15 +1780,62 @@
           mutated = true;
         }
       });
+      return { cleaned, mutated };
+    }
 
-      if (mutated) {
+    function mirrorFriendsToIDB() {
+      saveKVToDB('friends_backup', friends);
+      if (friends.length > 0) {
+        saveKVToDB('friends_last_nonempty', friends);
+      }
+    }
+
+    async function loadData() {
+      if (navigator.storage && navigator.storage.persist) {
+        navigator.storage.persist().catch(() => {});
+      }
+
+      const savedScale = parseFloat(localStorage.getItem(SCALE_KEY) || '1.0');
+      applyFontScale(isNaN(savedScale) ? 1.0 : savedScale);
+
+      const raw = localStorage.getItem(STORAGE_KEY);
+      let parsed = [];
+      try {
+        parsed = raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        parsed = [];
+      }
+
+      const norm = normalizeFriendsList(parsed);
+      friends = norm.cleaned;
+
+      if (norm.mutated && raw !== null) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(friends));
       }
+
       renderApp();
+
+      // ถ้ามีข้อมูลใน localStorage อยู่แล้ว ให้สำรองลง IndexedDB ชั้นที่ 2 ทันที
+      if (friends.length > 0) {
+        mirrorFriendsToIDB();
+      } else if (raw === null) {
+        // กรณี localStorage ว่างเปล่าเพราะโดนเคลียร์แคช ให้เช็กความจำสำรองชั้นที่ 2 (IndexedDB) อัตโนมัติ!
+        const idbRec = await getKVFromDB('friends_backup');
+        if (idbRec && Array.isArray(idbRec.value) && idbRec.value.length > 0) {
+          const recovered = normalizeFriendsList(idbRec.value).cleaned;
+          if (recovered.length > 0 && friends.length === 0) {
+            friends = recovered;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(friends));
+            renderApp();
+            showToast(`☁️ กู้คืนรายชื่อเพื่อน ${friends.length} คนจากความจำสำรองในเครื่องให้อัตโนมัติแล้วจ้า!`);
+          }
+        }
+      }
     }
 
     function saveData(msg) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(friends));
+      mirrorFriendsToIDB();
       renderApp();
       if (msg) showToast(msg);
     }
@@ -2037,6 +2167,23 @@
               <strong class="mini-stat-num" style="color:#EA580C;">${ks3Count} คน</strong>
             </div>
           </section>
+
+          ${friends.length === 0 ? `
+            <section style="background:#FFFBEB;border:2.5px dashed #F59E0B;border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;">
+              <div style="font-size:0.98rem;color:#92400E;line-height:1.45;">
+                💡 <strong>เคยกรอกข้อมูลไว้ในอีกเบราว์เซอร์หรือเปล่าครับ?</strong><br/>
+                เว็บนี้บันทึกข้อมูลแยกตามแอปเบราว์เซอร์ที่เปิด (เช่น หากเคยกรอกใน <strong>Safari</strong> แต่ตอนนี้เปิดดูผ่าน <strong>กรอบพรีวิวในแชท / แอปอื่น</strong> ข้อมูลจะยังอยู่ใน Safari ครบถ้วน!) แนะนำให้เปิดผ่านลิงก์หลักบน Safari เป็นหลัก หรือกดปุ่มด้านล่างเพื่อย้าย/กู้คืนข้อมูลได้เลยครับ
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                <button type="button" class="btn btn-amber btn-sm" onclick="openBackupModal()">
+                  ☁️ กู้คืน / ย้ายข้อมูลจากแท็บเดิม
+                </button>
+                <button type="button" class="btn btn-pink btn-sm" onclick="openFriendModal()">
+                  ➕ เพิ่มข้อมูลเพื่อนใหม่
+                </button>
+              </div>
+            </section>
+          ` : ''}
 
           ${radarHtml}
 
@@ -3110,40 +3257,92 @@
         .catch(() => showToast('📋 คัดลอกผลคำนวณวันส่งเรียบร้อยจ้า!'));
     }
 
+    function saveModalDraft() {
+      const idVal = document.getElementById('f-id').value;
+      if (idVal) return; // บันทึกร่างเฉพาะตอนเพิ่มเพื่อนใหม่
+      const draft = {
+        name: document.getElementById('f-name').value,
+        school: document.getElementById('f-school').value,
+        rank: document.getElementById('f-rank').value,
+        masterStatus: document.getElementById('f-master-status') ? document.getElementById('f-master-status').value : 'none',
+        masterMajor: document.getElementById('f-master-major') ? document.getElementById('f-master-major').value : '',
+        reqYears: document.getElementById('f-req-years').value,
+        ks1Date: document.getElementById('f-ks1-date').value,
+        ks2Date: document.getElementById('f-ks2-date').value,
+        targetDate: document.getElementById('f-date').value,
+        contact: document.getElementById('f-contact').value,
+        status: document.getElementById('f-status').value,
+        subject: document.getElementById('f-subject').value,
+        grade: document.getElementById('f-grade').value,
+        topic: document.getElementById('f-topic').value,
+        innovation: document.getElementById('f-innovation').value,
+        notes: document.getElementById('f-notes').value
+      };
+      const hasContent = [
+        draft.name, draft.school, draft.masterMajor, draft.ks1Date, draft.ks2Date,
+        draft.contact, draft.subject, draft.grade, draft.topic, draft.innovation, draft.notes
+      ].some(v => v && String(v).trim() !== '');
+      if (hasContent) {
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(draft)); } catch (e) {}
+      }
+    }
+
+    function discardModalDraft() {
+      localStorage.removeItem(DRAFT_KEY);
+      const banner = document.getElementById('draft-restore-banner');
+      if (banner) banner.style.display = 'none';
+      openFriendModal(null);
+      showToast('🧹 ล้างร่างที่พิมพ์ค้างไว้เรียบร้อย เริ่มกรอกใหม่ได้เลยจ้า!');
+    }
+
     function openFriendModal(id, presetRank) {
       const f = id ? friends.find(x => x.id === id) : null;
       const defaultRank = presetRank || (rankShelfMode === 'ค.ศ.3' ? 'ค.ศ.3' : 'ค.ศ.2');
+
+      let draft = null;
+      if (!f) {
+        try {
+          const rawDraft = localStorage.getItem(DRAFT_KEY);
+          if (rawDraft) draft = JSON.parse(rawDraft);
+        } catch (e) { draft = null; }
+      }
+
+      const draftBanner = document.getElementById('draft-restore-banner');
+      if (draftBanner) {
+        draftBanner.style.display = (!f && draft) ? 'flex' : 'none';
+      }
+
       document.getElementById('modal-title').textContent = f
         ? `✏️ แก้ไขข้อมูล: ${f.name}`
         : `🌸 เพิ่มเพื่อนหมวด ${defaultRank}`;
       document.getElementById('f-id').value = f ? f.id : '';
-      document.getElementById('f-name').value = f ? f.name : '';
-      document.getElementById('f-school').value = f ? (f.school || '') : '';
-      document.getElementById('f-rank').value = f ? (f.rank || 'ค.ศ.2') : defaultRank;
+      document.getElementById('f-name').value = f ? f.name : (draft ? (draft.name || '') : '');
+      document.getElementById('f-school').value = f ? (f.school || '') : (draft ? (draft.school || '') : '');
+      document.getElementById('f-rank').value = f ? (f.rank || 'ค.ศ.2') : (draft && draft.rank ? draft.rank : defaultRank);
 
       const todayStr = new Date().toISOString().slice(0, 10);
       const ct = f ? getFriendCareerTimeline(f) : null;
 
       if (document.getElementById('f-master-status')) {
-        document.getElementById('f-master-status').value = f ? (ct.masterStatus || 'none') : 'none';
+        document.getElementById('f-master-status').value = f ? (ct.masterStatus || 'none') : (draft ? (draft.masterStatus || 'none') : 'none');
       }
       if (document.getElementById('f-master-major')) {
-        document.getElementById('f-master-major').value = f ? (ct.masterMajor || '') : '';
+        document.getElementById('f-master-major').value = f ? (ct.masterMajor || '') : (draft ? (draft.masterMajor || '') : '');
       }
 
-      // ✅ ตอนเปิดเพิ่มเพื่อนใหม่ ให้ช่องวันได้ ค.ศ.1 และ ค.ศ.2 ว่างไว้เสมอ! ไม่ใส่วันที่สุ่มมั่วๆ ล่วงหน้า
-      document.getElementById('f-req-years').value = f ? String(ct.reqYears) : '4';
-      document.getElementById('f-ks1-date').value = f ? (f.ks1Date || '') : '';
-      document.getElementById('f-ks2-date').value = f ? (f.ks2Date || '') : '';
-      document.getElementById('f-date').value = f ? (ct.targetDate || todayStr) : todayStr;
+      // ✅ ตอนเปิดเพิ่มเพื่อนใหม่ ให้ช่องวันได้ ค.ศ.1 และ ค.ศ.2 ว่างไว้เสมอ (ยกเว้นมีร่างที่พิมพ์ค้างไว้)
+      document.getElementById('f-req-years').value = f ? String(ct.reqYears) : (draft && draft.reqYears ? String(draft.reqYears) : '4');
+      document.getElementById('f-ks1-date').value = f ? (f.ks1Date || '') : (draft ? (draft.ks1Date || '') : '');
+      document.getElementById('f-ks2-date').value = f ? (f.ks2Date || '') : (draft ? (draft.ks2Date || '') : '');
+      document.getElementById('f-date').value = f ? (ct.targetDate || todayStr) : (draft && draft.targetDate ? draft.targetDate : todayStr);
 
-      document.getElementById('f-contact').value = f ? (f.contact || '') : '';
-      document.getElementById('f-status').value = f ? (f.status || 'รอถึงกำหนด') : 'รอถึงกำหนด';
-      document.getElementById('f-subject').value = f ? (f.subject || '') : '';
-      document.getElementById('f-grade').value = f ? (f.grade || '') : '';
-      document.getElementById('f-topic').value = f ? (f.topic || '') : '';
-      document.getElementById('f-innovation').value = f ? (f.innovation || '') : '';
-      document.getElementById('f-notes').value = f ? (f.notes || '') : '';
+      document.getElementById('f-contact').value = f ? (f.contact || '') : (draft ? (draft.contact || '') : '');
+      document.getElementById('f-status').value = f ? (f.status || 'รอถึงกำหนด') : (draft && draft.status ? draft.status : 'รอถึงกำหนด');
+      document.getElementById('f-subject').value = f ? (f.subject || '') : (draft ? (draft.subject || '') : '');
+      document.getElementById('f-grade').value = f ? (f.grade || '') : (draft ? (draft.grade || '') : '');
+      document.getElementById('f-topic').value = f ? (f.topic || '') : (draft ? (draft.topic || '') : '');
+      document.getElementById('f-innovation').value = f ? (f.innovation || '') : (draft ? (draft.innovation || '') : '');
+      document.getElementById('f-notes').value = f ? (f.notes || '') : (draft ? (draft.notes || '') : '');
 
       const seedToUse = (f && typeof f.colorSeed === 'number') ? f.colorSeed : getNextUniqueColorSeed();
       updateModalAutoThemeBanner(seedToUse);
@@ -3234,6 +3433,7 @@
 
       const idx = friends.findIndex(x => x.id === id);
       if (idx >= 0) friends[idx] = item; else friends.push(item);
+      localStorage.removeItem(DRAFT_KEY);
       activeTab = item.id;
       closeFriendModal();
       const th = getFriendTheme(item);
@@ -3248,6 +3448,171 @@
       activeTab = 'overview';
       closeFriendModal();
       saveData(`🗑️ ลบรายชื่อ "${f.name}" เรียบร้อยแล้วจ้า`);
+    }
+
+    /* ☁️ ระบบสำรอง / กู้คืน / ย้ายข้อมูลข้ามเบราว์เซอร์ & ส่งลง Google Sheets */
+    async function openBackupModal() {
+      const statusBox = document.getElementById('backup-status-box');
+      const idbBox = document.getElementById('idb-snapshot-box');
+      const hostLabel = (window.location && window.location.hostname)
+        ? window.location.hostname
+        : 'หน้าพรีวิวชั่วคราว (แนะนำให้เปิดลิงก์หลักบน Safari)';
+      if (statusBox) {
+        statusBox.innerHTML = `
+          <div>📱 <strong>ช่องทางที่เปิดอยู่ตอนนี้:</strong> <code>${esc(hostLabel)}</code></div>
+          <div>🧸 <strong>รายชื่อเพื่อนในเบราว์เซอร์นี้:</strong> <strong style="color:#BE185D;">${friends.length} คน</strong></div>
+          <div style="font-size:0.84rem;color:#0369A1;margin-top:3px;">
+            💡 <em>หมายเหตุ: ข้อมูลใน Safari, แอป Line และหน้าพรีวิวในแชท จะแยกความจำคนละกล่องกัน — แนะนำให้ใช้ลิงก์หลัก <strong>keardtisakkaruna.github.io/dpa-friend-tracker</strong> บน Safari เป็นหลักครับ</em>
+          </div>
+        `;
+      }
+      if (idbBox) {
+        idbBox.style.display = 'none';
+        const snap = await getKVFromDB('friends_last_nonempty');
+        if (snap && Array.isArray(snap.value) && snap.value.length > 0 && snap.value.length > friends.length) {
+          idbBox.style.display = 'block';
+          idbBox.innerHTML = `
+            <div>🛡️ <strong>พบข้อมูลสำรองชั้นที่ 2 ในเครื่องนี้ (${snap.value.length} คน — อัปเดต ${esc(snap.updatedAt || '-')})!</strong></div>
+            <button type="button" class="btn btn-mint btn-sm" style="margin-top:6px;width:100%;" onclick="restoreFromIDBSnapshot()">
+              🔄 กู้คืนรายชื่อทั้ง ${snap.value.length} คนกลับมาทันที!
+            </button>
+          `;
+        }
+      }
+      document.getElementById('backup-modal').classList.add('open');
+    }
+
+    function closeBackupModal() {
+      document.getElementById('backup-modal').classList.remove('open');
+    }
+
+    async function restoreFromIDBSnapshot() {
+      const snap = await getKVFromDB('friends_last_nonempty');
+      if (!snap || !Array.isArray(snap.value) || !snap.value.length) {
+        showToast('ไม่พบข้อมูลสำรองในเครื่องนี้ครับ');
+        return;
+      }
+      mergeImportedFriends(snap.value);
+    }
+
+    function copyBackupJson() {
+      if (!friends.length) {
+        showToast('⚠️ เบราว์เซอร์นี้ยังไม่มีรายชื่อเพื่อน (0 คน) — ลองเปิดหน้า Safari เดิมที่เคยกรอกไว้แล้วกดปุ่มนี้นะครับ!');
+        return;
+      }
+      const payload = JSON.stringify({ version: 2, exportedAt: nowThaiStamp(), friends }, null, 2);
+      navigator.clipboard.writeText(payload)
+        .then(() => showToast(`📋 คัดลอกข้อมูลเพื่อนทั้ง ${friends.length} คนแล้ว! นำไปวางกู้คืนหรือส่งเก็บในแชทได้เลยจ้า`))
+        .catch(() => {
+          document.getElementById('backup-json-input').value = payload;
+          showToast('📋 แสดงรหัสข้อมูลในช่องด้านล่างแล้ว กดคัดลอกได้เลยครับ');
+        });
+    }
+
+    function copyBackupForSheets() {
+      if (!friends.length) {
+        showToast('⚠️ เบราว์เซอร์นี้ยังไม่มีรายชื่อเพื่อน (0 คน) ครับ');
+        return;
+      }
+      const rows = friends.map(f => {
+        const ct = getFriendCareerTimeline(f);
+        return [
+          f.name || '',
+          f.rank || '',
+          ct.masterLabel || '',
+          ct.realKs1Date ? formatThaiDate(ct.realKs1Date) : '-',
+          ct.realKs2Date ? formatThaiDate(ct.realKs2Date) : '-',
+          `${ct.reqYears} ปี`,
+          ct.targetDate ? formatThaiDate(ct.targetDate) : '-',
+          f.school || '',
+          f.subject || '',
+          f.grade || '',
+          f.topic || '',
+          f.innovation || '',
+          f.status || ''
+        ].map(v => String(v).replace(/[\t\r\n]+/g, ' ')).join('\t');
+      }).join('\n');
+      navigator.clipboard.writeText(rows)
+        .then(() => showToast(`📊 คัดลอกตาราง ${friends.length} คนแล้ว! เปิด Google ชีตแล้วกดวาง (Paste) ได้เลยจ้า`))
+        .catch(() => showToast('คัดลอกตารางไม่สำเร็จ ลองกดโหลดไฟล์สำรองแทนนะครับ'));
+    }
+
+    function downloadBackupFile() {
+      if (!friends.length) {
+        showToast('⚠️ เบราว์เซอร์นี้ยังไม่มีรายชื่อเพื่อน (0 คน) ครับ');
+        return;
+      }
+      const payload = JSON.stringify({ version: 2, exportedAt: nowThaiStamp(), friends }, null, 2);
+      const blob = new Blob([payload], { type: 'application/json;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `สมุดจำคิวเพื่อนครู_สำรองข้อมูล_${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      showToast(`📥 ดาวน์โหลดไฟล์สำรอง (${friends.length} คน) เรียบร้อยแล้วจ้า!`);
+    }
+
+    function mergeImportedFriends(rawData) {
+      const arr = Array.isArray(rawData) ? rawData : (rawData && Array.isArray(rawData.friends) ? rawData.friends : null);
+      if (!arr || !arr.length) {
+        showToast('⚠️ ไม่พบรายชื่อเพื่อนในข้อมูลที่นำเข้า กรุณาตรวจสอบรหัสอีกครั้งครับ');
+        return;
+      }
+      const incoming = normalizeFriendsList(arr).cleaned;
+      if (!incoming.length) {
+        showToast('⚠️ ไม่มีรายชื่อเพื่อนจริงในไฟล์สำรองนี้ครับ');
+        return;
+      }
+      let added = 0;
+      let updated = 0;
+      incoming.forEach(item => {
+        if (!item || !item.name) return;
+        const idx = friends.findIndex(x => x.id === item.id || (x.name === item.name && x.rank === item.rank));
+        if (idx >= 0) {
+          friends[idx] = { ...friends[idx], ...item, id: friends[idx].id };
+          updated++;
+        } else {
+          friends.push({ ...item, id: item.id || `friend_${Date.now()}_${Math.random().toString(36).slice(2, 6)}` });
+          added++;
+        }
+      });
+      friends = normalizeFriendsList(friends).cleaned;
+      document.getElementById('backup-json-input').value = '';
+      closeBackupModal();
+      saveData(`🎉 นำเข้าข้อมูลสำเร็จ! (เพิ่มใหม่ ${added} คน / อัปเดต ${updated} คน — รวมทั้งหมด ${friends.length} คน)`);
+    }
+
+    function importBackupFromText() {
+      const raw = (document.getElementById('backup-json-input').value || '').trim();
+      if (!raw) {
+        showToast('⚠️ กรุณาวางรหัสข้อมูลสำรองในช่องข้อความก่อนนะครับ');
+        return;
+      }
+      try {
+        const parsed = JSON.parse(raw);
+        mergeImportedFriends(parsed);
+      } catch (e) {
+        showToast('⚠️ รูปแบบรหัสข้อมูลไม่ถูกต้อง (ต้องเป็น JSON ที่คัดลอกจากปุ่มสำรองข้อมูลครับ)');
+      }
+    }
+
+    function handleBackupFileImport(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const parsed = JSON.parse(String(ev.target.result || ''));
+          mergeImportedFriends(parsed);
+        } catch (err) {
+          showToast('⚠️ อ่านไฟล์สำรองไม่สำเร็จ กรุณาเลือกไฟล์ .json ที่ดาวน์โหลดจากระบบครับ');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
     }
 
     function openMsgModal(id) {
@@ -3279,7 +3644,7 @@
 
       let text = '';
       if (currentMsgMode === 1) {
-        text = buildTimelineAdviceText(f.name, f.rank, ct.ks1Date, ct.calcKs2Date, ct.reqYears, f.targetDate);
+        text = buildTimelineAdviceText(f.name, f.rank, ct.realKs1Date, ct.realKs2Date, ct.reqYears, ct.targetDate, ct.masterStatus, ct.masterMajor);
       } else if (currentMsgMode === 2) {
         const timeTxt = d < 0
           ? `เห็นว่าครบกำหนดยื่น ${rankTxt} ตั้งแต่วันที่ ${tDate} แล้วนะ!`
